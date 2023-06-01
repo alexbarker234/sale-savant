@@ -1,0 +1,99 @@
+.wishlist-item *,
+.wishlist-item {
+    --item-height: 10rem;
+
+    box-sizing: border-box;
+    font-family: sans-serif;
+}
+.wishlist-item {
+    background-color: rgb(35, 35, 41);
+    width: 50rem;
+    height: 10rem;
+
+    padding: 1rem;
+
+    position: relative;
+    color: white;
+
+    display: flex;
+}
+.wishlist-item img {
+    height: 100%;
+}
+.content {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+.title {
+    font-size: 22px;
+    font-weight: 600;
+    margin-left: 1rem;
+}
+.prices {
+    float: right;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+}
+.prices .price {
+    display: flex;
+    justify-content: space-between;
+    width: fit-content;
+    margin-left: auto;
+
+    line-height: 3rem;
+    border-radius: 0.3rem;
+}
+.price-details {
+    display: flex;
+    justify-content: space-between;
+    width: 10rem;
+    height: 3rem;
+}
+.price-tag {
+    margin-right: 1rem;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    text-align: right;
+    align-items: flex-end;
+}
+.discount {
+    border-radius: 0.3rem 0 0 0.3rem;
+
+    background-color: #a6ce00;
+    color: white;
+    font-size: 1.5rem;
+    font-weight: 600;
+    padding: 0rem 0.5rem;
+}
+.original-price {
+    color: grey;
+    font-size: 0.75rem;
+    text-decoration: line-through;
+    padding-top: 0.3rem;
+    height: 0.75rem;
+    line-height: 0.75rem;
+}
+.final-price {
+    height: 2.25rem;
+    line-height: 2.25rem;
+    position: absolute;
+    bottom: 0%;
+    font-size: 1.1rem;
+}
+.prices svg {
+    height: 2rem;
+    width: 2rem;
+
+    margin: 0.5rem 1rem 0.5rem 0.5rem;
+}
+.steam-price {
+    background-color: #66c0f4;
+}
+.humble-price {
+    float: right;
+    background-color: #c1252a;
+}
