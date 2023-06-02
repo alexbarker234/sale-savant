@@ -1,6 +1,8 @@
+"use client"
+
 import { WishlistItemResponse, WishlistResponse } from "@/types";
 import WishlistItem from "./wishlistItem";
-import { use } from "react";
+import { useEffect, useState } from "react";
 import styles from "./wishlist.module.css";
 
 interface WishlistProp {
@@ -12,18 +14,27 @@ export default function Wishlist({ id }: WishlistProp) {
     // fetch cant be done in use safely yet but it will be useful :)
     console.log(`trying to request for ${id}`);
 
-    const res = use(fetch(`http://localhost:3000/api/get-wishlist?id=${id}`, { cache: "no-store" }));
+    const [wishlistArray, setData] = useState<{id: string, wishlistItem: WishlistItemResponse }[]>();
 
-    const data: WishlistResponse = use(res.json());
+    // keep up to date with https://nextjs.org/docs/app/building-your-application/data-fetching/fetching#use-in-client-components
+    // fetch cant be done in use safely yet but it will be useful :) 
+    useEffect(() => {
+        const fetchData = async () => {
+            const res = await fetch(`/api/get-wishlist?id=${id}`);
+            const data: WishlistResponse = await res.json();
 
-    //console.log(data)
+            // Turns the wishlist response into an array of objects {'id', 'wishlistItem'} in order to sort by priority
+            let arr = Object.entries(data).map(([key, value]) => ({ id: key, wishlistItem: value as WishlistItemResponse }));
+            arr.sort((a, b) => a.wishlistItem.priority - b.wishlistItem.priority);
 
-    // Turns the wishlist response into an array of objects {'id', 'wishlistItem'} in order to sort by priority
-    let wishlistArray = Object.entries(data).map(([key, value]) => ({ id: key, wishlistItem: value as WishlistItemResponse }));
-    wishlistArray.sort((a, b) => a.wishlistItem.priority - b.wishlistItem.priority);
+            // remove unreleased games from the list
+            arr = arr.filter((item) => item.wishlistItem.is_released);
 
-    // remove unreleased games from the list
-    wishlistArray = wishlistArray.filter((item) => item.wishlistItem.is_released);
+            setData(arr);
+        };
+
+        fetchData();
+    }, [id]);
 
     // TODO: find a better way of loading SVGs
     return (
@@ -40,7 +51,7 @@ export default function Wishlist({ id }: WishlistProp) {
                 </symbol>
             </svg>
 
-            {wishlistArray.map((obj) => {
+            {wishlistArray?.map((obj) => {
                 const item = obj.wishlistItem;
                 const wishlistItem = {
                     title: item.game_name,

@@ -18,8 +18,6 @@ export class Steam {
     static async getUserWishlist(userID: string) {
         const apiUrl = `https://store.steampowered.com/wishlist/profiles/${userID}/wishlistdata/?p=0`;
 
-        console.log(`requesting wishlist from: ${apiUrl}`)
-
         let resp = await fetch(apiUrl)
         let json = await resp.json()
 
