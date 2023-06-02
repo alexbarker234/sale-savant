@@ -1,8 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { Steam } from "../../lib/steam";
-import { WishlistItem, ErrorResponse } from "@/types";
+import { WishlistItemResponse, ErrorResponse } from "@/types";
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse<WishlistItem[] | ErrorResponse>) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse<WishlistItemResponse[] | ErrorResponse>) {
     const { query, method } = req
     if (!query.id) {
         res.status(400).json({error: "no id included"});

@@ -1,4 +1,8 @@
-export interface WishlistItem {
+export interface WishlistResponse {
+    [key: string]: WishlistItemResponse;
+  }
+  
+export interface WishlistItemResponse {
     name: string;
     capsule: string;
     subs: Sub[];
