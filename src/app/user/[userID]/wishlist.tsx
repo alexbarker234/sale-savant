@@ -4,6 +4,7 @@ import { WishlistItemResponse, WishlistResponse } from "@/types";
 import WishlistItem from "./wishlistItem";
 import { useEffect, useState } from "react";
 import styles from "./wishlist.module.css";
+import Loading from "./loading";
 
 interface WishlistProp {
     userID: string;
@@ -50,28 +51,9 @@ export default function Wishlist({ userID }: WishlistProp) {
                 </symbol>
             </svg>
 
-            {wishlistArray?.map((obj, index) => {
-                const item = obj.wishlistItem;
-                const wishlistItem = {
-                    index: index,
-                    title: item.game_name,
-                    image: item.image_url,
-                    steamPrice: {
-                        finalPrice: item.steamDeal.currentPrice,
-                        originalPrice: item.steamDeal.originalPrice,
-                        discount: item.steamDeal.discountPercent,
-                    },
-                    humblePrice: item.humbleDeal
-                        ? {
-                              finalPrice: item.humbleDeal.currentPrice,
-                              originalPrice: item.humbleDeal.originalPrice,
-                              discount: item.humbleDeal.discountPercent,
-                          }
-                        : undefined,
-                };
-
-                return <WishlistItem key={item.game_name} item={wishlistItem} />;
-            })}
+            {wishlistArray ? wishlistArray?.map((obj, index) => {
+                return <WishlistItem key={obj.wishlistItem.game_name} index={index} item={obj.wishlistItem} />;
+            }) : (<Loading/>)}
         </div>
     );
 }

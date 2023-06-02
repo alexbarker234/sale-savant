@@ -2,11 +2,10 @@
 .wishlist-item {
     --item-height: 10rem;
 
-    box-sizing: border-box;
     font-family: sans-serif;
 }
 .wishlist-item {
-    background-color: rgb(35, 35, 41);
+    background-color: var(--dark-grey);
     width: 50rem;
     height: 10rem;
 
@@ -50,13 +49,20 @@
 
     line-height: 3rem;
     border-radius: 0.3rem;
+
+    transition: 0.3s;
 }
+.price:hover {
+    filter: brightness(80%);
+}
+
 .price-details {
     display: flex;
     justify-content: space-between;
     width: 10rem;
     height: 3rem;
 }
+
 .price-tag {
     margin-right: 1rem;
     display: flex;
@@ -96,7 +102,7 @@
     margin: 0.5rem 1rem 0.5rem 0.5rem;
 }
 .steam-price {
-    background-color: #66c0f4;
+    background-color: var(--blue)
 }
 .humble-price {
     float: right;

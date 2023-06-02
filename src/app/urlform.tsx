@@ -10,7 +10,7 @@ const UrlForm = () => {
 
         const url = (event.target as HTMLFormElement).first.value;
 
-        const endpoint = `/api/get-user?url=${url}`;
+        const endpoint = `/api/get-user-id?url=${url}`;
 
         const response = await fetch(endpoint);
         const result = await response.json();

@@ -2,4 +2,17 @@ body {
     background-color: rgb(10, 10, 10);
     color: white;
     font-family: Arial, Helvetica, sans-serif;
+
+    box-sizing: border-box;
+
+    margin: 0;
+    padding: 0;
+
+    --dark-grey: rgb(35, 35, 41);
+    --blue: #219dd6
+}
+
+a {
+    color: white;
+    text-decoration: none;
 }

@@ -9,7 +9,7 @@ export class CheapShark {
         const responseObj: CheapSharkResponse = { steamGames: {}, humbleGames: {} };
 
         // seems like theres some undocumented limit on the amount of ids that can be in a request
-        const maxLength = 60;
+        const maxLength = 200;
         for (let i = 0; i < steamIDs.length; i += maxLength) {
             const idList = steamIDs.slice(i, i + maxLength);
 

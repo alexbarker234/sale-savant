@@ -1,23 +1,34 @@
-// API
+// SALE SAVANT API
 
+// wishlists
 export interface WishlistResponse {
     [key: string]: WishlistItemResponse;
 }
 export interface WishlistItemResponse {
     game_name: string;
     image_url: string;
-    
-    steamDeal: Deal
-    humbleDeal: Deal | undefined
+
+    steamDeal?: Deal;
+    humbleDeal?: Deal;
 
     priority: number;
-    is_released: boolean
+    is_released: boolean;
 }
 export interface Deal {
-    currentPrice: number
-    originalPrice: number
-    discountPercent: number
+    currentPrice: number;
+    originalPrice: number;
+    discountPercent: number;
+    dealID: string;
 }
+// steam
+export interface SteamUser {
+    displayName: string;
+    profileURL: string;
+
+    avatarURL: string;
+    lastSeenTimestamp: number;
+}
+
 // STEAM
 export interface SteamWishlistResponse {
     [key: string]: SteamWishlistItemResponse;
@@ -54,6 +65,7 @@ export interface CheapSharkGameResponse {
     salePrice: string;
     normalPrice: string;
     savings: string;
+    dealID: string;
 }
 
 // MISC

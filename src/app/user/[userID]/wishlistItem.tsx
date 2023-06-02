@@ -1,51 +1,40 @@
 import styles from "./wishlistItem.module.css";
+import {  Deal, WishlistItemResponse } from "@/types";
 
-type WishlistItemProp = {
-    index: number;
-    title: string;
-    image: string;
-    steamPrice: PriceProp;
-    humblePrice: PriceProp | undefined;
-};
-
-type PriceProp = {
-    finalPrice: number;
-    originalPrice: number;
-    discount: number;
-};
-
-const WishlistItem = ({ item }: { item: WishlistItemProp }) => {
+const WishlistItem = ({ index, item }: { index: number, item: WishlistItemResponse }) => {
     return (
         <div className={styles["wishlist-item"]} style={{
-            animationDelay: `${0.2 + item.index * 0.05}s`
+            animationDelay: `${0.2 + index * 0.05}s`
         }}>
-            <img src={item.image} />
+            <img src={item.image_url} />
             <div className={styles["content"]}>
-                <div className={styles["title"]}>{item.title}</div>
+                <div className={styles["title"]}>{item.game_name}</div>
                 <div className={styles["prices"]}>
-                    <Price price={item.steamPrice} type="steam" />
-                    {item.humblePrice ? <Price price={item.humblePrice} type="humble" /> : null}
+                    {item.steamDeal && <Price price={item.steamDeal} type="steam" />}
+                    {item.humbleDeal && <Price price={item.humbleDeal} type="humble" />}
                 </div>
             </div>
         </div>
     );
 };
 
-function Price({ price, type }: { price: PriceProp; type: string }) {
+function Price({ price, type }: { price: Deal; type: string }) {
     return (
+        <a href={`https://www.cheapshark.com/redirect?dealID=${price.dealID}`}>
         <div className={`${styles["price"]} ${styles[type + "-price"]}`}>
-            {price.discount != 0 ? <div className={styles["discount"]}>-{price.discount}%</div> : ""}
+            {price.discountPercent != 0 ? <div className={styles["discount"]}>-{price.discountPercent}%</div> : ""}
             <div className={styles["price-details"]}>
                 <svg width="50" height="50" fill="#ffffff" viewBox="0 0 150 150">
                     <use href={`#${type}-logo`} />
                 </svg>
 
                 <div className={styles["price-tag"]}>
-                    {price.originalPrice && price.originalPrice != price.finalPrice ? <div className={styles["original-price"]}>USD${price.originalPrice.toFixed(2)}</div> : ""}
-                    <div className={styles["final-price"]}>USD${price.finalPrice.toFixed(2)}</div>
+                    {price.originalPrice && price.originalPrice != price.currentPrice ? <div className={styles["original-price"]}>USD${price.originalPrice.toFixed(2)}</div> : ""}
+                    <div className={styles["final-price"]}>USD${price.currentPrice.toFixed(2)}</div>
                 </div>
             </div>
         </div>
+        </a>
     );
 }
 

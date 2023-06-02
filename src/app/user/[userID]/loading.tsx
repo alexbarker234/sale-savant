@@ -1,3 +1,16 @@
-export default function Loading() {
-    return <p>Loading...</p>
+import { CSSProperties } from "react";
+import styles from "./loading.module.css";
+
+interface LoadingProp {
+    style?: CSSProperties;
+}
+
+export default function Loading({style} : LoadingProp) {
+    return (
+        <div className={styles["loading"]} style={style}>
+            <div className={styles["loading-part"]}></div>
+            <div className={styles["loading-part"]}></div>
+            <div className={styles["loading-part"]}></div>
+        </div>
+    );
 }

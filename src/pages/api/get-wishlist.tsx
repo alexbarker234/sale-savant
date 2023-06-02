@@ -26,18 +26,18 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
         response[steamID] = {
             game_name: wishlistItem.name,
             image_url: wishlistItem.capsule,
-            steamDeal: {
-                currentPrice: steam ? +steam.salePrice : 0,
-                originalPrice: steam ?  +steam.normalPrice : 0,
-                discountPercent: steam ? parseInt(steam.savings) : 0,
+            steamDeal: steam && {
+                currentPrice: +steam.salePrice,
+                originalPrice: +steam.normalPrice,
+                discountPercent: parseInt(steam.savings),
+                dealID: steam.dealID,
             },
-            humbleDeal: humble
-                ? {
-                      currentPrice: +humble.salePrice,
-                      originalPrice: +humble.normalPrice,
-                      discountPercent: parseInt(humble.savings),
-                  }
-                : undefined,
+            humbleDeal: humble && {
+                currentPrice: +humble.salePrice,
+                originalPrice: +humble.normalPrice,
+                discountPercent: parseInt(humble.savings),
+                dealID: humble.dealID,
+            },
             priority: wishlistItem.priority,
             is_released: !wishlistItem.prerelease,
         };
