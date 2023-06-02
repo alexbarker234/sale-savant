@@ -9,7 +9,7 @@ export class CheapShark {
         const responseObj: CheapSharkResponse = { steamGames: {}, humbleGames: {} };
 
         // seems like theres some undocumented limit on the amount of ids that can be in a request
-        const maxLength = 30;
+        const maxLength = 60;
         for (let i = 0; i < steamIDs.length; i += maxLength) {
             const idList = steamIDs.slice(i, i + maxLength);
 
@@ -26,7 +26,6 @@ export class CheapShark {
                     return responseObj;
                 }
                 maxPages = parseInt(main.headers.get("X-Total-Page-Count") || "0");
-                console.log(fullResponse, response.length)
                 fullResponse.push(...response);
                 pageNum++;
             } while (pageNum <= maxPages);

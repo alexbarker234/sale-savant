@@ -14,8 +14,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     let steamResponse: SteamWishlistResponse = await Steam.getUserWishlist(id);
 
     const steamIDs = Object.keys(steamResponse);
-    //const cheapSharkResponse = await CheapShark.requestHumbleGameDeals(steamIDs);
-    const cheapSharkResponse : CheapSharkResponse = { steamGames: {}, humbleGames: {} };
+    const cheapSharkResponse = await CheapShark.requestHumbleGameDeals(steamIDs);
+    //const cheapSharkResponse : CheapSharkResponse = { steamGames: {}, humbleGames: {} };
 
     let response: WishlistResponse = {};
 

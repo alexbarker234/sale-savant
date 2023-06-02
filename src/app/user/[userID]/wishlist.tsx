@@ -6,21 +6,20 @@ import { useEffect, useState } from "react";
 import styles from "./wishlist.module.css";
 
 interface WishlistProp {
-    id: string;
+    userID: string;
 }
 
-export default function Wishlist({ id }: WishlistProp) {
+export default function Wishlist({ userID }: WishlistProp) {
     // keep up to date with https://nextjs.org/docs/app/building-your-application/data-fetching/fetching#use-in-client-components
     // fetch cant be done in use safely yet but it will be useful :)
-    console.log(`trying to request for ${id}`);
 
     const [wishlistArray, setData] = useState<{id: string, wishlistItem: WishlistItemResponse }[]>();
 
-    // keep up to date with https://nextjs.org/docs/app/building-your-application/data-fetching/fetching#use-in-client-components
-    // fetch cant be done in use safely yet but it will be useful :) 
     useEffect(() => {
+        console.log(`trying to request for ${userID}`);
+
         const fetchData = async () => {
-            const res = await fetch(`/api/get-wishlist?id=${id}`);
+            const res = await fetch(`/api/get-wishlist?id=${userID}`);
             const data: WishlistResponse = await res.json();
 
             // Turns the wishlist response into an array of objects {'id', 'wishlistItem'} in order to sort by priority
@@ -34,7 +33,7 @@ export default function Wishlist({ id }: WishlistProp) {
         };
 
         fetchData();
-    }, [id]);
+    }, [userID]);
 
     // TODO: find a better way of loading SVGs
     return (
@@ -51,9 +50,10 @@ export default function Wishlist({ id }: WishlistProp) {
                 </symbol>
             </svg>
 
-            {wishlistArray?.map((obj) => {
+            {wishlistArray?.map((obj, index) => {
                 const item = obj.wishlistItem;
                 const wishlistItem = {
+                    index: index,
                     title: item.game_name,
                     image: item.image_url,
                     steamPrice: {
@@ -70,7 +70,7 @@ export default function Wishlist({ id }: WishlistProp) {
                         : undefined,
                 };
 
-                return <WishlistItem item={wishlistItem} />;
+                return <WishlistItem key={item.game_name} item={wishlistItem} />;
             })}
         </div>
     );

@@ -1,6 +1,7 @@
 import styles from "./wishlistItem.module.css";
 
 type WishlistItemProp = {
+    index: number;
     title: string;
     image: string;
     steamPrice: PriceProp;
@@ -15,7 +16,9 @@ type PriceProp = {
 
 const WishlistItem = ({ item }: { item: WishlistItemProp }) => {
     return (
-        <div className={styles["wishlist-item"]}>
+        <div className={styles["wishlist-item"]} style={{
+            animationDelay: `${0.2 + item.index * 0.05}s`
+        }}>
             <img src={item.image} />
             <div className={styles["content"]}>
                 <div className={styles["title"]}>{item.title}</div>

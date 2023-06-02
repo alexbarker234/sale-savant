@@ -18,6 +18,9 @@
     display: flex;
 
     margin-bottom: 1rem;
+
+    opacity: 0;
+    animation: fade-slide-in 0.5s forwards;
 }
 .wishlist-item img {
     height: 100%;
@@ -98,4 +101,14 @@
 .humble-price {
     float: right;
     background-color: #c1252a;
+}
+
+@keyframes fade-slide-in {
+    from {
+        opacity: 0;
+        transform: translateX(-3rem);
+    }
+    to {
+        opacity: 1;
+    }
 }
