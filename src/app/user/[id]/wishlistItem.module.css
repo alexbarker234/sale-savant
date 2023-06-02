@@ -16,6 +16,8 @@
     color: white;
 
     display: flex;
+
+    margin-bottom: 1rem;
 }
 .wishlist-item img {
     height: 100%;
