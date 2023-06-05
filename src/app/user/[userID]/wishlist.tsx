@@ -4,6 +4,7 @@ import { ErrorResponse, WishlistItemResponse, WishlistResponse } from "@/types";
 import WishlistItem from "./wishlistItem";
 import { useEffect, useState } from "react";
 import styles from "./wishlist.module.css";
+import itemStyles from "./wishlistItem.module.css";
 import Loading from "./loading";
 
 interface WishlistProp {
@@ -44,6 +45,9 @@ export default function Wishlist({ userID }: WishlistProp) {
         fetchData();
     }, [userID]);
 
+    const orderByDiscount = () => orderBy("max-discount");
+    const orderByPriority = () => orderBy("priority");
+
     // TODO: find a better way of loading SVGs
     return (
         <div className={styles["wishlist"]}>
@@ -59,15 +63,39 @@ export default function Wishlist({ userID }: WishlistProp) {
                 </symbol>
             </svg>
 
-            {wishlistData ? (
-                wishlistData.message === "success" ? (
-                    wishlistData.data?.map((obj, index) => <WishlistItem key={obj.wishlistItem.game_name} index={index} item={obj.wishlistItem} />)
+            <div className={styles['order-buttons']}>
+                <button onClick={orderByDiscount}>Discount</button>
+                <button onClick={orderByPriority}>Priority</button>
+            </div>
+            <div id="wishlist-items">
+                {wishlistData ? (
+                    wishlistData.message === "success" ? (
+                        wishlistData.data?.map((obj, index) => <WishlistItem key={obj.wishlistItem.game_name} index={index} item={obj.wishlistItem} />)
+                    ) : (
+                        <div style={{ margin: "auto", width: "fit-content" }}>{wishlistData.message}</div>
+                    )
                 ) : (
-                    <div style={{ margin: "auto", width: "fit-content" }}>{wishlistData.message}</div>
-                )
-            ) : (
-                <Loading style={{ margin: "auto" }} />
-            )}
+                    <Loading style={{ margin: "auto" }} />
+                )}
+            </div>
         </div>
     );
+}
+
+function orderBy(dataAttribute: string) {
+    let list = Array.from(document.getElementsByClassName(`${itemStyles["wishlist-item"]}`));
+
+    const sortDir = dataAttribute == 'priority' ? -1 : 1
+    list.sort((a, b) => {
+        const discA = parseInt(a.getAttribute(`data-${dataAttribute}`) || "0");
+        const discB = parseInt(b.getAttribute(`data-${dataAttribute}`) || "0");
+        return (discB - discA) * sortDir;
+    });
+    const wishlist = document.getElementById("wishlist-items");
+    if (wishlist) {
+        wishlist.innerHTML = "";
+        list.forEach((list) => {
+            wishlist.appendChild(list);
+        })
+    }
 }

@@ -20,7 +20,7 @@ export default function UserInfo({ userData }: UserInfoProp) {
             <div className={styles["details"]}>
                 <a className={styles["title"]} href={userData?.profileURL}>
                     <div className={styles["username"]}>{userData?.displayName}</div>
-                    's Wishlist`
+                    's Wishlist
                 </a>
                 <div className={styles["last-seen"]}>
                     Last Online {getTimeAgo(userData?.lastSeenTimestamp || 0)}

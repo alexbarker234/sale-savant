@@ -7,9 +7,8 @@ const WishlistItem = ({ index, item }: { index: number; item: WishlistItemRespon
     return (
         <div
             className={styles["wishlist-item"]}
-            style={{
-                animationDelay: `${0.2 + index * 0.05}s`,
-            }}
+            data-max-discount={Math.max(item.steamDeal?.discountPercent ?? 0, item.humbleDeal?.discountPercent ?? 0)}
+            data-priority={item.priority}
         >
             <img src={item.image_url} />
             <div className={styles["content"]}>
