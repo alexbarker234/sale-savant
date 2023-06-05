@@ -33,6 +33,9 @@ export interface SteamUser {
 export interface SteamWishlistResponse {
     [key: string]: SteamWishlistItemResponse;
 }
+export interface SteamWishlistErrorResponse {
+    success: number;
+}
 
 export interface SteamWishlistItemResponse {
     name: string;

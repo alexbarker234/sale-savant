@@ -1,4 +1,4 @@
-import { SteamUser } from "@/types";
+import { SteamUser, SteamWishlistErrorResponse, SteamWishlistResponse } from "@/types";
 
 // steam really does just have awful naming
 
@@ -19,7 +19,7 @@ export class Steam {
         return json.response?.steamid;
     }
 
-    static async getUserWishlist(userID: string) {
+    static async getUserWishlist(userID: string): Promise<SteamWishlistResponse | SteamWishlistErrorResponse>  {
         const apiUrl = `https://store.steampowered.com/wishlist/profiles/${userID}/wishlistdata/?p=0`;
         return await (await fetch(apiUrl)).json();
     }

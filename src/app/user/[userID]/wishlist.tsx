@@ -1,6 +1,6 @@
-"use client"
+"use client";
 
-import { WishlistItemResponse, WishlistResponse } from "@/types";
+import { ErrorResponse, WishlistItemResponse, WishlistResponse } from "@/types";
 import WishlistItem from "./wishlistItem";
 import { useEffect, useState } from "react";
 import styles from "./wishlist.module.css";
@@ -14,14 +14,19 @@ export default function Wishlist({ userID }: WishlistProp) {
     // keep up to date with https://nextjs.org/docs/app/building-your-application/data-fetching/fetching#use-in-client-components
     // fetch cant be done in use safely yet but it will be useful :)
 
-    const [wishlistArray, setData] = useState<{id: string, wishlistItem: WishlistItemResponse }[]>();
+    const [wishlistData, setData] = useState<{ message: string; data: { id: string; wishlistItem: WishlistItemResponse }[] }>();
 
     useEffect(() => {
         //console.log(`trying to request for ${userID}`);
 
         const fetchData = async () => {
             const res = await fetch(`/api/get-wishlist?id=${userID}`);
-            const data: WishlistResponse = await res.json();
+            const data: WishlistResponse | ErrorResponse = await res.json();
+
+            if (data.error === "private profile") {
+                setData({ message: "This users profile is private, if this is your profile please make your Game Details public", data: [] });
+                return;
+            }
 
             // Turns the wishlist response into an array of objects {'id', 'wishlistItem'} in order to sort by priority
             let arr = Object.entries(data).map(([key, value]) => ({ id: key, wishlistItem: value as WishlistItemResponse }));
@@ -33,7 +38,7 @@ export default function Wishlist({ userID }: WishlistProp) {
             // remove items not found on cheapshark (DLC, non-games)
             arr = arr.filter((item) => item.wishlistItem.steamDeal);
 
-            setData(arr);
+            setData({ message: "success", data: arr });
         };
 
         fetchData();
@@ -54,9 +59,15 @@ export default function Wishlist({ userID }: WishlistProp) {
                 </symbol>
             </svg>
 
-            {wishlistArray ? wishlistArray?.map((obj, index) => {
-                return <WishlistItem key={obj.wishlistItem.game_name} index={index} item={obj.wishlistItem} />;
-            }) : (<Loading/>)}
+            {wishlistData ? (
+                wishlistData.message === "success" ? (
+                    wishlistData.data?.map((obj, index) => <WishlistItem key={obj.wishlistItem.game_name} index={index} item={obj.wishlistItem} />)
+                ) : (
+                    <div style={{ margin: "auto", width: "fit-content" }}>{wishlistData.message}</div>
+                )
+            ) : (
+                <Loading />
+            )}
         </div>
     );
 }
