@@ -1,6 +1,8 @@
 import styles from "./wishlistItem.module.css";
 import { Deal, WishlistItemResponse } from "@/types";
 
+// doing dangerouslySetInnerHTML to deal with games that have HTMl entities in their name 
+
 const WishlistItem = ({ index, item }: { index: number; item: WishlistItemResponse }) => {
     return (
         <div
@@ -11,7 +13,7 @@ const WishlistItem = ({ index, item }: { index: number; item: WishlistItemRespon
         >
             <img src={item.image_url} />
             <div className={styles["content"]}>
-                <div className={styles["title"]}>{item.game_name}</div>
+                <div className={styles["title"]} dangerouslySetInnerHTML={{ __html: item.game_name }}></div> 
                 <div className={styles["prices"]}>
                     {item.steamDeal && <Price price={item.steamDeal} type="steam" />}
                     {item.humbleDeal && <Price price={item.humbleDeal} type="humble" />}

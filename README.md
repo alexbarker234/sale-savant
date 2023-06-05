@@ -9,6 +9,8 @@
 ## About
 Stay up-to-date with irresistible offers tailored just for you! Easily monitor sales on your personal Steam wishlist and view additional discounts on Humble Bundle for your desired games.
 
+Powered by CheapShark
+
 ## TODO
 - Add styling to index page. Lol
 - Potentially add steam login rather than just entering url
