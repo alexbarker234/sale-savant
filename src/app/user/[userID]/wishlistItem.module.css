@@ -109,7 +109,7 @@
 }
 .humble-price {
     float: right;
-    background-color: #c1252a;
+    background-color: var(--red);
 }
 
 @keyframes fade-slide-in {

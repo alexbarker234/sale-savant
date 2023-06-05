@@ -1,4 +1,5 @@
 import "@/global.css";
+import Nav from "./nav";
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
     return (
@@ -7,7 +8,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 <link rel="icon" href="/favicon.ico" sizes="any" />
             </head>
             <body>
-                <main>{children}</main>
+                <main>
+                    <Nav/>
+                    {children}
+                </main>
             </body>
         </html>
     );

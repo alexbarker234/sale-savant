@@ -9,7 +9,8 @@ body {
     overflow-x: hidden;
 
     --dark-grey: rgb(35, 35, 41);
-    --blue: #219dd6
+    --blue: #219dd6;
+    --red: #c1252a;
 }
 
 * {
@@ -19,4 +20,30 @@ body {
 a {
     color: white;
     text-decoration: none;
+}
+
+nav {
+    height: 4rem;
+
+    background-color: var(--dark-grey);
+}
+
+.nav-logo {
+    margin: auto;
+    height: fit-content;
+    width: fit-content;
+    display: block;
+
+    line-height: 4rem;
+    font-weight: 600;
+    font-size: 2rem;
+
+    transition: 0.2s;
+}
+.nav-logo:hover {
+    opacity: 0.8;
+}
+.nav-logo * {
+    display: inline;
+    margin: 0;
 }

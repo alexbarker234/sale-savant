@@ -66,7 +66,7 @@ export default function Wishlist({ userID }: WishlistProp) {
                     <div style={{ margin: "auto", width: "fit-content" }}>{wishlistData.message}</div>
                 )
             ) : (
-                <Loading />
+                <Loading style={{ margin: "auto" }} />
             )}
         </div>
     );
