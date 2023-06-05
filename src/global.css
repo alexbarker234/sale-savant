@@ -1,3 +1,4 @@
+/* Globals */
 body {
     background-color: rgb(10, 10, 10);
     color: white;
@@ -24,6 +25,14 @@ a {
     text-decoration: none;
 }
 
+main {
+    display: flex;
+    flex-direction: column;
+
+    min-height: 100vh;
+}
+
+/* nav */
 nav {
     height: 4rem;
 
@@ -41,22 +50,24 @@ nav {
     font-size: 2rem;
 
     transition: 0.2s;
+
+    background: linear-gradient(to right, white 0% 33%, var(--blue), rgb(120, 31, 192));
+    background-size: 300%;
+
+    -webkit-text-fill-color: transparent;
+    -webkit-background-clip: text;
+    background-clip: text;
 }
 .nav-logo:hover {
-    opacity: 0.8;
+    background-position: 100%;
+    scale: 1.03;
 }
 .nav-logo * {
     display: inline;
     margin: 0;
 }
 
-main {
-    display: flex;
-    flex-direction: column;
-
-    min-height: 100vh;
-}
-
+/* footer */
 .footer {
     border-top: var(--dark-grey) 1px solid;
     width: 95%;
@@ -86,4 +97,29 @@ main {
 .footer a:hover {
     background-color: var(--blue);
     transform: scale(1.03);
+}
+
+/* buttons */
+button {
+    background: none;
+    color: inherit;
+    border: none;
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
+    outline: inherit;
+
+    border: var(--blue) 2px solid;
+    padding: 0.75rem 2rem;
+    border-radius: 2rem;
+
+    transition: 0.2s;
+}
+
+button:not(:disabled):hover {
+    background-color: var(--blue);
+    transform: scale(1.03);
+}
+button:disabled {
+    opacity: 0.5;
 }
