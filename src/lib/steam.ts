@@ -6,7 +6,7 @@ export class Steam {
     private static readonly KEY = process.env.STEAM_KEY;
 
     static async resolveUserFromURL(userURL: string) {
-        let username = userURL.match(/\/id\/(.+?)(\/|$)/)?.[1];
+        let username = userURL.startsWith('https://steamcommunity.com/id') ? userURL.match(/\/id\/(.+?)(\/|$)/)?.[1] : userURL
         return username ? await this.resolveUserFromName(username) : null;
     }
 

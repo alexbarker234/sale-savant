@@ -1,0 +1,57 @@
+.form {
+    align-items: center;
+    width: 95%;
+    margin: auto;
+}
+.form * {
+    display: block;
+    margin: auto;
+}
+.form label {
+    width: fit-content;
+}
+.form input {
+    width: 100%;
+    max-width: 30rem;
+
+    border-right: 0;
+    font: inherit;
+    color: inherit;
+    width: 100%;
+    box-shadow: none !important;
+    border: 0;
+    background: unset;
+    outline: unset;
+
+    background-color: #213145;
+    border-radius: 1rem;
+    padding: 0.5rem 1rem;
+
+    margin: 1rem auto;
+}
+.form input:focus {
+    outline: var(--blue) 2px solid;
+}
+.form button {
+    background: none;
+    color: inherit;
+    border: none;
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
+    outline: inherit;
+
+    border: var(--blue) 2px solid;
+    padding: 0.75rem 2rem;
+    border-radius: 2rem;
+}
+.form button:not(:disabled):hover {
+    background-color: var(--blue);
+}
+.form button:disabled {
+    opacity: 0.5;
+}
+.error {
+    color: red;
+    width: fit-content;
+}

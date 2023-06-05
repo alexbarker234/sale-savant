@@ -3,6 +3,13 @@
     margin: 1rem;
     animation: fade-in 1s;
 }
+.loading.default {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}
+
 .loading-part {
     background-color: #219dd6;
     animation: loading-animation 1s infinite;

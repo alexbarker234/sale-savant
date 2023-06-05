@@ -7,7 +7,7 @@ interface LoadingProp {
 
 export default function Loading({style} : LoadingProp) {
     return (
-        <div className={styles["loading"]} style={style}>
+        <div className={`${styles["loading"]} ${(!style && styles["default"])}`} style={style}>
             <div className={styles["loading-part"]}></div>
             <div className={styles["loading-part"]}></div>
             <div className={styles["loading-part"]}></div>

@@ -3,8 +3,9 @@ import UrlForm from "./urlform";
 export default function Home() {
     return (
         <>
-            <title>index</title>
-            <h1>index</h1>
+            <title>Sale Savant</title>
+            <h1 style={{ textAlign:  "center" }}>Sale Savant</h1>
+            <p style={{ textAlign:  "center" }}>This site is a WIP</p>
             <UrlForm />
         </>
     );

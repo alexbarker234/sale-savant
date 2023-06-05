@@ -7,5 +7,5 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     let response = await Steam.resolveUserFromURL(url)
 
-    res.status(200).json({id: response});
+    res.status(200).json({exists: response ? true : false, id: response});
 }

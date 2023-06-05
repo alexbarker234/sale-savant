@@ -4,8 +4,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     return (
         <html>
             <head>
-                <link rel="shortcut icon" href="/favicon.ico" />
-                <meta name="description" content={`test description`} />
+                <link rel="icon" href="/favicon.ico" sizes="any" />
             </head>
             <body>
                 <main>{children}</main>

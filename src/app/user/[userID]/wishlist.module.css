@@ -1,4 +1,5 @@
 .wishlist {
-    width: fit-content;
+    width: 95%;
+    max-width: 50rem;
     margin: auto;
 }

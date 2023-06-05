@@ -17,7 +17,7 @@ export default function Wishlist({ userID }: WishlistProp) {
     const [wishlistArray, setData] = useState<{id: string, wishlistItem: WishlistItemResponse }[]>();
 
     useEffect(() => {
-        console.log(`trying to request for ${userID}`);
+        //console.log(`trying to request for ${userID}`);
 
         const fetchData = async () => {
             const res = await fetch(`/api/get-wishlist?id=${userID}`);

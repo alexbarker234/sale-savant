@@ -11,5 +11,5 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     let response = await Steam.getUser(id)
 
-    res.status(200).json(response);
+    res.status(200).json(response ?? {error: true});
 }
