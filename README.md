@@ -12,9 +12,9 @@ Stay up-to-date with irresistible offers tailored just for you! Easily monitor s
 Powered by CheapShark
 
 ## TODO
-- Add styling to index page. Lol
-- Potentially add steam login rather than just entering url
+### Yes
+- Improve styling
+### Maybe
+- Add steam login rather than just entering url
 - Add notifications for users when games go on sale 
 
-## Bugs
-- ❓ Requests may cache permenantly - need to confirm
