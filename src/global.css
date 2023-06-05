@@ -6,6 +6,8 @@ body {
     margin: 0;
     padding: 0;
 
+    height: 100%;
+
     overflow-x: hidden;
 
     --dark-grey: rgb(35, 35, 41);
@@ -46,4 +48,42 @@ nav {
 .nav-logo * {
     display: inline;
     margin: 0;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+
+    min-height: 100vh;
+}
+
+.footer {
+    border-top: var(--dark-grey) 1px solid;
+    width: 95%;
+    max-width: 1100px;
+
+    margin: auto;
+    margin-top: auto;
+    margin-bottom: 0;
+    display: flex;
+    justify-content: space-between;
+
+    padding: 1rem;
+}
+.footer .links {
+    float: right;
+}
+
+.footer a {
+    padding: 0.25rem 0.15rem;
+    border-radius: 2px;
+    border-bottom: var(--blue) 1px solid;
+
+    display: inline-block;
+
+    transition: 0.3s;
+}
+.footer a:hover {
+    background-color: var(--blue);
+    transform: scale(1.03);
 }

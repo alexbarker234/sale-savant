@@ -1,5 +1,6 @@
 import "@/global.css";
 import Nav from "./nav";
+import Footer from "./footer";
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
     return (
@@ -9,8 +10,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             </head>
             <body>
                 <main>
-                    <Nav/>
-                    {children}
+                    <Nav />
+                    <div className="content">{children}</div>
+                    <Footer />
                 </main>
             </body>
         </html>

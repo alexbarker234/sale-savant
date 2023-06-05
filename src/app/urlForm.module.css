@@ -49,6 +49,7 @@
 }
 .form button:not(:disabled):hover {
     background-color: var(--blue);
+    transform: scale(1.03);
 }
 .form button:disabled {
     opacity: 0.5;
