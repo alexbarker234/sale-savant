@@ -15,5 +15,4 @@ Stay up-to-date with irresistible offers tailored just for you! Easily monitor s
 - Add notifications for users when games go on sale 
 
 ## Bugs
-- 🐛CheapShark API does not return all games - bringing it up with CheapShark staff
-- ❓ Requests may cache permenantly - double check
+- ❓ Requests may cache permenantly - need to confirm

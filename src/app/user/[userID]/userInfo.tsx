@@ -1,26 +1,12 @@
-"use client";
-
 import { SteamUser } from "@/types";
-import { useEffect, useState } from "react";
 import styles from "./userInfo.module.css";
 import Loading from "./loading";
 
 interface UserInfoProp {
-    userID: string;
+    userData: SteamUser;
 }
 
-export default function UserInfo({ userID }: UserInfoProp) {
-    const [userData, setData] = useState<SteamUser>();
-
-    useEffect(() => {
-        const fetchData = async () => {
-            const data: SteamUser = await (await fetch(`/api/get-user-details?id=${userID}`)).json();
-
-            setData(data);
-        };
-
-        fetchData();
-    }, [userID]);
+export default function UserInfo({ userData }: UserInfoProp) {
 
     const lastSeen = new Date((userData?.lastSeenTimestamp || 0) * 1000);
 

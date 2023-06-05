@@ -30,6 +30,9 @@ export default function Wishlist({ userID }: WishlistProp) {
             // remove unreleased games from the list
             arr = arr.filter((item) => item.wishlistItem.is_released);
 
+            // remove items not found on cheapshark (DLC, non-games)
+            arr = arr.filter((item) => item.wishlistItem.steamDeal);
+
             setData(arr);
         };
 
