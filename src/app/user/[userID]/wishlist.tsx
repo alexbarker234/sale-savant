@@ -63,21 +63,25 @@ export default function Wishlist({ userID }: WishlistProp) {
                 </symbol>
             </svg>
 
-            <div className={styles['order-buttons']}>
-                <button onClick={orderByDiscount}>Discount</button>
-                <button onClick={orderByPriority}>Priority</button>
-            </div>
-            <div id="wishlist-items">
-                {wishlistData ? (
-                    wishlistData.message === "success" ? (
-                        wishlistData.data?.map((obj, index) => <WishlistItem key={obj.wishlistItem.game_name} index={index} item={obj.wishlistItem} />)
-                    ) : (
-                        <div style={{ margin: "auto", width: "fit-content" }}>{wishlistData.message}</div>
-                    )
+            {wishlistData ? (
+                wishlistData.message === "success" ? (
+                    <>
+                        <div className={styles["order-buttons"]}>
+                            <button onClick={orderByDiscount}>Discount</button>
+                            <button onClick={orderByPriority}>Priority</button>
+                        </div>
+                        <div id="wishlist-items">
+                            {wishlistData.data?.map((obj, index) => (
+                                <WishlistItem key={obj.wishlistItem.game_name} index={index} item={obj.wishlistItem} />
+                            ))}
+                        </div>
+                    </>
                 ) : (
-                    <Loading style={{ margin: "auto" }} />
-                )}
-            </div>
+                    <div style={{ margin: "auto", marginTop: "1rem", width: "fit-content" }}>{wishlistData.message}</div>
+                )
+            ) : (
+                <Loading style={{ margin: "auto" }} />
+            )}
         </div>
     );
 }
@@ -85,7 +89,7 @@ export default function Wishlist({ userID }: WishlistProp) {
 function orderBy(dataAttribute: string) {
     let list = Array.from(document.getElementsByClassName(`${itemStyles["wishlist-item"]}`));
 
-    const sortDir = dataAttribute == 'priority' ? -1 : 1
+    const sortDir = dataAttribute == "priority" ? -1 : 1;
     list.sort((a, b) => {
         const discA = parseInt(a.getAttribute(`data-${dataAttribute}`) || "0");
         const discB = parseInt(b.getAttribute(`data-${dataAttribute}`) || "0");
@@ -96,6 +100,6 @@ function orderBy(dataAttribute: string) {
         wishlist.innerHTML = "";
         list.forEach((list) => {
             wishlist.appendChild(list);
-        })
+        });
     }
 }
