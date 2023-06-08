@@ -59,6 +59,7 @@ export default function Wishlist({ userID }: WishlistProp) {
 
     const orderByDiscount = () => orderBy("max-discount");
     const orderByPriority = () => orderBy("priority");
+    const orderByReview = () => orderBy("review");
 
     // TODO: find a better way of loading SVGs
     return (
@@ -81,6 +82,7 @@ export default function Wishlist({ userID }: WishlistProp) {
                         <div className={styles["order-buttons"]}>
                             <button onClick={orderByDiscount}>Discount</button>
                             <button onClick={orderByPriority}>Priority</button>
+                            <button onClick={orderByReview}>Review</button>
                         </div>
                         <div id="wishlist-items">
                             {wishlistData.data?.map((obj, index) => (
@@ -92,7 +94,7 @@ export default function Wishlist({ userID }: WishlistProp) {
                     <div style={{ margin: "auto", marginTop: "1rem", width: "fit-content" }}>{wishlistData.message}</div>
                 )
             ) : (
-                <Loading style={{ margin: "auto" }} />
+                <Loading style={{ margin: "auto", marginTop: "2rem" }} />
             )}
         </div>
     );

@@ -13,6 +13,9 @@ export interface WishlistItemResponse {
 
     priority: number;
     is_released: boolean;
+
+    review: number
+    platforms?: string[]
 }
 export interface Deal {
     currentPrice: number;
@@ -45,7 +48,9 @@ export interface SteamWishlistItemResponse {
     subs: Sub[];
     type: string;
     priority: number;
-    prerelease: number | undefined; // wow
+    prerelease?: number; // wow
+    reviews_percent: number;
+    platform_icons: string;
 }
 
 export interface Sub {

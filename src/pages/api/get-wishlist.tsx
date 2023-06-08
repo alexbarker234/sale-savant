@@ -40,6 +40,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 
     let response: WishlistResponse = {};
 
+
     for (let steamID in steamResponse) {
         const wishlistItem = (steamResponse as SteamWishlistResponse)[steamID];
         const steam = cheapSharkResponse.steamGames[steamID];
@@ -61,6 +62,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
             },
             priority: wishlistItem.priority == 0 ? 9999 : wishlistItem.priority, // 0 priority items are NO priority TODO: find a better way (probably in the sort)
             is_released: !wishlistItem.prerelease,
+            review:  wishlistItem.reviews_percent,
+            platforms: wishlistItem.platform_icons.match(/class="([^>]*)">/g)?.map((platform) => platform.slice(7, -2).split(" ")[1]),
         };
     }
     ssrCache.set(id, response);
