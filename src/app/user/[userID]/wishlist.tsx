@@ -33,11 +33,23 @@ export default function Wishlist({ userID }: WishlistProp) {
             let arr = Object.entries(data).map(([key, value]) => ({ id: key, wishlistItem: value as WishlistItemResponse }));
             arr.sort((a, b) => a.wishlistItem.priority - b.wishlistItem.priority);
 
+            const gamesCount = arr.length;
+
             // remove unreleased games from the list
             arr = arr.filter((item) => item.wishlistItem.is_released);
 
             // remove items not found on cheapshark (DLC, non-games)
             arr = arr.filter((item) => item.wishlistItem.steamDeal);
+
+            // modify user profile
+            const saleCountDiv = document.getElementById("count-sales");
+            const gameCountDiv = document.getElementById("count-games");
+            const salesCount = arr.filter(
+                (item) => item.wishlistItem.steamDeal?.discountPercent || item.wishlistItem.humbleDeal?.discountPercent 
+            ).length;
+
+            if (saleCountDiv) saleCountDiv.innerHTML = `${salesCount} games on sale`;
+            if (gameCountDiv) gameCountDiv.innerHTML = `${gamesCount} games on wishlist`;
 
             setData({ message: "success", data: arr });
         };
