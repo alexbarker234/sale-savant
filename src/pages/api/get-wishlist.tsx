@@ -21,8 +21,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     if (ssrCache.has(id)) {
         console.info(`returning cached wishlist for ${id}`);
         res.setHeader("x-cache", "HIT");
-        
-        res.status(200).json(ssrCache.get(id) || {error: 'cache error'});
+
+        res.status(200).json(ssrCache.get(id) || { error: "cache error" });
         return;
     }
 
@@ -59,7 +59,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
                 discountPercent: parseInt(humble.savings),
                 dealID: humble.dealID,
             },
-            priority: wishlistItem.priority,
+            priority: wishlistItem.priority == 0 ? 9999 : wishlistItem.priority, // 0 priority items are NO priority TODO: find a better way (probably in the sort)
             is_released: !wishlistItem.prerelease,
         };
     }
