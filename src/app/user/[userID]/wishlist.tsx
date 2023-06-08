@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import styles from "./wishlist.module.css";
 import itemStyles from "./wishlistItem.module.css";
 import Loading from "./loading";
+import Filters from "./filters"
 
 interface WishlistProp {
     userID: string;
@@ -33,11 +34,23 @@ export default function Wishlist({ userID }: WishlistProp) {
             let arr = Object.entries(data).map(([key, value]) => ({ id: key, wishlistItem: value as WishlistItemResponse }));
             arr.sort((a, b) => a.wishlistItem.priority - b.wishlistItem.priority);
 
+            const gamesCount = arr.length;
+
             // remove unreleased games from the list
             arr = arr.filter((item) => item.wishlistItem.is_released);
 
             // remove items not found on cheapshark (DLC, non-games)
             arr = arr.filter((item) => item.wishlistItem.steamDeal);
+
+            // modify user profile
+            const saleCountDiv = document.getElementById("count-sales");
+            const gameCountDiv = document.getElementById("count-games");
+            const salesCount = arr.filter(
+                (item) => item.wishlistItem.steamDeal?.discountPercent || item.wishlistItem.humbleDeal?.discountPercent 
+            ).length;
+
+            if (saleCountDiv) saleCountDiv.innerHTML = `${salesCount} games on sale`;
+            if (gameCountDiv) gameCountDiv.innerHTML = `${gamesCount} games on wishlist`;
 
             setData({ message: "success", data: arr });
         };
@@ -47,6 +60,7 @@ export default function Wishlist({ userID }: WishlistProp) {
 
     const orderByDiscount = () => orderBy("max-discount");
     const orderByPriority = () => orderBy("priority");
+    const orderByReview = () => orderBy("review");
 
     // TODO: find a better way of loading SVGs
     return (
@@ -66,9 +80,11 @@ export default function Wishlist({ userID }: WishlistProp) {
             {wishlistData ? (
                 wishlistData.message === "success" ? (
                     <>
+                        <Filters/>
                         <div className={styles["order-buttons"]}>
                             <button onClick={orderByDiscount}>Discount</button>
                             <button onClick={orderByPriority}>Priority</button>
+                            <button onClick={orderByReview}>Review</button>
                         </div>
                         <div id="wishlist-items">
                             {wishlistData.data?.map((obj, index) => (
@@ -80,7 +96,7 @@ export default function Wishlist({ userID }: WishlistProp) {
                     <div style={{ margin: "auto", marginTop: "1rem", width: "fit-content" }}>{wishlistData.message}</div>
                 )
             ) : (
-                <Loading style={{ margin: "auto" }} />
+                <Loading style={{ margin: "auto", marginTop: "2rem" }} />
             )}
         </div>
     );

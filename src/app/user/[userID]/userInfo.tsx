@@ -22,14 +22,8 @@ export default function UserInfo({ userData }: UserInfoProp) {
                     <div className={styles["username"]}>{userData?.displayName}</div>
                     's Wishlist
                 </a>
-                <div className={styles["last-seen"]}>
-                    Last Online {getTimeAgo(userData?.lastSeenTimestamp || 0)}
-                    <div className={styles["on-hover"]}>
-                        <div className={styles["on-hover-content"]}>
-                            {`${lastSeen.getUTCDate()} ${monthNames[lastSeen.getUTCMonth()]} ${lastSeen.getUTCFullYear()}`}
-                        </div>
-                    </div>
-                </div>
+                <div className={styles["game-count"]} id='count-games'></div>
+                <div className={styles["sale-count"]} id='count-sales'></div>   
             </div>
         </div>
     ): 

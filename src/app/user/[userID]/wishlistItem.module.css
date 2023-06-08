@@ -32,10 +32,64 @@
     justify-content: space-between;
     width: 100%;
 }
+
+.details {
+    display: flex;
+    flex-direction: column;
+    margin-left: 1rem;
+    width: 100%;
+}
+.details-section {
+    display: flex;
+    width: 70%;
+    font-size: 0.9rem;
+    color: var(--light-grey);
+}
+.details-section *:nth-child(2) {
+    margin-left: auto;
+}
+
+/* reviews */
+.negative {
+    color: #a34c25;
+}
+.mixed {
+    color: #aa956a;
+}
+.positive {
+    color: #66c0f4;
+}
+.amazing {
+    color: #00ce56;
+}
+
+/* icon */
+.platform-icons {
+    display: flex;
+    margin-top: auto;
+    margin-bottom: 1rem;
+}
+.platform-icon {
+    width: 20px;
+    height: 20px;
+    background-size: 20px;
+    margin-right: 4px;
+    background-repeat: no-repeat;
+}
+.platform-icon.win {
+    background-image: url("https://store.akamai.steamstatic.com/public/images/v6/icon_platform_win.png?v=3");
+}
+.platform-icon.mac {
+    background-image: url("https://store.akamai.steamstatic.com/public/images/v6/icon_platform_mac.png");
+}
+.platform-icon.linux {
+    background-image: url("https://store.akamai.steamstatic.com/public/images/v6/icon_platform_linux.png");
+}
+
 .title {
     font-size: 22px;
     font-weight: 600;
-    margin-left: 1rem;
+    margin-bottom: 1rem;
 }
 .prices {
     float: right;

@@ -1,7 +1,7 @@
 import styles from "./wishlistItem.module.css";
 import { Deal, WishlistItemResponse } from "@/types";
 
-// doing dangerouslySetInnerHTML to deal with games that have HTMl entities in their name 
+// doing dangerouslySetInnerHTML to deal with games that have HTMl entities in their name
 
 const WishlistItem = ({ index, item }: { index: number; item: WishlistItemResponse }) => {
     return (
@@ -9,10 +9,23 @@ const WishlistItem = ({ index, item }: { index: number; item: WishlistItemRespon
             className={styles["wishlist-item"]}
             data-max-discount={Math.max(item.steamDeal?.discountPercent ?? 0, item.humbleDeal?.discountPercent ?? 0)}
             data-priority={item.priority}
+            data-review={item.review}
+            data-platforms={item.platforms}
         >
             <img src={item.image_url} />
             <div className={styles["content"]}>
-                <div className={styles["title"]} dangerouslySetInnerHTML={{ __html: item.game_name }}></div> 
+                <div className={styles["details"]}>
+                    <div className={styles["title"]}dangerouslySetInnerHTML={{ __html: item.game_name }}></div>
+                    <div className={styles["details-section"]}>
+                        <div>Overall reviews:</div>
+                        <div className={styles[getReviewCSS(item.review)]}>{item.review}%</div>
+                    </div>
+                    <div className={styles["platform-icons"]}>{
+                        item.platforms?.map(obj => (
+                            <div className={`${styles["platform-icon"]} ${styles[obj]}`}/>
+                        ))
+                    }</div>
+                </div>
                 <div className={styles["prices"]}>
                     {item.steamDeal && <Price price={item.steamDeal} type="steam" />}
                     {item.humbleDeal && <Price price={item.humbleDeal} type="humble" />}
@@ -44,6 +57,13 @@ function Price({ price, type }: { price: Deal; type: string }) {
             </div>
         </a>
     );
+}
+
+function getReviewCSS(percent: number) {
+    if (percent < 50) return "negative";
+    else if (percent < 70) return "mixed";
+    else if (percent < 85) return "positive";
+    return "amazing";
 }
 
 export default WishlistItem;
