@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import styles from "./wishlist.module.css";
 import itemStyles from "./wishlistItem.module.css";
 import Loading from "./loading";
-import SearchBar from "./searchBar"
+import Filters from "./filters"
 
 interface WishlistProp {
     userID: string;
@@ -80,7 +80,7 @@ export default function Wishlist({ userID }: WishlistProp) {
             {wishlistData ? (
                 wishlistData.message === "success" ? (
                     <>
-                        <SearchBar/>
+                        <Filters/>
                         <div className={styles["order-buttons"]}>
                             <button onClick={orderByDiscount}>Discount</button>
                             <button onClick={orderByPriority}>Priority</button>

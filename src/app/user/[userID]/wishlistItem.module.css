@@ -43,7 +43,7 @@
     display: flex;
     width: 70%;
     font-size: 0.9rem;
-    color: #9da3ac;
+    color: var(--light-grey);
 }
 .details-section *:nth-child(2) {
     margin-left: auto;

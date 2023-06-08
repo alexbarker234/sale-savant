@@ -10,6 +10,7 @@ const WishlistItem = ({ index, item }: { index: number; item: WishlistItemRespon
             data-max-discount={Math.max(item.steamDeal?.discountPercent ?? 0, item.humbleDeal?.discountPercent ?? 0)}
             data-priority={item.priority}
             data-review={item.review}
+            data-platforms={item.platforms}
         >
             <img src={item.image_url} />
             <div className={styles["content"]}>
