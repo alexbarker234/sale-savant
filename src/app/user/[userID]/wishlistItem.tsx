@@ -14,7 +14,7 @@ const WishlistItem = ({ index, item }: { index: number; item: WishlistItemRespon
             <img src={item.image_url} />
             <div className={styles["content"]}>
                 <div className={styles["details"]}>
-                    <div className={styles["title"]} dangerouslySetInnerHTML={{ __html: item.game_name }}></div>
+                    <div className={styles["title"]}dangerouslySetInnerHTML={{ __html: item.game_name }}></div>
                     <div className={styles["details-section"]}>
                         <div>Overall reviews:</div>
                         <div className={styles[getReviewCSS(item.review)]}>{item.review}%</div>
