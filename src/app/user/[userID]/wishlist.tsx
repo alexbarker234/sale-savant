@@ -4,9 +4,8 @@ import { ErrorResponse, WishlistItemResponse, WishlistResponse } from "@/types";
 import WishlistItem from "./wishlistItem";
 import { useEffect, useState } from "react";
 import styles from "./wishlist.module.scss";
-import itemStyles from "./wishlistItem.module.scss";
 import Loading from "./loading";
-import Filters from "./filters"
+import Filters from "./filters";
 
 interface WishlistProp {
     userID: string;
@@ -16,7 +15,8 @@ export default function Wishlist({ userID }: WishlistProp) {
     // keep up to date with https://nextjs.org/docs/app/building-your-application/data-fetching/fetching#use-in-client-components
     // fetch cant be done in use safely yet but it will be useful :)
 
-    const [wishlistData, setData] = useState<{ message: string; data: { id: string; wishlistItem: WishlistItemResponse }[] }>();
+    const [wishlistItems, setWishlistItems] = useState<WishlistItemResponse[]>();
+    const [message, setMessage] = useState("");
 
     useEffect(() => {
         //console.log(`trying to request for ${userID}`);
@@ -26,41 +26,47 @@ export default function Wishlist({ userID }: WishlistProp) {
             const data: WishlistResponse | ErrorResponse = await res.json();
 
             if (data.error === "private profile") {
-                setData({ message: "This users profile is private, if this is your profile please make your Game Details public", data: [] });
+                setMessage("This users profile is private, if this is your profile please make your Game Details public");
                 return;
             }
 
-            // Turns the wishlist response into an array of objects {'id', 'wishlistItem'} in order to sort by priority
-            let arr = Object.entries(data).map(([key, value]) => ({ id: key, wishlistItem: value as WishlistItemResponse }));
-            arr.sort((a, b) => a.wishlistItem.priority - b.wishlistItem.priority);
+            // Turns the wishlist response into an array of objects & sort by priority
+            let arr = Object.entries(data).map(([key, value]) => value as WishlistItemResponse);
+            arr.sort((a, b) => a.priority - b.priority);
 
             const gamesCount = arr.length;
 
             // remove unreleased games from the list
-            arr = arr.filter((item) => item.wishlistItem.is_released);
+            arr = arr.filter((item) => item.isReleased);
 
             // remove items not found on cheapshark (DLC, non-games)
-            arr = arr.filter((item) => item.wishlistItem.steamDeal);
+            arr = arr.filter((item) => item.steamDeal);
 
             // modify user profile
             const saleCountDiv = document.getElementById("count-sales");
             const gameCountDiv = document.getElementById("count-games");
-            const salesCount = arr.filter(
-                (item) => item.wishlistItem.steamDeal?.discountPercent || item.wishlistItem.humbleDeal?.discountPercent 
-            ).length;
+            const salesCount = arr.filter((item) => item.steamDeal?.discountPercent || item.humbleDeal?.discountPercent).length;
 
             if (saleCountDiv) saleCountDiv.innerHTML = `${salesCount} games on sale`;
             if (gameCountDiv) gameCountDiv.innerHTML = `${gamesCount} games on wishlist`;
 
-            setData({ message: "success", data: arr });
+            setWishlistItems(arr);
+            setMessage("success");
         };
 
         fetchData();
     }, [userID]);
 
-    const orderByDiscount = () => orderBy("max-discount");
-    const orderByPriority = () => orderBy("priority");
-    const orderByReview = () => orderBy("review");
+    const orderBy = (attribute: "maxDiscount" | "priority" | "review", sortDir: number = 1) => {
+        if (!wishlistItems) return;
+        let list = [...wishlistItems];
+
+        list.sort((a, b) => (b[attribute] - a[attribute]) * sortDir);
+
+        setWishlistItems(list);
+    };
+
+    // TODO: add ⚠ symbol on unhandled error
 
     // TODO: find a better way of loading SVGs
     return (
@@ -77,45 +83,27 @@ export default function Wishlist({ userID }: WishlistProp) {
                 </symbol>
             </svg>
 
-            {wishlistData ? (
-                wishlistData.message === "success" ? (
+            {wishlistItems ? (
+                message === "success" ? (
                     <>
-                        <Filters/>
+                        <Filters wishlistItems={wishlistItems} setWishlistItems={setWishlistItems}/>
                         <div className={styles["order-buttons"]}>
-                            <button onClick={orderByDiscount}>Discount</button>
-                            <button onClick={orderByPriority}>Priority</button>
-                            <button onClick={orderByReview}>Review</button>
+                            <button onClick={() => orderBy("maxDiscount")}>Discount</button>
+                            <button onClick={() => orderBy("priority", -1)}>Priority</button>
+                            <button onClick={() => orderBy("review")}>Review</button>
                         </div>
-                        <div id="wishlist-items">
-                            {wishlistData.data?.map((obj, index) => (
-                                <WishlistItem key={obj.wishlistItem.game_name} index={index} item={obj.wishlistItem} />
+                        <div id="wishlist-items" key={Math.random()}>
+                            {wishlistItems.map((wishlistItem, index) => (
+                                <WishlistItem key={index} index={index} item={wishlistItem} />
                             ))}
                         </div>
                     </>
                 ) : (
-                    <div style={{ margin: "auto", marginTop: "1rem", width: "fit-content" }}>{wishlistData.message}</div>
+                    <div style={{ margin: "auto", marginTop: "1rem", width: "fit-content" }}>{message}</div>
                 )
             ) : (
                 <Loading style={{ margin: "auto", marginTop: "2rem" }} />
             )}
         </div>
     );
-}
-
-function orderBy(dataAttribute: string) {
-    let list = Array.from(document.getElementsByClassName(`${itemStyles["wishlist-item"]}`));
-
-    const sortDir = dataAttribute == "priority" ? -1 : 1;
-    list.sort((a, b) => {
-        const discA = parseInt(a.getAttribute(`data-${dataAttribute}`) || "0");
-        const discB = parseInt(b.getAttribute(`data-${dataAttribute}`) || "0");
-        return (discB - discA) * sortDir;
-    });
-    const wishlist = document.getElementById("wishlist-items");
-    if (wishlist) {
-        wishlist.innerHTML = "";
-        list.forEach((list) => {
-            wishlist.appendChild(list);
-        });
-    }
 }

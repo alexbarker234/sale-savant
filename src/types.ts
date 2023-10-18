@@ -5,14 +5,18 @@ export interface WishlistResponse {
     [key: string]: WishlistItemResponse;
 }
 export interface WishlistItemResponse {
-    game_name: string;
-    image_url: string;
+    gameName: string;
+    imageURL: string;
 
     steamDeal?: Deal;
     humbleDeal?: Deal;
 
+    maxDiscount: number;
+
     priority: number;
-    is_released: boolean;
+    isReleased: boolean;
+
+    show: boolean;
 
     review: number
     platforms?: string[]

@@ -5,26 +5,20 @@ import { Deal, WishlistItemResponse } from "@/types";
 
 const WishlistItem = ({ index, item }: { index: number; item: WishlistItemResponse }) => {
     return (
-        <div
-            className={styles["wishlist-item"]}
-            data-max-discount={Math.max(item.steamDeal?.discountPercent ?? 0, item.humbleDeal?.discountPercent ?? 0)}
-            data-priority={item.priority}
-            data-review={item.review}
-            data-platforms={item.platforms}
-        >
-            <img src={item.image_url} />
+        <div className={styles["wishlist-item"]} style={item.show ? {} : {display: "none"}}>
+            <img src={item.imageURL} />
             <div className={styles["content"]}>
                 <div className={styles["details"]}>
-                    <div className={styles["title"]}dangerouslySetInnerHTML={{ __html: item.game_name }}></div>
+                    <div className={styles["title"]} dangerouslySetInnerHTML={{ __html: item.gameName }}></div>
                     <div className={styles["details-section"]}>
                         <div>Overall reviews:</div>
                         <div className={styles[getReviewCSS(item.review)]}>{item.review}%</div>
                     </div>
-                    <div className={styles["platform-icons"]}>{
-                        item.platforms?.map(obj => (
-                            <div className={`${styles["platform-icon"]} ${styles[obj]}`}/>
-                        ))
-                    }</div>
+                    <div className={styles["platform-icons"]}>
+                        {item.platforms?.map((obj) => (
+                            <div key={obj} className={`${styles["platform-icon"]} ${styles[obj]}`} />
+                        ))}
+                    </div>
                 </div>
                 <div className={styles["prices"]}>
                     {item.steamDeal && <Price price={item.steamDeal} type="steam" />}
