@@ -1,0 +1,12 @@
+.filters {
+    display: flex;
+    width: 100%;
+    max-width: 30rem;
+    margin: 1rem auto;
+    justify-content: space-between;
+
+    label {
+        display: inline;
+        margin: 0.3rem 0.25rem;
+    }
+}

@@ -3,12 +3,14 @@
     max-width: 50rem;
     margin: auto;
 }
+
 .order-buttons {
     display: flex;
     width: 100%;
     justify-content: space-evenly;
     margin: 1rem 0;
-}
-.order-buttons button {
-    width: 8rem;
+
+    button {
+        width: 8rem;
+    }
 }

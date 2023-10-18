@@ -1,0 +1,23 @@
+.form {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    translate: -50% -50%;
+    align-items: center;
+    width: 95%;
+    margin: auto;
+
+    * {
+        display: block;
+        margin: auto;
+    }
+
+    label {
+        width: fit-content;
+    }
+
+    &.error {
+        color: red;
+        width: fit-content;
+    }
+}

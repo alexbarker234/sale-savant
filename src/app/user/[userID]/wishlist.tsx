@@ -3,8 +3,8 @@
 import { ErrorResponse, WishlistItemResponse, WishlistResponse } from "@/types";
 import WishlistItem from "./wishlistItem";
 import { useEffect, useState } from "react";
-import styles from "./wishlist.module.css";
-import itemStyles from "./wishlistItem.module.css";
+import styles from "./wishlist.module.scss";
+import itemStyles from "./wishlistItem.module.scss";
 import Loading from "./loading";
 import Filters from "./filters"
 

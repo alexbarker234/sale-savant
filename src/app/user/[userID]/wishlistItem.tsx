@@ -1,4 +1,4 @@
-import styles from "./wishlistItem.module.css";
+import styles from "./wishlistItem.module.scss";
 import { Deal, WishlistItemResponse } from "@/types";
 
 // doing dangerouslySetInnerHTML to deal with games that have HTMl entities in their name

@@ -1,4 +1,4 @@
-import "@/global.css";
+import "@/global.scss";
 import Nav from "./nav";
 import Footer from "./footer";
 

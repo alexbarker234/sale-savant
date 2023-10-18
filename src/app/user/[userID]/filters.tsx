@@ -2,8 +2,8 @@
 
 import React, { useEffect } from "react";
 
-import styles from "./filters.module.css";
-import wishlistItemStyles from "./wishlistItem.module.css";
+import styles from "./filters.module.scss";
+import wishlistItemStyles from "./wishlistItem.module.scss";
 
 import $ from "jquery";
 
