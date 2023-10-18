@@ -5,14 +5,15 @@
     --red: #c1252a;
     --light-grey: #9da3ac;
     --gold: #ebb54b;
+    --lime: #a6ce00;
 }
 
 
 body {
     background-color: var(--dark-grey);
-    background-image: url("./background.svg");   
+    background-image: url("./background.svg");
     background-size: 100px 100px;
-     color: white;
+    color: white;
     font-family: Arial, Helvetica, sans-serif;
     margin: 0;
     padding: 0;
@@ -52,22 +53,25 @@ nav {
     font-weight: 600;
     font-size: 2rem;
     transition: 0.2s;
-    background: linear-gradient(to right, white 0% 33%, var(--blue), rgb(120, 31, 192));
-    background-size: 300%;
-    -webkit-text-fill-color: transparent;
-    -webkit-background-clip: text;
-    background-clip: text;
 
     .logo-s svg {
         position: absolute;
         width: 26px;
-        transform: rotate(-30deg) translate(-12px, -2px);
+        transform: rotate(-30deg);
+        translate: -12px 2px;
         color: var(--gold);
+
+        transition: transform 0.5s, translate 0.5s;
     }
 
     &:hover {
-        background-position: 100%;
         transform: scale(1.03);
+        color: var(--gold);
+
+        .logo-s svg {
+            transform: rotate(-720deg);
+            translate: -32px 20px;
+        }
     }
 
     * {
@@ -130,6 +134,7 @@ button {
         pointer-events: none;
     }
 }
+
 /* Checkboxes */
 
 input[type="checkbox"] {
@@ -191,16 +196,42 @@ input[type="text"] {
 
     background-color: var(--dark-grey);
     padding: 0.5rem 1rem;
-    box-shadow: 0 0 3px rgba(0,0,0,0.5) inset !important;
-    
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.5) inset !important;
+
     margin: 1rem auto;
 
     display: block;
 
-    &:hover{
-        outline: var(--light-grey) 2px solid;
+    transition: outline-color 0.2s;
+
+
+    &:hover {
+        outline-color: var(--light-grey);
     }
+
     &:focus {
-        outline: var(--blue) 2px solid;
+        outline-color: var(--blue);
+    }
+}
+
+@keyframes crown-fall {
+    0% {
+        transform: rotate(-30deg);
+        translate: -12px 2px;
+    }
+    100% {
+        transform: rotate(-500deg);
+        translate: -32px 20px;
+    }
+}
+
+@keyframes crown-return {
+    0% {
+        transform: rotate(-500deg);
+        translate: -32px 20px;
+    }
+    100% {
+        transform: rotate(-30deg);
+        translate: -12px 2px;
     }
 }

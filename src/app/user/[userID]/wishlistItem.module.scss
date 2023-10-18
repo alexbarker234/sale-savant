@@ -18,6 +18,8 @@
 
     opacity: 0;
     animation: fade-slide-in 0.5s forwards;
+
+    // box-shadow: 0px 5px 5px 5px rgba(0, 0, 0, 0.1);
 }
 
 .wishlist-item img {
@@ -44,27 +46,27 @@
     width: 70%;
     font-size: 0.9rem;
     color: var(--light-grey);
-}
 
-.details-section *:nth-child(2) {
-    margin-left: auto;
-}
+    *:nth-child(2) {
+        margin-left: auto;
+    }
 
-/* reviews */
-.negative {
-    color: #a34c25;
-}
+    /* reviews */
+    .negative {
+        color: #a34c25;
+    }
 
-.mixed {
-    color: #aa956a;
-}
+    .mixed {
+        color: #aa956a;
+    }
 
-.positive {
-    color: #66c0f4;
-}
+    .positive {
+        color: #66c0f4;
+    }
 
-.amazing {
-    color: #00ce56;
+    .amazing {
+        color: #00ce56;
+    }
 }
 
 /* icon */
@@ -107,6 +109,8 @@
     justify-content: space-between;
     height: 100%;
 
+    text-shadow: 0px 1.5px 3px rgba(0,0,0,0.5);
+
     .price {
         display: flex;
         justify-content: space-between;
@@ -141,7 +145,7 @@
         .discount {
             border-radius: 0.3rem 0 0 0.3rem;
 
-            background-color: #a6ce00;
+            background-color: var(--lime);
             color: white;
             font-size: 1.5rem;
             font-weight: 600;
@@ -224,23 +228,26 @@
         width: 100%;
 
         justify-content: space-between;
-        margin-top: 4rem;
-    }
+        margin-top: 0.75rem;
 
-    .price {
-        position: relative;
-    }
+        .price {
+            position: relative;
 
-    .price.discounted {
-        border-radius: 0 0 0.3rem 0.3rem;
-    }
+            &.discounted {
+                border-radius: 0 0 0.3rem 0.3rem;
+            }
 
-    .discount {
-        position: absolute;
-        bottom: 100%;
-        width: 100%;
-        border-radius: 0.3rem 0.3rem 0 0;
+            .discount {
+                position: absolute;
+                bottom: 100%;
+                width: 100%;
+                border-radius: 0.3rem 0.3rem 0 0;
+                height: 50%;
+                font-size: 1rem;
+                line-height: 1.5rem;
 
-        text-align: center;
+                text-align: center;
+            }
+        }
     }
 }
