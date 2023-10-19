@@ -1,11 +1,17 @@
-import Image from "next/image";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCrown } from "@fortawesome/free-solid-svg-icons";
+import Link from "next/link";
 
 export default function Nav() {
     return (
         <nav>
-            <a href="/" className="nav-logo">
-                <p>Sale Savant</p>
-            </a>
+            <Link href="/" className="nav-logo">
+                <div className="logo-s">
+                    <FontAwesomeIcon icon={faCrown}/> 
+                    S
+                </div>
+                <p>ale Savant</p>
+            </Link>
         </nav>
     );
 }

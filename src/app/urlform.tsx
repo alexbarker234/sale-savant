@@ -3,7 +3,7 @@
 import React from "react";
 import { useRouter } from "next/navigation";
 
-import styles from "./urlForm.module.css";
+import styles from "./urlForm.module.scss";
 
 const UrlForm = () => {
     const router = useRouter();
@@ -32,7 +32,7 @@ const UrlForm = () => {
         }
     };
     return (
-        <form onSubmit={handleSubmit} method="post" className={styles["form"]}>
+        <form onSubmit={handleSubmit} method="post" className={styles["form"]} >
             <label htmlFor="url">Enter your Steam username or profile URL</label>
             <input type="text" id="url" name="url" required placeholder="Your profile url or username" />
             <p id="error" className={styles["error"]}></p>

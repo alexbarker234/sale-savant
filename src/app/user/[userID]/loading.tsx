@@ -1,5 +1,5 @@
 import { CSSProperties } from "react";
-import styles from "./loading.module.css";
+import styles from "./loading.module.scss";
 
 interface LoadingProp {
     style?: CSSProperties;

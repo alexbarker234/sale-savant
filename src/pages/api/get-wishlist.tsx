@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { Steam } from "../../lib/steam";
 import { CheapShark } from "@/lib/cheapShark";
-import { SteamWishlistItemResponse, ErrorResponse, SteamWishlistResponse, WishlistResponse, CheapSharkResponse, SteamWishlistErrorResponse } from "@/types";
+import { ErrorResponse, SteamWishlistResponse, WishlistResponse, SteamWishlistErrorResponse } from "@/types";
 import { LRUCache } from "lru-cache";
 
 const ssrCache = new LRUCache({
@@ -46,8 +46,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
         const steam = cheapSharkResponse.steamGames[steamID];
         const humble = cheapSharkResponse.humbleGames[steamID];
         response[steamID] = {
-            game_name: wishlistItem.name,
-            image_url: wishlistItem.capsule,
+            gameName: wishlistItem.name,
+            imageURL: wishlistItem.capsule,
             steamDeal: steam && {
                 currentPrice: +steam.salePrice,
                 originalPrice: +steam.normalPrice,
@@ -60,9 +60,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
                 discountPercent: parseInt(humble.savings),
                 dealID: humble.dealID,
             },
-            priority: wishlistItem.priority == 0 ? 9999 : wishlistItem.priority, // 0 priority items are NO priority TODO: find a better way (probably in the sort)
-            is_released: !wishlistItem.prerelease,
+            maxDiscount: Math.max(parseInt(steam?.savings) ?? 0, parseInt(humble?.savings) ?? 0),
+            priority: wishlistItem.priority == 0 ? Number.MAX_SAFE_INTEGER : wishlistItem.priority, // 0 priority items are NO priority TODO: find a better way (probably in the sort)
+            isReleased: !wishlistItem.prerelease,
             review:  wishlistItem.reviews_percent,
+            show: true,
             platforms: wishlistItem.platform_icons.match(/class="([^>]*)">/g)?.map((platform) => platform.slice(7, -2).split(" ")[1]),
         };
     }

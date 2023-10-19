@@ -1,0 +1,74 @@
+.user {
+    margin: 3rem auto;
+    margin-bottom: 0;
+    width: 95%;
+    max-width: 900px;
+
+    background-color: var(--dark-grey);
+    padding: 1rem;
+
+    height: 8rem;
+
+    display: flex;
+
+
+    .details {
+        width: fit-content;
+    }
+
+    .title {
+        width: fit-content;
+        text-transform: uppercase;
+
+        transition: 0.2s;
+
+        font-size: 2rem;
+        font-weight: 600;
+
+        .username {
+            display: inline;
+            word-break: break-all;
+        }
+
+        &:hover {
+            opacity: 0.7;
+        }
+    }
+
+
+
+    .image {
+        height: 100%;
+        width: fit-content;
+
+        margin-right: 1rem;
+    }
+
+    a {
+        text-decoration: none;
+        color: white;
+    }
+
+    img {
+        height: 100%;
+        border-radius: 2px;
+        transition: 0.2s;
+        &:hover {
+            opacity: 0.8;
+        }
+    }
+    
+}
+
+
+@media only screen and (max-width: 800px) {
+    .user {
+        padding: 0.4rem;
+        .title {
+            font-size: 1.3rem;
+        }
+        img {
+            height: 70%;
+        }
+    }
+}

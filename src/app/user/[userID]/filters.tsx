@@ -1,73 +1,77 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import styles from "./filters.module.scss";
+import { WishlistItemResponse } from "@/types";
 
-import styles from "./filters.module.css";
-import wishlistItemStyles from "./wishlistItem.module.css";
+interface FilterProps {
+    wishlistItems: WishlistItemResponse[];
+    setWishlistItems: (data: WishlistItemResponse[]) => void;
+}
 
-import $ from "jquery";
+export default function Filters({ wishlistItems, setWishlistItems }: FilterProps) {
+    const [search, setSearch] = useState("");
+    const [platformFilters, setPlatformFilters] = useState({ win: false, mac: false, linux: false });
+    const [saleFilter, seteSaleFilter] = useState(Boolean);
 
-export default function Filters() {
-    // having the onChange be covering all of these might not be the best practice?
+    const handleSearch = (text: string) => {
+        setSearch(text);
+    };
+
+    useEffect(() => {
+        const searchFilter = search.toLowerCase();
+        const platformList = Object.keys(platformFilters).filter(key => platformFilters[key as keyof typeof platformFilters] === true);
+
+        const items = [...wishlistItems];
+        items.forEach((item) => {
+            const title = item.gameName.toLowerCase();
+            const platforms = item.platforms ?? [];
+
+            item.show =
+                (!searchFilter || title.includes(searchFilter)) &&
+                (!saleFilter || item.maxDiscount > 0) &&
+                platformList.every((element) => platforms.includes(element));
+        });
+
+        setWishlistItems(items)
+        //console.log(items.filter((i) => i.show))
+    }, [search, platformFilters, saleFilter]);
+
     return (
-        <div onChange={applyFilters}>
+        <div>
             <div className={styles["filters"]}>
                 <div id="platforms">
                     <label>
-                        <input type="checkbox" id="windows" name="windows" value="win" />
+                        <input
+                            onChange={(e) => setPlatformFilters({ ...platformFilters, win: !platformFilters.win })}
+                            type="checkbox"
+                            name="windows"
+                            value="win"
+                        />
                         Windows
                     </label>
                     <label>
-                        <input type="checkbox" id="mac" name="mac" value="mac" />
+                        <input onChange={(e) => setPlatformFilters({ ...platformFilters, mac: !platformFilters.mac })} type="checkbox" name="mac" value="mac" />
                         MacOS
                     </label>
                     <label>
-                        <input type="checkbox" id="linux" name="linux" value="linux" />
+                        <input
+                            onChange={(e) => setPlatformFilters({ ...platformFilters, linux: !platformFilters.linux })}
+                            type="checkbox"
+                            name="linux"
+                            value="linux"
+                        />
                         SteamOS + Linux
                     </label>
                 </div>
                 <div id="sales">
                     <label>
-                        <input type="checkbox" id="on-sale" name="on-sale" value="On Sale" />
+                        <input onChange={(e) => seteSaleFilter(!saleFilter)} type="checkbox" name="on-sale" value="On Sale" />
                         On Sale
                     </label>
                 </div>
             </div>
-            <input className={styles["search"]} type="text" id="search" autoComplete="off" placeholder="Filter by title" />
+            <input onChange={(e) => handleSearch(e.target.value)} className={styles["search"]} type="text" autoComplete="off" placeholder="Filter by title" />
         </div>
     );
-}
-
-function applyFilters() {
-    const searchFilter = $("#search").val()?.toString().toLowerCase() ?? "";
-    const filters = $(`.${styles["filters"]}`);
-    const saleFilter = filters.find("#on-sale").is(":checked");
-    const platformFilters: string[] = [];
-    filters
-        .find("#platforms")
-        .find("input")
-        .each(function () {
-            if ($(this).is(":checked")) {
-                platformFilters.push($(this).val()?.toString() ?? "");
-            }
-        });
-
-    //const platforms = $('#linux').is(":checked").val()
-    //console.log(platforms)
-
-    $("#wishlist-items")
-        .children()
-        .each((index: number, element: HTMLElement) => {
-            const title = $(element).find(`.${wishlistItemStyles["title"]}`).first().html().toLowerCase();
-
-            const platforms = $(element).data("platforms").split(",");
-
-            if (
-                (!searchFilter || title.includes(searchFilter)) &&
-                (!saleFilter || $(element).data("max-discount") > 0) &&
-                platformFilters.every((element) => platforms.includes(element))
-            )
-                $(element).removeAttr("style");
-            else $(element).css("display", "none");
-        });
 }

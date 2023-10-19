@@ -12,7 +12,7 @@ export default function Home({ params }: any) {
 
     return (
         <>
-            <title>{`${data.displayName}'s Wishlist`}</title>
+            <title>{`Sale Savant - ${data.displayName}'s Wishlist`}</title>
             <UserInfo userData={data} />
             <Wishlist userID={params.userID} />
         </>
