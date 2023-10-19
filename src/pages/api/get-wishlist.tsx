@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { Steam } from "../../lib/steam";
 import { CheapShark } from "@/lib/cheapShark";
-import { SteamWishlistItemResponse, ErrorResponse, SteamWishlistResponse, WishlistResponse, CheapSharkResponse, SteamWishlistErrorResponse } from "@/types";
+import { ErrorResponse, SteamWishlistResponse, WishlistResponse, SteamWishlistErrorResponse } from "@/types";
 import { LRUCache } from "lru-cache";
 
 const ssrCache = new LRUCache({

@@ -62,7 +62,13 @@
 
 
 @media only screen and (max-width: 800px) {
-    .user .title {
-        font-size: 1.3rem;
+    .user {
+        padding: 0.4rem;
+        .title {
+            font-size: 1.3rem;
+        }
+        img {
+            height: 70%;
+        }
     }
 }

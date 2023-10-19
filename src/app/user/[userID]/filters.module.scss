@@ -5,8 +5,21 @@
     margin: 1rem auto;
     justify-content: space-between;
 
+    #platforms {
+        display: flex;
+    }
     label {
         display: inline;
         margin: 0.3rem 0.25rem;
+    }
+}
+
+@media only screen and (max-width: 400px) {
+    .filters {
+        font-size: 0.8rem;
+        input {
+            margin: 0;
+            margin-right: 0.1rem;
+        }
     }
 }

@@ -2,7 +2,6 @@
 
 import React, { useEffect, useState } from "react";
 import styles from "./filters.module.scss";
-import wishlistItemStyles from "./wishlistItem.module.scss";
 import { WishlistItemResponse } from "@/types";
 
 interface FilterProps {
