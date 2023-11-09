@@ -1,10 +1,10 @@
 // SALE SAVANT API
 
 // wishlists
-export interface WishlistResponse {
+interface WishlistResponse {
     [key: string]: WishlistItemResponse;
 }
-export interface WishlistItemResponse {
+interface WishlistItemResponse {
     gameName: string;
     imageURL: string;
 
@@ -18,17 +18,18 @@ export interface WishlistItemResponse {
 
     show: boolean;
 
-    review: number
-    platforms?: string[]
+    review: number;
+    platforms?: string[];
 }
-export interface Deal {
+interface Deal {
     currentPrice: number;
     originalPrice: number;
     discountPercent: number;
     dealID: string;
 }
+
 // steam
-export interface SteamUser {
+interface SteamUser {
     displayName: string;
     profileURL: string;
 
@@ -37,14 +38,14 @@ export interface SteamUser {
 }
 
 // STEAM
-export interface SteamWishlistResponse {
+interface SteamWishlistResponse {
     [key: string]: SteamWishlistItemResponse;
 }
-export interface SteamWishlistErrorResponse {
+interface SteamWishlistErrorResponse {
     success: number;
 }
 
-export interface SteamWishlistItemResponse {
+interface SteamWishlistItemResponse {
     name: string;
     capsule: string;
     /** length 0 for unreleased games. 1 for released games. */
@@ -57,22 +58,22 @@ export interface SteamWishlistItemResponse {
     platform_icons: string;
 }
 
-export interface Sub {
+interface Sub {
     discount_block: string;
     discount_pct: number;
     price: string;
 }
 
 // CHEAPSHARK
-export interface CheapSharkResponse {
+interface CheapSharkResponse {
     steamGames: CheapSharkGameListResponse;
     humbleGames: CheapSharkGameListResponse;
 }
-export interface CheapSharkGameListResponse {
+interface CheapSharkGameListResponse {
     [key: string]: CheapSharkGameResponse;
 }
 
-export interface CheapSharkGameResponse {
+interface CheapSharkGameResponse {
     title: string;
     salePrice: string;
     normalPrice: string;
@@ -81,6 +82,6 @@ export interface CheapSharkGameResponse {
 }
 
 // MISC
-export interface ErrorResponse {
+interface ErrorResponse {
     error: string;
 }

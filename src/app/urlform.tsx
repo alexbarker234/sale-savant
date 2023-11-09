@@ -18,9 +18,16 @@ const UrlForm = () => {
 
         const endpoint = `/api/get-user-id?url=${url}`;
 
+        const startTime = performance.now()
+        
         const response = await fetch(endpoint);
         const result = await response.json();
 
+        const endTime = performance.now();
+        if(process.env.NODE_ENV == "development"){
+            console.log(result)
+            console.log(`Found user ${result.id} in ${endTime - startTime} ms`);
+        }
         if (result.exists) {
             router.push(`/user/${result.id}`);
         } else {

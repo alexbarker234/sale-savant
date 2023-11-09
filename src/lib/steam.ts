@@ -1,5 +1,3 @@
-import { SteamUser, SteamWishlistErrorResponse, SteamWishlistResponse } from "@/types";
-
 // steam really does just have awful naming
 
 export class Steam {
@@ -12,8 +10,8 @@ export class Steam {
 
     static async resolveUserFromName(username: string) {
         const apiUrl = `https://api.steampowered.com/ISteamUser/ResolveVanityURL/v1/?key=${this.KEY}&vanityurl=${username}`;
-
-        let resp = await fetch(apiUrl);
+        console.log(apiUrl)
+        let resp = await fetch(apiUrl, { next: { revalidate: 1 } });
         let json = await resp.json();
 
         return json.response?.steamid;
