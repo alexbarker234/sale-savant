@@ -1,6 +1,5 @@
 "use client";
 
-import { ErrorResponse, WishlistItemResponse, WishlistResponse } from "@/types";
 import WishlistItem from "./wishlistItem";
 import { useEffect, useState } from "react";
 import styles from "./wishlist.module.scss";

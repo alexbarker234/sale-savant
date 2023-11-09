@@ -1,5 +1,3 @@
-import { CheapSharkResponse } from "@/types";
-
 export class CheapShark {
     // TODO: check out the steamworks=true tag for the request to get ALL STORES that can redeem on steam
     static async requestHumbleGameDeals(steamIDs: string[]) {

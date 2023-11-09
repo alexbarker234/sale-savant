@@ -1,4 +1,3 @@
-import { SteamUser } from "@/types";
 import styles from "./userInfo.module.scss";
 import Loading from "./loading";
 
