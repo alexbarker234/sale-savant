@@ -11,7 +11,7 @@ export class Steam {
     static async resolveUserFromName(username: string) {
         const apiUrl = `https://api.steampowered.com/ISteamUser/ResolveVanityURL/v1/?key=${this.KEY}&vanityurl=${username}`;
         console.log(apiUrl)
-        let resp = await fetch(apiUrl, { next: { revalidate: 1 } });
+        let resp = await fetch(apiUrl, { next: { revalidate: 600 } });
         let json = await resp.json();
 
         return json.response?.steamid;
@@ -23,7 +23,7 @@ export class Steam {
         let response: any;
         let page = 0;
         do {
-            response = await (await fetch(apiUrl + page)).json();
+            response = await (await fetch(apiUrl + page, { next: { revalidate: 600 } })).json();
             Object.assign(finalResponse, response);
             page++;
         } while (Object.keys(response).length > 0);
