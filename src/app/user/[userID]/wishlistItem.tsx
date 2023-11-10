@@ -1,3 +1,4 @@
+import Image from "next/image";
 import styles from "./wishlistItem.module.scss";
 
 // doing dangerouslySetInnerHTML to deal with games that have HTMl entities in their name
@@ -5,7 +6,7 @@ import styles from "./wishlistItem.module.scss";
 const WishlistItem = ({ index, item }: { index: number; item: WishlistItemResponse }) => {
     return (
         <div className={styles["wishlist-item"]} style={item.show ? {} : {display: "none"}}>
-            <img src={item.imageURL} />
+            <Image width={296} height={136} src={item.imageURL} alt={`Banner art for ${item.gameName}`} />
             <div className={styles["content"]}>
                 <div className={styles["details"]}>
                     <div className={styles["title"]} dangerouslySetInnerHTML={{ __html: item.gameName }}></div>
