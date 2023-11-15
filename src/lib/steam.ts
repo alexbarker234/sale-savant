@@ -1,6 +1,24 @@
-import { SteamUser, SteamWishlistErrorResponse, SteamWishlistResponse } from "@/types";
-
 // steam really does just have awful naming
+interface SteamProfile {
+    steamid: string;
+    communityvisibilitystate: number;
+    profilestate: number;
+    personaname: string;
+    commentpermission: number;
+    profileurl: string;
+    avatar: string;
+    avatarmedium: string;
+    avatarfull: string;
+    avatarhash: string;
+    lastlogoff: number;
+    personastate: number;
+    realname: string;
+    primaryclanid: string;
+    timecreated: number;
+    personastateflags: number;
+    loccountrycode: string;
+    locstatecode: string;
+}
 
 export class Steam {
     private static readonly KEY = process.env.STEAM_KEY;
@@ -12,8 +30,7 @@ export class Steam {
 
     static async resolveUserFromName(username: string) {
         const apiUrl = `https://api.steampowered.com/ISteamUser/ResolveVanityURL/v1/?key=${this.KEY}&vanityurl=${username}`;
-
-        let resp = await fetch(apiUrl);
+        let resp = await fetch(apiUrl, { next: { revalidate: 600 } });
         let json = await resp.json();
 
         return json.response?.steamid;
@@ -25,7 +42,7 @@ export class Steam {
         let response: any;
         let page = 0;
         do {
-            response = await (await fetch(apiUrl + page)).json();
+            response = await (await fetch(apiUrl + page, { next: { revalidate: 600 } })).json();
             Object.assign(finalResponse, response);
             page++;
         } while (Object.keys(response).length > 0);
@@ -33,8 +50,9 @@ export class Steam {
     }
     static async getUser(userID: string): Promise<SteamUser | undefined> {
         const apiUrl = `https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/?key=${this.KEY}&steamids=${userID}`;
+        console.log(apiUrl);
         const response = await (await fetch(apiUrl)).json();
-        const user = response.response.players[0];
+        const user: SteamProfile = response.response.players[0];
         return user
             ? {
                   displayName: user.personaname,

@@ -1,45 +1,26 @@
-import type { NextApiRequest, NextApiResponse } from "next";
-import { Steam } from "../../lib/steam";
 import { CheapShark } from "@/lib/cheapShark";
-import { ErrorResponse, SteamWishlistResponse, WishlistResponse, SteamWishlistErrorResponse } from "@/types";
-import { LRUCache } from "lru-cache";
+import { Steam } from "@/lib/steam";
+import { NextResponse } from "next/server";
 
-const ssrCache = new LRUCache({
-    max: 20,
-    ttl: 1000 * 60 * 10,
-});
-
-export default async function handler(req: NextApiRequest, res: NextApiResponse<WishlistResponse | ErrorResponse>) {
-    const { query, method } = req;
-    if (!query.id) {
-        res.status(400).json({ error: "no id included" });
-    }
-
-    const id = query.id as string;
-
-    // if page is in cache, server from cache
-    if (ssrCache.has(id)) {
-        console.info(`returning cached wishlist for ${id}`);
-        res.setHeader("x-cache", "HIT");
-
-        res.status(200).json(ssrCache.get(id) || { error: "cache error" });
-        return;
+export async function GET(req: Request) {
+    const { searchParams } = new URL(req.url);
+    const id = searchParams.get("id");
+    if (!id) {
+        let response: ErrorResponse = { error: "no id included" };
+        return NextResponse.json(response, {status: 400});
     }
 
     let steamResponse = await Steam.getUserWishlist(id);
 
     if ((steamResponse as SteamWishlistErrorResponse).success == 2) {
-        // not caching here
-        let response = { error: "private profile" };
-        res.status(200).json(response);
-        return;
+        let response: ErrorResponse = { error: "private profile" };
+        return NextResponse.json(response, {status: 404});
     }
 
     const steamIDs = Object.keys(steamResponse);
-    const cheapSharkResponse = await CheapShark.requestHumbleGameDeals(steamIDs);
+    const cheapSharkResponse = await CheapShark.requestGameDeals(steamIDs);
 
     let response: WishlistResponse = {};
-
 
     for (let steamID in steamResponse) {
         const wishlistItem = (steamResponse as SteamWishlistResponse)[steamID];
@@ -68,7 +49,5 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
             platforms: wishlistItem.platform_icons.match(/class="([^>]*)">/g)?.map((platform) => platform.slice(7, -2).split(" ")[1]),
         };
     }
-    ssrCache.set(id, response);
-    res.setHeader("x-cache", "MISS");
-    res.status(200).json(response);
+    return NextResponse.json(response);
 }

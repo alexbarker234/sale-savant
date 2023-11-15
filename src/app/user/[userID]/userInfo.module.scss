@@ -51,6 +51,8 @@
 
     img {
         height: 100%;
+        width: auto;
+        object-fit: cover;
         border-radius: 2px;
         transition: 0.2s;
         &:hover {
