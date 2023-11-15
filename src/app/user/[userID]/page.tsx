@@ -5,7 +5,7 @@ import ClientPage from "./clientPage";
 import { Steam } from "@/lib/steam";
 
 export default function Home({ params }: any) {
-    const data: SteamUser | undefined = use(Steam.getUser(params.userId));
+    const data = use(Steam.getUser(params.userId));
    if (!data) return notFound()
     return (
         <>

@@ -1,4 +1,24 @@
 // steam really does just have awful naming
+interface SteamProfile {
+    steamid: string;
+    communityvisibilitystate: number;
+    profilestate: number;
+    personaname: string;
+    commentpermission: number;
+    profileurl: string;
+    avatar: string;
+    avatarmedium: string;
+    avatarfull: string;
+    avatarhash: string;
+    lastlogoff: number;
+    personastate: number;
+    realname: string;
+    primaryclanid: string;
+    timecreated: number;
+    personastateflags: number;
+    loccountrycode: string;
+    locstatecode: string;
+}
 
 export class Steam {
     private static readonly KEY = process.env.STEAM_KEY;
@@ -11,9 +31,7 @@ export class Steam {
     static async resolveUserFromName(username: string) {
         const apiUrl = `https://api.steampowered.com/ISteamUser/ResolveVanityURL/v1/?key=${this.KEY}&vanityurl=${username}`;
         let resp = await fetch(apiUrl, { next: { revalidate: 600 } });
-        console.log(resp.status)
         let json = await resp.json();
-        console.log(json)
 
         return json.response?.steamid;
     }
@@ -32,9 +50,9 @@ export class Steam {
     }
     static async getUser(userID: string): Promise<SteamUser | undefined> {
         const apiUrl = `https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/?key=${this.KEY}&steamids=${userID}`;
-        console.log(apiUrl)
+        console.log(apiUrl);
         const response = await (await fetch(apiUrl)).json();
-        const user = response.response.players[0];
+        const user: SteamProfile = response.response.players[0];
         return user
             ? {
                   displayName: user.personaname,
