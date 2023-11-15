@@ -21,9 +21,9 @@ interface GameDeal {
 };
 
 export class CheapShark {
-    static async requestHumbleGameDeals(steamIDs: string[]): Promise<CheapSharkResponse> {
+    static async requestGameDeals(steamIDs: string[]): Promise<CheapSharkResponse> {
         
-        const apiUrl = (pageNum: number) => `https://www.cheapshark.com/api/1.0/deals?storeID=11,1&steamAppID=${encodeURIComponent(steamIDs.join(','))}&pageNumber=${pageNum}`;
+        const apiUrl = (pageNum: number) => `https://www.cheapshark.com/api/1.0/deals?storeID=11,1&sortBy=Title&steamAppID=${encodeURIComponent(steamIDs.join(','))}&pageNumber=${pageNum}`;
 
         const fullResponse: GameDeal[] = [];
 

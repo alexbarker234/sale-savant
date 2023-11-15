@@ -3,7 +3,7 @@ import styles from "./wishlistItem.module.scss";
 
 // doing dangerouslySetInnerHTML to deal with games that have HTMl entities in their name
 
-const WishlistItem = ({ index, item }: { index: number; item: WishlistItemResponse }) => {
+const WishlistItem = ({ index, item }: { index: number; item: WishlistItem }) => {
     return (
         <div className={styles["wishlist-item"]} style={item.show ? {} : {display: "none"}}>
             <Image width={296} height={136} src={item.imageURL} alt={`Banner art for ${item.gameName}`} />

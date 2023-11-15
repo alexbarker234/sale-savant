@@ -1,18 +1,16 @@
-import UserInfo from "./userInfo";
-import Wishlist from "./wishlist";
+
 import { use } from "react";
-import { redirect } from 'next/navigation';
+import { notFound, redirect } from 'next/navigation';
+import ClientPage from "./clientPage";
 import { Steam } from "@/lib/steam";
 
 export default function Home({ params }: any) {
-    const data = use(Steam.getUser(params.userID));
-    if (!data) redirect('/')
-
+    const data: SteamUser | undefined = use(Steam.getUser(params.userId));
+   if (!data) return notFound()
     return (
         <>
             <title>{`Sale Savant - ${data.displayName}'s Wishlist`}</title>
-            <UserInfo userData={data} />
-            <Wishlist userID={params.userID} />
+            <ClientPage userId={params.userId} userData={data}/>
         </>
     );
 }

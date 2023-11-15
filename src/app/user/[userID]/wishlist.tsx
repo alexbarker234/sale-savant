@@ -14,7 +14,7 @@ export default function Wishlist({ userID }: WishlistProp) {
     // keep up to date with https://nextjs.org/docs/app/building-your-application/data-fetching/fetching#use-in-client-components
     // fetch cant be done in use safely yet but it will be useful :)
 
-    const [wishlistItems, setWishlistItems] = useState<WishlistItemResponse[]>();
+    const [wishlistItems, setWishlistItems] = useState<WishlistItem[]>();
     const [message, setMessage] = useState("");
 
     useEffect(() => {
@@ -30,7 +30,7 @@ export default function Wishlist({ userID }: WishlistProp) {
             }
 
             // Turns the wishlist response into an array of objects & sort by priority
-            let arr = Object.entries(data).map(([key, value]) => value as WishlistItemResponse);
+            let arr = Object.entries(data).map(([key, value]) => value as WishlistItem);
             arr.sort((a, b) => a.priority - b.priority);
 
             const gamesCount = arr.length;

@@ -10,9 +10,10 @@ export class Steam {
 
     static async resolveUserFromName(username: string) {
         const apiUrl = `https://api.steampowered.com/ISteamUser/ResolveVanityURL/v1/?key=${this.KEY}&vanityurl=${username}`;
-        console.log(apiUrl)
         let resp = await fetch(apiUrl, { next: { revalidate: 600 } });
+        console.log(resp.status)
         let json = await resp.json();
+        console.log(json)
 
         return json.response?.steamid;
     }
@@ -31,6 +32,7 @@ export class Steam {
     }
     static async getUser(userID: string): Promise<SteamUser | undefined> {
         const apiUrl = `https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/?key=${this.KEY}&steamids=${userID}`;
+        console.log(apiUrl)
         const response = await (await fetch(apiUrl)).json();
         const user = response.response.players[0];
         return user

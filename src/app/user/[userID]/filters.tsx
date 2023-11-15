@@ -4,8 +4,8 @@ import React, { useEffect, useState } from "react";
 import styles from "./filters.module.scss";
 
 interface FilterProps {
-    wishlistItems: WishlistItemResponse[];
-    setWishlistItems: (data: WishlistItemResponse[]) => void;
+    wishlistItems: WishlistItem[];
+    setWishlistItems: (data: WishlistItem[]) => void;
 }
 
 export default function Filters({ wishlistItems, setWishlistItems }: FilterProps) {

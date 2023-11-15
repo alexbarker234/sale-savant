@@ -2,9 +2,9 @@
 
 // wishlists
 interface WishlistResponse {
-    [key: string]: WishlistItemResponse;
+    [key: string]: WishlistItem;
 }
-interface WishlistItemResponse {
+interface WishlistItem {
     gameName: string;
     imageURL: string;
 
@@ -28,7 +28,6 @@ interface Deal {
     dealID: string;
 }
 
-// steam
 interface SteamUser {
     displayName: string;
     profileURL: string;
@@ -37,7 +36,7 @@ interface SteamUser {
     lastSeenTimestamp: number;
 }
 
-// STEAM
+// STEAM API
 interface SteamWishlistResponse {
     [key: string]: SteamWishlistItemResponse;
 }
@@ -64,7 +63,7 @@ interface Sub {
     price: string;
 }
 
-// CHEAPSHARK
+// CHEAPSHARK API
 interface CheapSharkResponse {
     steamGames: CheapSharkGameListResponse;
     humbleGames: CheapSharkGameListResponse;

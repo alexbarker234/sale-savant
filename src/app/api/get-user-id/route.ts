@@ -6,11 +6,16 @@ export async function GET(req: Request) {
     const url = searchParams.get("url");
     if (!url)
     {
-        NextResponse.json({ error: "No url provided" }, { status: 400 });
-        return;
+        const response = { error: "No url provided" };
+        return NextResponse.json(response, { status: 400 });
     }
 
-    let response = await Steam.resolveUserFromURL(url)
+    let steamUserId = await Steam.resolveUserFromURL(url)
+    if (!steamUserId) {
+        const response = { error: "No user found" };
+        return NextResponse.json(response, { status: 404 });
+    }
 
-    return NextResponse.json({exists: response ? true : false, id: response});
+    const response = {id: steamUserId}
+    return NextResponse.json(response);
 }

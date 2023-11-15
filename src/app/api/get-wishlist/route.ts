@@ -20,7 +20,7 @@ export async function GET(req: Request) {
     }
 
     const steamIDs = Object.keys(steamResponse);
-    const cheapSharkResponse = await CheapShark.requestHumbleGameDeals(steamIDs);
+    const cheapSharkResponse = await CheapShark.requestGameDeals(steamIDs);
 
     let response: WishlistResponse = {};
 
