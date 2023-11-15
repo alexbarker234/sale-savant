@@ -12,5 +12,9 @@
 
     button {
         width: 8rem;
+        &.current {
+            background-color: var(--blue);
+            pointer-events: none;
+        }
     }
 }

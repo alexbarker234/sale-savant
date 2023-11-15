@@ -9,13 +9,30 @@ import Filters from "./filters";
 interface WishlistProp {
     userID: string;
 }
+type SortAttributes = "maxDiscount" | "priority" | "review";
 
 export default function Wishlist({ userID }: WishlistProp) {
-    // keep up to date with https://nextjs.org/docs/app/building-your-application/data-fetching/fetching#use-in-client-components
-    // fetch cant be done in use safely yet but it will be useful :)
+    const sortOptions = [
+        {
+            attribute: "maxDiscount",
+            name: "Discount",
+            dir: 1,
+        },
+        {
+            attribute: "priority",
+            name: "Priority",
+            dir: -1,
+        },
+        {
+            attribute: "review",
+            name: "Review",
+            dir: 1,
+        },
+    ];
 
     const [wishlistItems, setWishlistItems] = useState<WishlistItem[]>();
     const [message, setMessage] = useState("");
+    const [currentSort, setCurrentSort] = useState<SortAttributes>("priority");
 
     useEffect(() => {
         //console.log(`trying to request for ${userID}`);
@@ -56,7 +73,8 @@ export default function Wishlist({ userID }: WishlistProp) {
         fetchData();
     }, [userID]);
 
-    const orderBy = (attribute: "maxDiscount" | "priority" | "review", sortDir: number = 1) => {
+    const orderBy = (attribute: SortAttributes, sortDir: number = 1) => {
+        setCurrentSort(attribute);
         if (!wishlistItems) return;
         let list = [...wishlistItems];
 
@@ -85,11 +103,17 @@ export default function Wishlist({ userID }: WishlistProp) {
             {wishlistItems ? (
                 message === "success" ? (
                     <>
-                        <Filters wishlistItems={wishlistItems} setWishlistItems={setWishlistItems}/>
+                        <Filters wishlistItems={wishlistItems} setWishlistItems={setWishlistItems} />
                         <div className={styles["order-buttons"]}>
-                            <button onClick={() => orderBy("maxDiscount")}>Discount</button>
-                            <button onClick={() => orderBy("priority", -1)}>Priority</button>
-                            <button onClick={() => orderBy("review")}>Review</button>
+                            {sortOptions.map((sortType) => (
+                                <button
+                                    key={sortType.attribute}
+                                    className={currentSort === sortType.attribute ? styles["current"] : ""}
+                                    onClick={() => orderBy(sortType.attribute as SortAttributes, sortType.dir)}
+                                >
+                                    {sortType.name}
+                                </button>
+                            ))}
                         </div>
                         <div id="wishlist-items" key={Math.random()}>
                             {wishlistItems.map((wishlistItem, index) => (
