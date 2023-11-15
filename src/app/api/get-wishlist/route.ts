@@ -5,18 +5,16 @@ import { NextResponse } from "next/server";
 export async function GET(req: Request) {
     const { searchParams } = new URL(req.url);
     const id = searchParams.get("id");
-    if (!id) return;
-
     if (!id) {
-        NextResponse.json({ error: "no id included" }, {status: 400});
+        let response: ErrorResponse = { error: "no id included" };
+        return NextResponse.json(response, {status: 400});
     }
 
     let steamResponse = await Steam.getUserWishlist(id);
 
     if ((steamResponse as SteamWishlistErrorResponse).success == 2) {
-        let response = { error: "private profile" };
-        NextResponse.json(response);
-        return;
+        let response: ErrorResponse = { error: "private profile" };
+        return NextResponse.json(response, {status: 404});
     }
 
     const steamIDs = Object.keys(steamResponse);

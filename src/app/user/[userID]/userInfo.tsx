@@ -2,7 +2,10 @@ import styles from "./userInfo.module.scss";
 import Loading from "./loading";
 import Image from "next/image";
 
-export default function UserInfo({ userData }: { userData: SteamUser }) {
+export interface GameCount {saleCount: number, gameCount: number}
+interface UserInfoProps { userData: SteamUser, gameCount: GameCount }
+
+export default function UserInfo({ userData, gameCount }: UserInfoProps) {
     return userData ? (
         <div className={styles["user"]}>
             <div className={styles["image"]}>
@@ -15,8 +18,8 @@ export default function UserInfo({ userData }: { userData: SteamUser }) {
                     <div className={styles["username"]}>{userData?.displayName}</div>
                     's Wishlist
                 </a>
-                <div className={styles["game-count"]} id="count-games"></div>
-                <div className={styles["sale-count"]} id="count-sales"></div>
+                <div>{gameCount.gameCount != -1 ? `${gameCount.gameCount} games on wishlist` : ""} </div>
+                <div>{gameCount.saleCount != -1 ? `${gameCount.saleCount} games on sale` : ""} </div>
             </div>
         </div>
     ) : (

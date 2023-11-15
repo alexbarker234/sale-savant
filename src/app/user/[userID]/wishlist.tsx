@@ -5,31 +5,33 @@ import { useEffect, useState } from "react";
 import styles from "./wishlist.module.scss";
 import Loading from "./loading";
 import Filters from "./filters";
+import { GameCount } from "./userInfo";
 
 interface WishlistProp {
     userID: string;
+    setGameCount: (gameCount: GameCount) => void;
 }
 type SortAttributes = "maxDiscount" | "priority" | "review";
 
-export default function Wishlist({ userID }: WishlistProp) {
-    const sortOptions = [
-        {
-            attribute: "maxDiscount",
-            name: "Discount",
-            dir: 1,
-        },
-        {
-            attribute: "priority",
-            name: "Priority",
-            dir: -1,
-        },
-        {
-            attribute: "review",
-            name: "Review",
-            dir: 1,
-        },
-    ];
+const sortOptions = [
+    {
+        attribute: "maxDiscount",
+        name: "Discount",
+        dir: 1,
+    },
+    {
+        attribute: "priority",
+        name: "Priority",
+        dir: -1,
+    },
+    {
+        attribute: "review",
+        name: "Review",
+        dir: 1,
+    },
+];
 
+export default function Wishlist({ userID, setGameCount }: WishlistProp) {
     const [wishlistItems, setWishlistItems] = useState<WishlistItem[]>();
     const [message, setMessage] = useState("");
     const [currentSort, setCurrentSort] = useState<SortAttributes>("priority");
@@ -58,14 +60,10 @@ export default function Wishlist({ userID }: WishlistProp) {
             // remove items not found on cheapshark (DLC, non-games)
             arr = arr.filter((item) => item.steamDeal);
 
-            // modify user profile
-            const saleCountDiv = document.getElementById("count-sales");
-            const gameCountDiv = document.getElementById("count-games");
-            const salesCount = arr.filter((item) => item.steamDeal?.discountPercent || item.humbleDeal?.discountPercent).length;
-
-            if (saleCountDiv) saleCountDiv.innerHTML = `${salesCount} games on sale`;
-            if (gameCountDiv) gameCountDiv.innerHTML = `${gamesCount} games on wishlist`;
-
+            setGameCount({
+                saleCount: arr.filter((item) => item.steamDeal?.discountPercent || item.humbleDeal?.discountPercent).length,
+                gameCount: gamesCount,
+            });
             setWishlistItems(arr);
             setMessage("success");
         };
