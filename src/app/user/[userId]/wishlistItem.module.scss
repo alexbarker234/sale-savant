@@ -154,12 +154,13 @@
 
 
         .original-price {
-            color: grey;
+            color: #626268;
             font-size: 0.75rem;
             text-decoration: line-through;
             padding-top: 0.3rem;
             height: 0.75rem;
             line-height: 0.75rem;
+            text-shadow: none;
         }
 
         .final-price {
