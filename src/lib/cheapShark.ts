@@ -18,18 +18,22 @@ interface GameDeal {
     lastChange: number;
     dealRating: string;
     thumb: string;
-};
+}
 
 export class CheapShark {
     static async requestGameDeals(steamIDs: string[]): Promise<CheapSharkResponse> {
-        
-        const apiUrl = (pageNum: number) => `https://www.cheapshark.com/api/1.0/deals?storeID=11,1&sortBy=Title&steamAppID=${encodeURIComponent(steamIDs.join(','))}&pageNumber=${pageNum}`;
+        const apiUrl = (pageNum: number) =>
+            `https://www.cheapshark.com/api/1.0/deals?storeID=11,1&sortBy=Title&steamAppID=${encodeURIComponent(
+                steamIDs.join(",")
+            )}&pageNumber=${pageNum}`;
 
         const fullResponse: GameDeal[] = [];
 
         const maxPages = await CheapShark.getMaxPages(apiUrl);
-        
-        await Promise.all(Array.from({ length: maxPages }, (_, pageNum) => CheapShark.fetchPage(apiUrl, pageNum + 1, fullResponse)));
+
+        await Promise.all(
+            Array.from({ length: maxPages }, (_, pageNum) => CheapShark.fetchPage(apiUrl, pageNum, fullResponse))
+        );
 
         // sort steam and humble
         const responseObj: CheapSharkResponse = { steamGames: {}, humbleGames: {} };
@@ -41,7 +45,7 @@ export class CheapShark {
         return responseObj;
     }
 
-    private static async fetchPage(apiUrl: (pageNum: number) => string, pageNum: number, fullResponse: GameDeal[], ) {
+    private static async fetchPage(apiUrl: (pageNum: number) => string, pageNum: number, fullResponse: GameDeal[]) {
         const main = await fetch(apiUrl(pageNum), { next: { revalidate: 600 } });
         const response: GameDeal[] = await main.json();
         fullResponse.push(...response);
