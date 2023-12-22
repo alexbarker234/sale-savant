@@ -7,7 +7,7 @@
         "build": "next build",
         "start": "next start",
         "lint": "next lint",
-        "typecheck": "tsc --noEmit --incremental false --isolatedModules false"
+        "typecheck": "tsc --noEmit"
     },
     "dependencies": {
         "@fortawesome/fontawesome-svg-core": "^6.4.2",
@@ -16,11 +16,17 @@
         "@types/node": "20.2.5",
         "@types/react": "18.2.7",
         "@types/react-dom": "18.2.4",
-        "eslint-config-next": "^14.0.1",
         "next": "^14.0.1",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
         "sass": "^1.69.4",
         "typescript": "5.0.4"
+    },
+    "devDependencies": {
+        "@next/eslint-plugin-next": "^14.0.4",
+        "@typescript-eslint/eslint-plugin": "^6.15.0",
+        "@typescript-eslint/parser": "^6.15.0",
+        "eslint": "^8.56.0",
+        "eslint-config-next": "^14.0.4"
     }
 }

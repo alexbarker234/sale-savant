@@ -2,8 +2,14 @@ import styles from "./userInfo.module.scss";
 import Loading from "./loading";
 import Image from "next/image";
 
-export interface GameCount {saleCount: number, gameCount: number}
-interface UserInfoProps { userData: SteamUser, gameCount: GameCount }
+export interface GameCount {
+    saleCount: number;
+    gameCount: number;
+}
+interface UserInfoProps {
+    userData: SteamUser;
+    gameCount: GameCount;
+}
 
 export default function UserInfo({ userData, gameCount }: UserInfoProps) {
     return userData ? (

@@ -66,7 +66,9 @@ interface CheapSharkResponse {
     steamGames: CheapSharkGameListResponse;
     humbleGames: CheapSharkGameListResponse;
 }
-type CheapSharkGameListResponse = Partial<Record<string, CheapSharkGameResponse>>;
+type CheapSharkGameListResponse = Partial<
+    Record<string, CheapSharkGameResponse>
+>;
 
 interface CheapSharkGameResponse {
     title: string;
