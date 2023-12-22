@@ -11,30 +11,35 @@ interface WishlistProp {
     userID: string;
     setGameCount: (gameCount: GameCount) => void;
 }
-type SortAttributes = "maxDiscount" | "priority" | "review";
+
+const SortAttribute = { maxDiscount: "maxDiscount", priority: "priority", review: "review" } as const;
+type SortAttribute = (typeof SortAttribute)[keyof typeof SortAttribute];
+function isSortAttribute(attribute: string): attribute is SortAttribute {
+    return attribute in SortAttribute;
+}
 
 const sortOptions = [
     {
         attribute: "maxDiscount",
         name: "Discount",
-        dir: 1,
+        dir: 1
     },
     {
         attribute: "priority",
         name: "Priority",
-        dir: -1,
+        dir: -1
     },
     {
         attribute: "review",
         name: "Review",
-        dir: 1,
-    },
+        dir: 1
+    }
 ];
 
 export default function Wishlist({ userID, setGameCount }: WishlistProp) {
     const [wishlistItems, setWishlistItems] = useState<WishlistItem[]>();
     const [message, setMessage] = useState("");
-    const [currentSort, setCurrentSort] = useState<SortAttributes>("priority");
+    const [currentSort, setCurrentSort] = useState<SortAttribute>(SortAttribute.priority);
 
     useEffect(() => {
         //console.log(`trying to request for ${userID}`);
@@ -44,34 +49,35 @@ export default function Wishlist({ userID, setGameCount }: WishlistProp) {
             const data: WishlistResponse | ErrorResponse = await res.json();
 
             if (data.error === "private profile") {
-                setMessage("This users profile is private, if this is your profile please make your Game Details public");
+                setMessage(
+                    "This users profile is private, if this is your profile please make your Game Details public"
+                );
+                return;
+            } else if ("error" in data) {
+                setMessage("An error occured");
                 return;
             }
 
             // Turns the wishlist response into an array of objects & sort by priority
-            let arr = Object.entries(data).map(([key, value]) => value as WishlistItem);
-            arr.sort((a, b) => a.priority - b.priority);
-
-            const gamesCount = arr.length;
-
-            // remove unreleased games from the list
-            arr = arr.filter((item) => item.isReleased);
-
-            // remove items not found on cheapshark (DLC, non-games)
-            arr = arr.filter((item) => item.steamDeal);
+            let wishlistItems = Object.values(data)
+                .sort((a, b) => a.priority - b.priority)
+                .filter((item) => item.isReleased)
+                .filter((item) => item.steamDeal);
 
             setGameCount({
-                saleCount: arr.filter((item) => item.steamDeal?.discountPercent || item.humbleDeal?.discountPercent).length,
-                gameCount: gamesCount,
+                saleCount: wishlistItems.filter(
+                    (item) => item.steamDeal?.discountPercent || item.humbleDeal?.discountPercent
+                ).length,
+                gameCount: wishlistItems.length
             });
-            setWishlistItems(arr);
+            setWishlistItems(wishlistItems);
             setMessage("success");
         };
 
         fetchData();
     }, [userID]);
 
-    const orderBy = (attribute: SortAttributes, sortDir: number = 1) => {
+    const orderBy = (attribute: SortAttribute, sortDir: number = 1) => {
         setCurrentSort(attribute);
         if (!wishlistItems) return;
         let list = [...wishlistItems];
@@ -107,7 +113,9 @@ export default function Wishlist({ userID, setGameCount }: WishlistProp) {
                                 <button
                                     key={sortType.attribute}
                                     className={currentSort === sortType.attribute ? styles["current"] : ""}
-                                    onClick={() => orderBy(sortType.attribute as SortAttributes, sortType.dir)}
+                                    onClick={() =>
+                                        isSortAttribute(sortType.attribute) && orderBy(sortType.attribute, sortType.dir)
+                                    }
                                 >
                                     {sortType.name}
                                 </button>
