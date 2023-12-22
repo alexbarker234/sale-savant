@@ -37,9 +37,7 @@ interface SteamUser {
 }
 
 // STEAM API
-interface SteamWishlistResponse {
-    [key: string]: SteamWishlistItemResponse;
-}
+type SteamWishlistResponse = Partial<Record<string, SteamWishlistItemResponse>>;
 interface SteamWishlistErrorResponse {
     success: number;
 }
@@ -68,9 +66,7 @@ interface CheapSharkResponse {
     steamGames: CheapSharkGameListResponse;
     humbleGames: CheapSharkGameListResponse;
 }
-interface CheapSharkGameListResponse {
-    [key: string]: CheapSharkGameResponse;
-}
+type CheapSharkGameListResponse = Partial<Record<string, CheapSharkGameResponse>>;
 
 interface CheapSharkGameResponse {
     title: string;
