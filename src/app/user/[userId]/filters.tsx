@@ -8,9 +8,15 @@ interface FilterProps {
     setWishlistItems: (data: WishlistItem[]) => void;
 }
 
+interface PlatformFilters {
+    win: boolean;
+    mac: boolean;
+    linux: boolean;
+}
+
 export default function Filters({ wishlistItems, setWishlistItems }: FilterProps) {
     const [search, setSearch] = useState("");
-    const [platformFilters, setPlatformFilters] = useState({ win: false, mac: false, linux: false });
+    const [platformFilters, setPlatformFilters] = useState<PlatformFilters>({ win: false, mac: false, linux: false });
     const [saleFilter, seteSaleFilter] = useState(Boolean);
 
     const handleSearch = (text: string) => {
@@ -19,7 +25,9 @@ export default function Filters({ wishlistItems, setWishlistItems }: FilterProps
 
     useEffect(() => {
         const searchFilter = search.toLowerCase();
-        const platformList = Object.keys(platformFilters).filter(key => platformFilters[key as keyof typeof platformFilters] === true);
+        const platformList = Object.keys(platformFilters).filter(
+            (key) => platformFilters[key as keyof PlatformFilters] === true
+        );
 
         const items = [...wishlistItems];
         items.forEach((item) => {
@@ -32,45 +40,64 @@ export default function Filters({ wishlistItems, setWishlistItems }: FilterProps
                 platformList.every((element) => platforms.includes(element));
         });
 
-        setWishlistItems(items)
+        setWishlistItems(items);
         //console.log(items.filter((i) => i.show))
     }, [search, platformFilters, saleFilter]);
+
+    const platformTypes: { key: keyof typeof platformFilters; display: string }[] = [
+        {
+            key: "win",
+            display: "Windows"
+        },
+        {
+            key: "mac",
+            display: "MacOS"
+        },
+        {
+            key: "linux",
+            display: "SteamOS + Linux"
+        }
+    ];
 
     return (
         <div>
             <div className={styles["filters"]}>
                 <div id="platforms">
-                    <label>
-                        <input
-                            onChange={(e) => setPlatformFilters({ ...platformFilters, win: !platformFilters.win })}
-                            type="checkbox"
-                            name="windows"
-                            value="win"
-                        />
-                        Windows
-                    </label>
-                    <label>
-                        <input onChange={(e) => setPlatformFilters({ ...platformFilters, mac: !platformFilters.mac })} type="checkbox" name="mac" value="mac" />
-                        MacOS
-                    </label>
-                    <label>
-                        <input
-                            onChange={(e) => setPlatformFilters({ ...platformFilters, linux: !platformFilters.linux })}
-                            type="checkbox"
-                            name="linux"
-                            value="linux"
-                        />
-                        SteamOS + Linux
-                    </label>
+                    {platformTypes.map((filter) => (
+                        <label key={filter.key}>
+                            <input
+                                onChange={(e) => {
+                                    const newFilters = { ...platformFilters };
+                                    newFilters[filter.key] = !newFilters[filter.key];
+                                    setPlatformFilters(newFilters);
+                                }}
+                                type="checkbox"
+                                name="windows"
+                                checked={platformFilters[filter.key]}
+                            />
+                            {filter.display}
+                        </label>
+                    ))}
                 </div>
                 <div id="sales">
                     <label>
-                        <input onChange={(e) => seteSaleFilter(!saleFilter)} type="checkbox" name="on-sale" value="On Sale" />
+                        <input
+                            onChange={(e) => seteSaleFilter(!saleFilter)}
+                            type="checkbox"
+                            name="on-sale"
+                            value="On Sale"
+                        />
                         On Sale
                     </label>
                 </div>
             </div>
-            <input onChange={(e) => handleSearch(e.target.value)} className={styles["search"]} type="text" autoComplete="off" placeholder="Filter by title" />
+            <input
+                onChange={(e) => handleSearch(e.target.value)}
+                className={styles["search"]}
+                type="text"
+                autoComplete="off"
+                placeholder="Filter by title"
+            />
         </div>
     );
 }

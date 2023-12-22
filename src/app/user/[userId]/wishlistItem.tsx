@@ -1,7 +1,7 @@
 import Image from "next/image";
 import styles from "./wishlistItem.module.scss";
 
-// doing dangerouslySetInnerHTML to deal with games that have HTMl entities in their name
+// doing dangerouslySetInnerHTML to deal with games that have HTML entities in their name
 
 const WishlistItem = ({ index, item }: { index: number; item: WishlistItem }) => {
     return (
@@ -33,12 +33,14 @@ function Price({ price, type }: { price: Deal; type: string }) {
     return (
         <a
             href={`https://www.cheapshark.com/redirect?dealID=${price.dealID}`}
-            className={`${styles["price"]} ${styles[type + "-price"]} ${price.discountPercent != 0 && styles["discounted"]}`}
+            className={`${styles["price"]} ${styles[type + "-price"]} ${
+                price.discountPercent != 0 && styles["discounted"]
+            }`}
         >
             {price.discountPercent != 0 ? <div className={styles["discount"]}>-{price.discountPercent}%</div> : ""}
             <div className={styles["price-details"]}>
                 <svg width="50" height="50" fill="#ffffff" viewBox="0 0 150 150">
-                    <use href={`#${type}-logo`} />
+                    <use xlinkHref={`/${type}.svg#${type}-logo`} />
                 </svg>
 
                 <div className={styles["price-tag"]}>
