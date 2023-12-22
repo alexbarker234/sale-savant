@@ -39,7 +39,7 @@ const sortOptions = [
 export default function Wishlist({ userID, setGameCount }: WishlistProp) {
     const [wishlistItems, setWishlistItems] = useState<WishlistItem[]>();
     const [message, setMessage] = useState("");
-    const [currentSort, setCurrentSort] = useState<SortAttribute>(SortAttribute.priority);
+    const [currentSort, setCurrentSort] = useState<SortAttribute>(SortAttribute.maxDiscount);
 
     useEffect(() => {
         //console.log(`trying to request for ${userID}`);
@@ -58,9 +58,9 @@ export default function Wishlist({ userID, setGameCount }: WishlistProp) {
                 return;
             }
 
-            // Turns the wishlist response into an array of objects & sort by priority
+            const sortDir = sortOptions.find((s) => s.attribute === currentSort)?.dir ?? 1;
             let wishlistItems = Object.values(data)
-                .sort((a, b) => a.priority - b.priority)
+                .sort((a, b) => (b[currentSort] - a[currentSort]) * sortDir)
                 .filter((item) => item.isReleased)
                 .filter((item) => item.steamDeal);
 
