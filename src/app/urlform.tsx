@@ -21,13 +21,20 @@ const UrlForm = () => {
             setButtonDisabled(false);
             return;
         }
-        const result: {id: string} = await response.json();
+        const result: { id: string } = await response.json();
         router.push(`/user/${result.id}`);
     };
     return (
         <form onSubmit={handleSubmit} method="post" className={styles["form"]}>
             <label htmlFor="url">Enter your Steam username or profile URL</label>
-            <input onChange={(e) => setSearch(e.target.value)} type="text" id="url" name="url" required placeholder="Your profile url or username" />
+            <input
+                onChange={(e) => setSearch(e.target.value)}
+                type="text"
+                id="url"
+                name="url"
+                required
+                placeholder="Your profile url or username"
+            />
             <p id="error" className={styles["error"]}>
                 {message}
             </p>

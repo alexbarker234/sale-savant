@@ -10,25 +10,20 @@ export async function GET(req: Request) {
         return NextResponse.json(response, { status: 400 });
     }
 
-    let steamResponse = await Steam.getUserWishlist(id);
-
     // this is what we get for using a private api :)
-    if ("success" in steamResponse) {
-        if (steamResponse.success == 2) {
-            let response: ErrorResponse = { error: "private profile" };
-            return NextResponse.json(response, { status: 404 });
-        }
-        return NextResponse.json({ error: "unknown" }, { status: 404 });
+    const steamResponse = await Steam.getUserWishlist(id);
+    const wishlist = steamResponse.data;
+    if (steamResponse.status == "error") {
+        let response: ErrorResponse = { error: "private profile" };
+        return NextResponse.json(response, { status: 401 });
     }
-
-    const steamIDs = Object.keys(steamResponse);
+    const steamIDs = Object.keys(wishlist);
     const cheapSharkResponse = await CheapShark.requestGameDeals(steamIDs);
 
-    let response: WishlistResponse = {};
-    if ("success" in steamResponse) return;
+    const response: WishlistResponse = {};
 
-    for (let steamID in steamResponse) {
-        const wishlistItem = steamResponse[steamID];
+    for (let steamID in wishlist) {
+        const wishlistItem = wishlist[steamID];
         if (!wishlistItem) continue;
 
         const steam = cheapSharkResponse.steamGames[steamID];
@@ -40,20 +35,22 @@ export async function GET(req: Request) {
                 currentPrice: +steam.salePrice,
                 originalPrice: +steam.normalPrice,
                 discountPercent: parseInt(steam.savings),
-                dealID: steam.dealID,
+                dealID: steam.dealID
             },
             humbleDeal: humble && {
                 currentPrice: +humble.salePrice,
                 originalPrice: +humble.normalPrice,
                 discountPercent: parseInt(humble.savings),
-                dealID: humble.dealID,
+                dealID: humble.dealID
             },
             maxDiscount: Math.max(+(steam?.savings ?? 0), +(humble?.savings ?? 0)),
             priority: wishlistItem.priority == 0 ? Number.MAX_SAFE_INTEGER : wishlistItem.priority, // 0 priority items are NO priority TODO: find a better way (probably in the sort)
             isReleased: !wishlistItem.prerelease,
             review: wishlistItem.reviews_percent,
             show: true,
-            platforms: wishlistItem.platform_icons.match(/class="([^>]*)">/g)?.map((platform) => platform.slice(7, -2).split(" ")[1]),
+            platforms: wishlistItem.platform_icons
+                .match(/class="([^>]*)">/g)
+                ?.map((platform) => platform.slice(7, -2).split(" ")[1])
         };
     }
     return NextResponse.json(response);

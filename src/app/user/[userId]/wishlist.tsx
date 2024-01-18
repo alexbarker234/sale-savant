@@ -47,7 +47,6 @@ export default function Wishlist({ userID, setGameCount }: WishlistProp) {
         const fetchData = async () => {
             const res = await fetch(`/api/get-wishlist?id=${userID}`);
             const data: WishlistResponse | ErrorResponse = await res.json();
-
             if (data.error === "private profile") {
                 setMessage(
                     "This users profile is private, if this is your profile please make your Game Details public"
@@ -86,36 +85,37 @@ export default function Wishlist({ userID, setGameCount }: WishlistProp) {
 
         setWishlistItems(list);
     };
+    console.log(message);
+
+    if (message != "success") {
+        return <div style={{ margin: "auto", marginTop: "1rem", width: "fit-content" }}>{message}</div>;
+    }
 
     // TODO: add ⚠ symbol on unhandled error
     return (
         <div className={styles["wishlist"]}>
             {wishlistItems ? (
-                message === "success" ? (
-                    <>
-                        <Filters wishlistItems={wishlistItems} setWishlistItems={setWishlistItems} />
-                        <div className={styles["order-buttons"]}>
-                            {sortOptions.map((sortType) => (
-                                <button
-                                    key={sortType.attribute}
-                                    className={currentSort === sortType.attribute ? styles["current"] : ""}
-                                    onClick={() =>
-                                        isSortAttribute(sortType.attribute) && orderBy(sortType.attribute, sortType.dir)
-                                    }
-                                >
-                                    {sortType.name}
-                                </button>
-                            ))}
-                        </div>
-                        <div id="wishlist-items" key={Math.random()}>
-                            {wishlistItems.map((wishlistItem, index) => (
-                                <WishlistItem key={index} index={index} item={wishlistItem} />
-                            ))}
-                        </div>
-                    </>
-                ) : (
-                    <div style={{ margin: "auto", marginTop: "1rem", width: "fit-content" }}>{message}</div>
-                )
+                <>
+                    <Filters wishlistItems={wishlistItems} setWishlistItems={setWishlistItems} />
+                    <div className={styles["order-buttons"]}>
+                        {sortOptions.map((sortType) => (
+                            <button
+                                key={sortType.attribute}
+                                className={currentSort === sortType.attribute ? styles["current"] : ""}
+                                onClick={() =>
+                                    isSortAttribute(sortType.attribute) && orderBy(sortType.attribute, sortType.dir)
+                                }
+                            >
+                                {sortType.name}
+                            </button>
+                        ))}
+                    </div>
+                    <div id="wishlist-items" key={Math.random()}>
+                        {wishlistItems.map((wishlistItem, index) => (
+                            <WishlistItem key={index} index={index} item={wishlistItem} />
+                        ))}
+                    </div>
+                </>
             ) : (
                 <Loading style={{ margin: "auto", marginTop: "2rem" }} />
             )}
