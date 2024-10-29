@@ -1,32 +1,34 @@
 {
-    "name": "sale-savant",
-    "version": "0.1.0",
-    "private": true,
-    "scripts": {
-        "dev": "next dev",
-        "build": "next build",
-        "start": "next start",
-        "lint": "next lint",
-        "typecheck": "tsc --noEmit"
-    },
-    "dependencies": {
-        "@fortawesome/fontawesome-svg-core": "^6.4.2",
-        "@fortawesome/free-solid-svg-icons": "^6.4.2",
-        "@fortawesome/react-fontawesome": "^0.2.0",
-        "@types/node": "20.2.5",
-        "@types/react": "18.2.7",
-        "@types/react-dom": "18.2.4",
-        "next": "^14.0.1",
-        "react": "^18.2.0",
-        "react-dom": "^18.2.0",
-        "sass": "^1.69.4",
-        "typescript": "5.0.4"
-    },
-    "devDependencies": {
-        "@next/eslint-plugin-next": "^14.0.4",
-        "@typescript-eslint/eslint-plugin": "^6.15.0",
-        "@typescript-eslint/parser": "^6.15.0",
-        "eslint": "^8.56.0",
-        "eslint-config-next": "^14.0.4"
-    }
+  "name": "sale-savant",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "typecheck": "tsc --noEmit",
+    "format": "prettier --write \"./**/*.{js,jsx,mjs,cjs,ts,tsx,json}\""
+  },
+  "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^6.4.2",
+    "@fortawesome/free-solid-svg-icons": "^6.4.2",
+    "@fortawesome/react-fontawesome": "^0.2.0",
+    "@types/node": "20.2.5",
+    "@types/react": "18.2.7",
+    "@types/react-dom": "18.2.4",
+    "next": "^14.0.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "sass": "^1.69.4",
+    "typescript": "5.0.4"
+  },
+  "devDependencies": {
+    "@next/eslint-plugin-next": "^14.0.4",
+    "@typescript-eslint/eslint-plugin": "^6.15.0",
+    "@typescript-eslint/parser": "^6.15.0",
+    "eslint": "^8.56.0",
+    "eslint-config-next": "^14.0.4",
+    "prettier": "^3.3.3"
+  }
 }
