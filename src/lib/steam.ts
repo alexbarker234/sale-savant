@@ -31,6 +31,8 @@ export class Steam {
   }
 
   static async resolveUserFromName(username: string) {
+    if (!this.KEY) throw new Error("STEAM_KEY not set");
+
     const apiUrl = `https://api.steampowered.com/ISteamUser/ResolveVanityURL/v1/?key=${this.KEY}&vanityurl=${username}`;
     let resp = await fetch(apiUrl, { next: { revalidate: 600 } });
     let json = await resp.json();
@@ -40,9 +42,10 @@ export class Steam {
 
   static async getUserWishlist(userID: string): Promise<{ status: "success" | "error"; data: SteamWishlistResponse }> {
     try {
-      const finalResponse = {};
+      const finalResponse: SteamWishlistResponse = {};
       const apiUrl = `https://store.steampowered.com/wishlist/profiles/${userID}/wishlistdata/?p=`;
-      let response: any;
+      console.log(`Requesting: ${apiUrl}`);
+      let response: SteamWishlistResponse;
       let page = 0;
       do {
         response = await (await fetch(apiUrl + page, { next: { revalidate: 600 } })).json();
@@ -57,8 +60,9 @@ export class Steam {
     }
   }
   static async getUser(userID: string): Promise<SteamUser | undefined> {
+    if (!this.KEY) throw new Error("STEAM_KEY not set");
+
     const apiUrl = `https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/?key=${this.KEY}&steamids=${userID}`;
-    console.log(apiUrl);
     const response = await (await fetch(apiUrl)).json();
     const user: SteamProfile = response.response.players[0];
     return user

@@ -19,7 +19,6 @@ interface GameDeal {
   dealRating: string;
   thumb: string;
 }
-
 export class CheapShark {
   static async requestGameDeals(steamIDs: string[]): Promise<CheapSharkResponse> {
     const apiUrl = (pageNum: number) =>
@@ -27,16 +26,13 @@ export class CheapShark {
         steamIDs.join(",")
       )}&pageNumber=${pageNum}`;
 
-    const fullResponse: GameDeal[] = [];
+    const responseObj: CheapSharkResponse = { steamGames: {}, humbleGames: {} };
 
     const maxPages = await CheapShark.getMaxPages(apiUrl);
+    const pagePromises = Array.from({ length: maxPages }, (_, pageNum) => CheapShark.fetchPage(apiUrl, pageNum));
 
-    await Promise.all(
-      Array.from({ length: maxPages }, (_, pageNum) => CheapShark.fetchPage(apiUrl, pageNum, fullResponse))
-    );
+    const fullResponse = (await Promise.all(pagePromises)).flat();
 
-    // sort steam and humble
-    const responseObj: CheapSharkResponse = { steamGames: {}, humbleGames: {} };
     fullResponse.forEach((item) => {
       if (item.storeID === "1") responseObj.steamGames[item.steamAppID] = item;
       else if (item.storeID === "11") responseObj.humbleGames[item.steamAppID] = item;
@@ -45,14 +41,15 @@ export class CheapShark {
     return responseObj;
   }
 
-  private static async fetchPage(apiUrl: (pageNum: number) => string, pageNum: number, fullResponse: GameDeal[]) {
-    const main = await fetch(apiUrl(pageNum), { next: { revalidate: 600 } });
-    const response: GameDeal[] = await main.json();
-    fullResponse.push(...response);
+  private static async fetchPage(apiUrl: (pageNum: number) => string, pageNum: number): Promise<GameDeal[]> {
+    const response = await fetch(apiUrl(pageNum), { next: { revalidate: 600 } });
+    if (!response.ok) throw new Error(`Failed to fetch page ${pageNum}`);
+    return response.json();
   }
 
   private static async getMaxPages(apiUrl: (pageNum: number) => string): Promise<number> {
-    const firstPage = await fetch(apiUrl(1), { next: { revalidate: 600 } });
-    return parseInt(firstPage.headers.get("X-Total-Page-Count") || "0", 10);
+    const response = await fetch(apiUrl(1), { next: { revalidate: 600 } });
+    if (!response.ok) throw new Error("Failed to fetch the first page");
+    return parseInt(response.headers.get("X-Total-Page-Count") || "0", 10);
   }
 }

@@ -1,11 +1,11 @@
 "use client";
 
-import WishlistItem from "./wishlistItem";
 import { useEffect, useState } from "react";
-import styles from "./wishlist.module.scss";
-import Loading from "./loading";
 import Filters from "./filters";
+import Loading from "./loading";
 import { GameCount } from "./userInfo";
+import styles from "./wishlist.module.scss";
+import WishlistItem from "./wishlistItem";
 
 interface WishlistProp {
   userID: string;
@@ -46,20 +46,29 @@ export default function Wishlist({ userID, setGameCount }: WishlistProp) {
 
     const fetchData = async () => {
       const res = await fetch(`/api/get-wishlist?id=${userID}`);
-      const data: WishlistResponse | ErrorResponse = await res.json();
-      if (data.error === "private profile") {
-        setMessage("This users profile is private, if this is your profile please make your Game Details public");
-        return;
-      } else if ("error" in data) {
-        setMessage("An error occured");
+      if (!res.ok) {
+        const data: ErrorResponse = await res.json();
+        if (data.error === "private profile") {
+          setMessage("This users profile is private, if this is your profile please make your Game Details public");
+          return;
+        } else if ("error" in data) {
+          setMessage(`An error occured: ${data.error}`);
+        } else {
+          setMessage("An error occured");
+        }
         return;
       }
+
+      const data: WishlistResponse = await res.json();
+      console.log(data);
 
       const sortDir = sortOptions.find((s) => s.attribute === currentSort)?.dir ?? 1;
       let wishlistItems = Object.values(data)
         .sort((a, b) => (b[currentSort] - a[currentSort]) * sortDir)
         .filter((item) => item.isReleased)
         .filter((item) => item.steamDeal);
+
+      console.log(wishlistItems);
 
       setGameCount({
         saleCount: wishlistItems.filter((item) => item.steamDeal?.discountPercent || item.humbleDeal?.discountPercent)
@@ -82,7 +91,6 @@ export default function Wishlist({ userID, setGameCount }: WishlistProp) {
 
     setWishlistItems(list);
   };
-  console.log(message);
 
   if (message != "success") {
     return <div style={{ margin: "auto", marginTop: "1rem", width: "fit-content" }}>{message}</div>;
