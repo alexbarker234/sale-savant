@@ -1,11 +1,11 @@
 # Sale Savant
 <p align="center">
-    <a href="https://salesavant.vercel.app/">
-        <img height="400px" src="https://media.discordapp.net/attachments/1114194671929925732/1174241433679568906/image.png?ex=6566e08e&is=65546b8e&hm=a82c1073ea547afbf404f924b7f7f31abca12caff90e530e162cd16940d70d6a&=&width=1200&height=577" alt="Preview">
+    <a href="https://salesavant.lexalot.dev/">
+        <img height="400px" src="" alt="Preview">
     </a>
 </p>
 
-🌐[**https://salesavant.vercel.app/**](https://salesavant.vercel.app/)🌐
+🌐[**https://salesavant.lexalot.dev/**](https://salesavant.lexalot.dev/)🌐
 
 Stay up-to-date with irresistible offers tailored just for you! Easily monitor sales on your personal Steam wishlist and view additional discounts on Humble Bundle for your desired games.
 
