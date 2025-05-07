@@ -1,5 +1,6 @@
 "use client";
 
+import { ErrorResponse, WishlistResponse } from "@/types/saleSavant";
 import { useEffect, useState } from "react";
 import Filters from "./filters";
 import Loading from "./loading";
@@ -65,7 +66,6 @@ export default function Wishlist({ userID, setGameCount }: WishlistProp) {
       const sortDir = sortOptions.find((s) => s.attribute === currentSort)?.dir ?? 1;
       let wishlistItems = Object.values(data)
         .sort((a, b) => (b[currentSort] - a[currentSort]) * sortDir)
-        .filter((item) => item.isReleased)
         .filter((item) => item.steamDeal);
 
       console.log(wishlistItems);

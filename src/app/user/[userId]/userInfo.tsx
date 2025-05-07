@@ -1,13 +1,13 @@
-import styles from "./userInfo.module.scss";
-import Loading from "./loading";
 import Image from "next/image";
+import Loading from "./loading";
+import styles from "./userInfo.module.scss";
 
 export interface GameCount {
   saleCount: number;
   gameCount: number;
 }
 interface UserInfoProps {
-  userData: SteamUser;
+  userData: SaleSavantUser;
   gameCount: GameCount;
 }
 

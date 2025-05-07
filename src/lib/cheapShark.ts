@@ -1,3 +1,5 @@
+import { CheapSharkGameListResponse } from "@/types/cheapShark";
+
 interface GameDeal {
   internalName: string;
   title: string;
@@ -20,22 +22,63 @@ interface GameDeal {
   thumb: string;
 }
 export class CheapShark {
-  static async requestGameDeals(steamIDs: string[]): Promise<CheapSharkResponse> {
+  static async requestGameDeals(steamIDs: string[]): Promise<CheapSharkGameListResponse> {
     const apiUrl = (pageNum: number) =>
       `https://www.cheapshark.com/api/1.0/deals?storeID=11,1&sortBy=Title&steamAppID=${encodeURIComponent(
         steamIDs.join(",")
       )}&pageNumber=${pageNum}`;
 
-    const responseObj: CheapSharkResponse = { steamGames: {}, humbleGames: {} };
-
+    // Request from CheapShark
     const maxPages = await CheapShark.getMaxPages(apiUrl);
     const pagePromises = Array.from({ length: maxPages }, (_, pageNum) => CheapShark.fetchPage(apiUrl, pageNum));
-
     const fullResponse = (await Promise.all(pagePromises)).flat();
 
+    // Format response
+    const responseObj: CheapSharkGameListResponse = {};
     fullResponse.forEach((item) => {
-      if (item.storeID === "1") responseObj.steamGames[item.steamAppID] = item;
-      else if (item.storeID === "11") responseObj.humbleGames[item.steamAppID] = item;
+      if (item.storeID === "1") {
+        if (!responseObj[item.steamAppID]) {
+          responseObj[item.steamAppID] = {
+            title: item.title,
+            salePrice: item.salePrice,
+            normalPrice: item.normalPrice,
+            steamRatingPercent: item.steamRatingPercent,
+            steam: {
+              salePrice: "0",
+              normalPrice: "0",
+              dealID: "",
+              savings: "0"
+            }
+          };
+        }
+        responseObj[item.steamAppID]!.steam = {
+          salePrice: item.salePrice,
+          normalPrice: item.normalPrice,
+          dealID: item.dealID,
+          savings: item.savings
+        };
+      } else if (item.storeID === "11") {
+        if (!responseObj[item.steamAppID]) {
+          responseObj[item.steamAppID] = {
+            title: item.title,
+            salePrice: item.salePrice,
+            normalPrice: item.normalPrice,
+            steamRatingPercent: item.steamRatingPercent,
+            steam: {
+              salePrice: "0",
+              normalPrice: "0",
+              dealID: "",
+              savings: "0"
+            }
+          };
+        }
+        responseObj[item.steamAppID]!.humble = {
+          salePrice: item.salePrice,
+          normalPrice: item.normalPrice,
+          dealID: item.dealID,
+          savings: item.savings
+        };
+      }
     });
 
     return responseObj;

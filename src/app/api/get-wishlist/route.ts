@@ -1,6 +1,55 @@
 import { CheapShark } from "@/lib/cheapShark";
 import { Steam } from "@/lib/steam";
+import { ErrorResponse, WishlistResponse } from "@/types/saleSavant";
 import { NextResponse } from "next/server";
+
+async function fetchWishlistData(id: string) {
+  const steamResponse = await Steam.getUserWishlist(id);
+  // TODO return errors with codes instead of strings
+  if (steamResponse.status == "error") {
+    let response: ErrorResponse = { error: "private profile" };
+    return NextResponse.json(response, { status: 401 });
+  }
+
+  const wishlist = steamResponse.data;
+  const steamIDs = wishlist.map((item) => item.appid.toString());
+  const cheapSharkResponse = await CheapShark.requestGameDeals(steamIDs);
+  console.log(cheapSharkResponse);
+  const response: WishlistResponse = {};
+
+  for (let wishlistItem of wishlist) {
+    const steamID = wishlistItem.appid.toString();
+    if (!wishlistItem) continue;
+
+    const cheapSharkGame = cheapSharkResponse[steamID];
+
+    if (!cheapSharkGame) {
+      console.error(`Game ${steamID} not found in cheap shark response`);
+      continue;
+    }
+    response[steamID] = {
+      gameName: cheapSharkGame.title,
+      imageURL: `https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/${wishlistItem.appid}/header.jpg`,
+      steamDeal: {
+        currentPrice: +cheapSharkGame.steam.salePrice,
+        originalPrice: +cheapSharkGame.steam.normalPrice,
+        discountPercent: parseInt(cheapSharkGame.steam.savings),
+        dealID: cheapSharkGame.steam.dealID
+      },
+      humbleDeal: cheapSharkGame.humble && {
+        currentPrice: +cheapSharkGame.humble.salePrice,
+        originalPrice: +cheapSharkGame.humble.normalPrice,
+        discountPercent: parseInt(cheapSharkGame.humble.savings),
+        dealID: cheapSharkGame.humble.dealID
+      },
+      maxDiscount: Math.max(+cheapSharkGame.steam.savings, +(cheapSharkGame.humble?.savings ?? 0)),
+      priority: wishlistItem.priority == 0 ? Number.MAX_SAFE_INTEGER : wishlistItem.priority, // 0 priority items are NO priority TODO: find a better way (probably in the sort)
+      review: +cheapSharkGame.steamRatingPercent,
+      show: true
+    };
+  }
+  return response;
+}
 
 export async function GET(req: Request) {
   try {
@@ -11,49 +60,7 @@ export async function GET(req: Request) {
       return NextResponse.json(response, { status: 400 });
     }
 
-    // this is what we get for using a private api :)
-    const steamResponse = await Steam.getUserWishlist(id);
-    const wishlist = steamResponse.data;
-    if (steamResponse.status == "error") {
-      let response: ErrorResponse = { error: "private profile" };
-      return NextResponse.json(response, { status: 401 });
-    }
-    const steamIDs = Object.keys(wishlist);
-    const cheapSharkResponse = await CheapShark.requestGameDeals(steamIDs);
-
-    const response: WishlistResponse = {};
-
-    for (let steamID in wishlist) {
-      const wishlistItem = wishlist[steamID];
-      if (!wishlistItem) continue;
-
-      const steam = cheapSharkResponse.steamGames[steamID];
-      const humble = cheapSharkResponse.humbleGames[steamID];
-      response[steamID] = {
-        gameName: wishlistItem.name,
-        imageURL: wishlistItem.capsule,
-        steamDeal: steam && {
-          currentPrice: +steam.salePrice,
-          originalPrice: +steam.normalPrice,
-          discountPercent: parseInt(steam.savings),
-          dealID: steam.dealID
-        },
-        humbleDeal: humble && {
-          currentPrice: +humble.salePrice,
-          originalPrice: +humble.normalPrice,
-          discountPercent: parseInt(humble.savings),
-          dealID: humble.dealID
-        },
-        maxDiscount: Math.max(+(steam?.savings ?? 0), +(humble?.savings ?? 0)),
-        priority: wishlistItem.priority == 0 ? Number.MAX_SAFE_INTEGER : wishlistItem.priority, // 0 priority items are NO priority TODO: find a better way (probably in the sort)
-        isReleased: !wishlistItem.prerelease,
-        review: wishlistItem.reviews_percent,
-        show: true,
-        platforms: wishlistItem.platform_icons
-          .match(/class="([^>]*)">/g)
-          ?.map((platform) => platform.slice(7, -2).split(" ")[1])
-      };
-    }
+    const response = await fetchWishlistData(id);
     return NextResponse.json(response);
   } catch {
     return NextResponse.json({ error: "Failed to fetch the users wishlist" }, { status: 500 });

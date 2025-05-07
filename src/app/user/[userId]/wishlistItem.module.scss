@@ -1,254 +1,254 @@
 .wishlist-item {
-    --item-height: 10rem;
-    font-family: sans-serif;
+  --item-height: 10rem;
+  font-family: sans-serif;
 
-    background-color: var(--dark-grey);
-    width: 100%;
-    height: 10rem;
+  background-color: var(--dark-grey);
+  width: 100%;
+  height: 10rem;
 
-    padding: 1rem;
+  padding: 1rem;
 
-    position: relative;
-    color: white;
+  position: relative;
+  color: white;
 
-    display: flex;
-    flex-direction: row;
+  display: flex;
+  flex-direction: row;
 
-    margin-bottom: 1rem;
+  margin-bottom: 1rem;
 
-    opacity: 0;
-    animation: fade-slide-in 0.5s forwards;
+  opacity: 0;
+  animation: fade-slide-in 0.5s forwards;
 
-    // box-shadow: 0px 5px 5px 5px rgba(0, 0, 0, 0.1);
+  // box-shadow: 0px 5px 5px 5px rgba(0, 0, 0, 0.1);
 }
 
 .wishlist-item img {
-    height: 100%;
+  height: 100%;
 }
 
 .content {
-    position: relative;
+  position: relative;
 
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
 }
 
 .details {
-    display: flex;
-    flex-direction: column;
-    margin-left: 1rem;
-    width: 100%;
+  display: flex;
+  flex-direction: column;
+  margin-left: 1rem;
+  width: 100%;
 }
 
 .details-section {
-    display: flex;
-    width: 70%;
-    font-size: 0.9rem;
-    color: var(--light-grey);
+  display: flex;
+  width: 70%;
+  font-size: 0.9rem;
+  color: var(--light-grey);
 
-    *:nth-child(2) {
-        margin-left: auto;
-    }
+  *:nth-child(2) {
+    margin-left: auto;
+  }
 
-    /* reviews */
-    .negative {
-        color: #a34c25;
-    }
+  /* reviews */
+  .negative {
+    color: #a34c25;
+  }
 
-    .mixed {
-        color: #aa956a;
-    }
+  .mixed {
+    color: #aa956a;
+  }
 
-    .positive {
-        color: #66c0f4;
-    }
+  .positive {
+    color: #66c0f4;
+  }
 
-    .amazing {
-        color: #00ce56;
-    }
+  .amazing {
+    color: #00ce56;
+  }
 }
 
 /* icon */
 .platform-icons {
-    display: flex;
-    margin-top: auto;
-    margin-bottom: 1rem;
+  display: flex;
+  margin-top: auto;
+  margin-bottom: 1rem;
 
-    .platform-icon {
-        width: 20px;
-        height: 20px;
-        background-size: 20px;
-        margin-right: 4px;
-        background-repeat: no-repeat;
+  .platform-icon {
+    width: 20px;
+    height: 20px;
+    background-size: 20px;
+    margin-right: 4px;
+    background-repeat: no-repeat;
 
-        &.win {
-            background-image: url("https://store.akamai.steamstatic.com/public/images/v6/icon_platform_win.png?v=3");
-        }
-
-        &.mac {
-            background-image: url("https://store.akamai.steamstatic.com/public/images/v6/icon_platform_mac.png");
-        }
-
-        &.linux {
-            background-image: url("https://store.akamai.steamstatic.com/public/images/v6/icon_platform_linux.png");
-        }
+    &.win {
+      background-image: url("https://store.akamai.steamstatic.com/public/images/v6/icon_platform_win.png?v=3");
     }
+
+    &.mac {
+      background-image: url("https://store.akamai.steamstatic.com/public/images/v6/icon_platform_mac.png");
+    }
+
+    &.linux {
+      background-image: url("https://store.akamai.steamstatic.com/public/images/v6/icon_platform_linux.png");
+    }
+  }
 }
 
 .title {
-    font-size: 22px;
-    font-weight: 600;
-    margin-bottom: 1rem;
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 1rem;
 }
 
 .prices {
-    float: right;
+  float: right;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+
+  text-shadow: 0px 1.5px 3px rgba(0, 0, 0, 0.3);
+
+  .price {
     display: flex;
-    flex-direction: column;
     justify-content: space-between;
-    height: 100%;
+    width: fit-content;
+    margin-left: auto;
 
-    text-shadow: 0px 1.5px 3px rgba(0,0,0,0.5);
+    line-height: 3rem;
+    border-radius: 0.3rem;
 
-    .price {
-        display: flex;
-        justify-content: space-between;
-        width: fit-content;
-        margin-left: auto;
+    transition: 0.3s;
 
-        line-height: 3rem;
-        border-radius: 0.3rem;
-
-        transition: 0.3s;
-
-        &:hover {
-            filter: brightness(80%);
-        }
-
-        .price-details {
-            display: flex;
-            justify-content: space-between;
-            width: 10rem;
-            height: 3rem;
-
-            .price-tag {
-                margin-right: 1rem;
-                display: flex;
-                flex-direction: column;
-                position: relative;
-                text-align: right;
-                align-items: flex-end;
-            }
-        }
-
-        .discount {
-            border-radius: 0.3rem 0 0 0.3rem;
-
-            background-color: var(--lime);
-            color: white;
-            font-size: 1.5rem;
-            font-weight: 600;
-            padding: 0rem 0.5rem;
-        }
-
-
-        .original-price {
-            color: #626268;
-            font-size: 0.75rem;
-            text-decoration: line-through;
-            padding-top: 0.3rem;
-            height: 0.75rem;
-            line-height: 0.75rem;
-            text-shadow: none;
-        }
-
-        .final-price {
-            height: 2.25rem;
-            line-height: 2.25rem;
-            position: absolute;
-            bottom: 0%;
-            font-size: 1.1rem;
-        }
-
-        svg {
-            height: 2rem;
-            width: 2rem;
-
-            margin: 0.5rem 1rem 0.5rem 0.5rem;
-        }
-
-        &.steam-price {
-            background-color: var(--blue);
-        }
-
-        &.humble-price {
-            float: right;
-            background-color: var(--red);
-        }
+    &:hover {
+      filter: brightness(80%);
     }
+
+    .price-details {
+      display: flex;
+      justify-content: space-between;
+      width: 10rem;
+      height: 3rem;
+
+      .price-tag {
+        margin-right: 1rem;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        text-align: right;
+        align-items: flex-end;
+      }
+    }
+
+    .discount {
+      border-radius: 0.3rem 0 0 0.3rem;
+
+      background-color: var(--lime);
+      color: white;
+      font-size: 1.5rem;
+      font-weight: 600;
+      padding: 0rem 0.5rem;
+    }
+
+
+    .original-price {
+      color: #626268;
+      font-size: 0.75rem;
+      text-decoration: line-through;
+      padding-top: 0.3rem;
+      height: 0.75rem;
+      line-height: 0.75rem;
+      text-shadow: none;
+    }
+
+    .final-price {
+      height: 2.25rem;
+      line-height: 2.25rem;
+      position: absolute;
+      bottom: 0%;
+      font-size: 1.1rem;
+    }
+
+    svg {
+      height: 2rem;
+      width: 2rem;
+
+      margin: 0.5rem 1rem 0.5rem 0.5rem;
+    }
+
+    &.steam-price {
+      background-color: var(--blue);
+    }
+
+    &.humble-price {
+      float: right;
+      background-color: var(--red);
+    }
+  }
 }
 
 @keyframes fade-slide-in {
-    from {
-        opacity: 0;
-        transform: translateX(-3rem);
-    }
+  from {
+    opacity: 0;
+    transform: translateX(-3rem);
+  }
 
-    to {
-        opacity: 1;
-    }
+  to {
+    opacity: 1;
+  }
 }
 
 @media only screen and (max-width: 800px) {
-    .wishlist-item {
-        flex-direction: column;
-        height: fit-content;
-    }
+  .wishlist-item {
+    flex-direction: column;
+    height: fit-content;
+  }
 
-    .wishlist-item img {
-        width: 80%;
-        margin: auto;
-        margin-bottom: 0.5rem;
-        height: unset;
-    }
+  .wishlist-item img {
+    width: 80%;
+    margin: auto;
+    margin-bottom: 0.5rem;
+    height: unset;
+  }
 
-    .content {
-        height: 100%;
-        flex-direction: column;
-    }
+  .content {
+    height: 100%;
+    flex-direction: column;
+  }
 
-    .title {
-        margin-left: 0;
-    }
+  .title {
+    margin-left: 0;
+  }
 
-    .prices {
-        flex-direction: row;
+  .prices {
+    flex-direction: row;
 
-        height: fit-content;
+    height: fit-content;
+    width: 100%;
+
+    justify-content: space-between;
+    margin-top: 0.75rem;
+
+    .price {
+      position: relative;
+
+      &.discounted {
+        border-radius: 0 0 0.3rem 0.3rem;
+      }
+
+      .discount {
+        position: absolute;
+        bottom: 100%;
         width: 100%;
+        border-radius: 0.3rem 0.3rem 0 0;
+        height: 50%;
+        font-size: 1rem;
+        line-height: 1.5rem;
 
-        justify-content: space-between;
-        margin-top: 0.75rem;
-
-        .price {
-            position: relative;
-
-            &.discounted {
-                border-radius: 0 0 0.3rem 0.3rem;
-            }
-
-            .discount {
-                position: absolute;
-                bottom: 100%;
-                width: 100%;
-                border-radius: 0.3rem 0.3rem 0 0;
-                height: 50%;
-                font-size: 1rem;
-                line-height: 1.5rem;
-
-                text-align: center;
-            }
-        }
+        text-align: center;
+      }
     }
+  }
 }
