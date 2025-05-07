@@ -1,7 +1,7 @@
 # Sale Savant
 <p align="center">
     <a href="https://salesavant.lexalot.dev/">
-        <img height="400px" src="" alt="Preview">
+        <img height="400px" src="https://github.com/alexbarker234/sale-savant/blob/master/media/preview.png?raw=true" alt="Preview">
     </a>
 </p>
 
