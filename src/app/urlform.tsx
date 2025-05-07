@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
 import { useRouter } from "next/navigation";
+import React, { useState } from "react";
 
 import styles from "./urlForm.module.scss";
 
@@ -26,14 +26,14 @@ const UrlForm = () => {
   };
   return (
     <form onSubmit={handleSubmit} method="post" className={styles["form"]}>
-      <label htmlFor="url">Enter your Steam username or profile URL</label>
+      <label htmlFor="url">Enter your Steam profile URL</label>
       <input
         onChange={(e) => setSearch(e.target.value)}
         type="text"
         id="url"
         name="url"
         required
-        placeholder="Your profile url or username"
+        placeholder="Your profile url"
       />
       <p id="error" className={styles["error"]}>
         {message}
