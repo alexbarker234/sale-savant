@@ -1,8 +1,9 @@
+import { Deal, WishlistItem } from "@/types/saleSavant";
 import styles from "./wishlistItem.module.scss";
 
 // doing dangerouslySetInnerHTML to deal with games that have HTML entities in their name
 
-const WishlistItem = ({ index, item }: { index: number; item: WishlistItem }) => {
+const WishlistItemComponent = ({ index, item }: { index: number; item: WishlistItem }) => {
   return (
     <div className={styles["wishlist-item"]} style={item.show ? {} : { display: "none" }}>
       <img width={296} height={136} src={item.imageURL} alt={`Banner art for ${item.gameName}`} />
@@ -58,4 +59,4 @@ function getReviewCSS(percent: number) {
   return "amazing";
 }
 
-export default WishlistItem;
+export default WishlistItemComponent;

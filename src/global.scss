@@ -137,12 +137,28 @@ button {
 
 /* Checkboxes */
 
+label {
+  display: flex;
+  align-items: center;
+}
+
+label:has(input[type="checkbox"]) {
+  transition: opacity 0.2s;
+  transition: border-color 0.2s, color 0.2s;
+
+  &:hover {
+    border-color: var(--light-grey);
+    color: var(--light-grey);
+  }
+}
+
+
 input[type="checkbox"] {
   position: relative;
   -webkit-appearance: none;
   appearance: none;
   background-color: var(--form-background);
-  margin: 0 0.5rem;
+  margin: auto 0.5rem;
   font: inherit;
   color: currentColor;
   width: 1.15em;
@@ -167,10 +183,6 @@ input[type="checkbox"] {
   &:checked::before {
     transform: scale(1);
     border-radius: 0;
-  }
-
-  &:hover {
-    border-color: var(--light-grey);
   }
 
   &:disabled {

@@ -14,7 +14,6 @@ async function fetchWishlistData(id: string) {
   const wishlist = steamResponse.data;
   const steamIDs = wishlist.map((item) => item.appid.toString());
   const cheapSharkResponse = await CheapShark.requestGameDeals(steamIDs);
-  console.log(cheapSharkResponse);
   const response: WishlistResponse = {};
 
   for (let wishlistItem of wishlist) {

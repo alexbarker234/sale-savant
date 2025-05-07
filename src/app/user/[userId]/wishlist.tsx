@@ -1,12 +1,12 @@
 "use client";
 
-import { ErrorResponse, WishlistResponse } from "@/types/saleSavant";
+import { ErrorResponse, WishlistItem, WishlistResponse } from "@/types/saleSavant";
 import { useEffect, useState } from "react";
 import Filters from "./filters";
 import Loading from "./loading";
 import { GameCount } from "./userInfo";
 import styles from "./wishlist.module.scss";
-import WishlistItem from "./wishlistItem";
+import WishlistItemComponent from "./wishlistItem";
 
 interface WishlistProp {
   userID: string;
@@ -43,8 +43,6 @@ export default function Wishlist({ userID, setGameCount }: WishlistProp) {
   const [currentSort, setCurrentSort] = useState<SortAttribute>(SortAttribute.maxDiscount);
 
   useEffect(() => {
-    //console.log(`trying to request for ${userID}`);
-
     const fetchData = async () => {
       const res = await fetch(`/api/get-wishlist?id=${userID}`);
       if (!res.ok) {
@@ -61,14 +59,11 @@ export default function Wishlist({ userID, setGameCount }: WishlistProp) {
       }
 
       const data: WishlistResponse = await res.json();
-      console.log(data);
 
       const sortDir = sortOptions.find((s) => s.attribute === currentSort)?.dir ?? 1;
       let wishlistItems = Object.values(data)
         .sort((a, b) => (b[currentSort] - a[currentSort]) * sortDir)
         .filter((item) => item.steamDeal);
-
-      console.log(wishlistItems);
 
       setGameCount({
         saleCount: wishlistItems.filter((item) => item.steamDeal?.discountPercent || item.humbleDeal?.discountPercent)
@@ -115,7 +110,7 @@ export default function Wishlist({ userID, setGameCount }: WishlistProp) {
           </div>
           <div id="wishlist-items" key={Math.random()}>
             {wishlistItems.map((wishlistItem, index) => (
-              <WishlistItem key={index} index={index} item={wishlistItem} />
+              <WishlistItemComponent key={index} index={index} item={wishlistItem} />
             ))}
           </div>
         </>

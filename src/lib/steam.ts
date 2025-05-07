@@ -1,4 +1,4 @@
-import { SaleSavantUser } from "@/types";
+import { SaleSavantUser } from "@/types/saleSavant";
 import { SteamProfile, SteamWishlistItem, SteamWishlistResponse } from "@/types/steam";
 
 export class Steam {
@@ -42,7 +42,7 @@ export class Steam {
     if (!this.KEY) throw new Error("STEAM_KEY not set");
 
     const apiUrl = `https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/?key=${this.KEY}&steamids=${userID}`;
-    const response = await (await fetch(apiUrl)).json();
+    const response = await (await fetch(apiUrl, { next: { revalidate: 6000 } })).json();
     const user: SteamProfile = response.response.players[0];
     return user
       ? {

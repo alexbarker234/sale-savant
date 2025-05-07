@@ -36,48 +36,24 @@ export class CheapShark {
     // Format response
     const responseObj: CheapSharkGameListResponse = {};
     fullResponse.forEach((item) => {
-      if (item.storeID === "1") {
-        if (!responseObj[item.steamAppID]) {
-          responseObj[item.steamAppID] = {
-            title: item.title,
-            salePrice: item.salePrice,
-            normalPrice: item.normalPrice,
-            steamRatingPercent: item.steamRatingPercent,
-            steam: {
-              salePrice: "0",
-              normalPrice: "0",
-              dealID: "",
-              savings: "0"
-            }
-          };
-        }
-        responseObj[item.steamAppID]!.steam = {
-          salePrice: item.salePrice,
-          normalPrice: item.normalPrice,
-          dealID: item.dealID,
-          savings: item.savings
+      const { steamAppID, storeID, title, salePrice, normalPrice, steamRatingPercent, dealID, savings } = item;
+
+      if (!responseObj[steamAppID]) {
+        responseObj[steamAppID] = {
+          title,
+          salePrice,
+          normalPrice,
+          steamRatingPercent,
+          steam: { salePrice: "0", normalPrice: "0", dealID: "", savings: "0" }
         };
-      } else if (item.storeID === "11") {
-        if (!responseObj[item.steamAppID]) {
-          responseObj[item.steamAppID] = {
-            title: item.title,
-            salePrice: item.salePrice,
-            normalPrice: item.normalPrice,
-            steamRatingPercent: item.steamRatingPercent,
-            steam: {
-              salePrice: "0",
-              normalPrice: "0",
-              dealID: "",
-              savings: "0"
-            }
-          };
-        }
-        responseObj[item.steamAppID]!.humble = {
-          salePrice: item.salePrice,
-          normalPrice: item.normalPrice,
-          dealID: item.dealID,
-          savings: item.savings
-        };
+      }
+
+      const storeData = { salePrice, normalPrice, dealID, savings };
+
+      if (storeID === "1") {
+        responseObj[steamAppID]!.steam = storeData;
+      } else if (storeID === "11") {
+        responseObj[steamAppID]!.humble = storeData;
       }
     });
 

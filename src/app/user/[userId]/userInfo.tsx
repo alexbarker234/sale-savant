@@ -1,3 +1,4 @@
+import { SaleSavantUser } from "@/types/saleSavant";
 import Image from "next/image";
 import Loading from "./loading";
 import styles from "./userInfo.module.scss";
@@ -24,7 +25,7 @@ export default function UserInfo({ userData, gameCount }: UserInfoProps) {
           <div className={styles["username"]}>{userData?.displayName}</div>
           's Wishlist
         </a>
-        <div>{gameCount.gameCount != -1 ? `${gameCount.gameCount} games on wishlist` : ""} </div>
+        <div>{gameCount.gameCount != -1 ? `${gameCount.gameCount} released games on wishlist` : ""} </div>
         <div>{gameCount.saleCount != -1 ? `${gameCount.saleCount} games on sale` : ""} </div>
       </div>
     </div>
