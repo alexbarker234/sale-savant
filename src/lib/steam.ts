@@ -1,24 +1,5 @@
-// steam really does just have awful naming
-interface SteamProfile {
-  steamid: string;
-  communityvisibilitystate: number;
-  profilestate: number;
-  personaname: string;
-  commentpermission: number;
-  profileurl: string;
-  avatar: string;
-  avatarmedium: string;
-  avatarfull: string;
-  avatarhash: string;
-  lastlogoff: number;
-  personastate: number;
-  realname: string;
-  primaryclanid: string;
-  timecreated: number;
-  personastateflags: number;
-  loccountrycode: string;
-  locstatecode: string;
-}
+import { SaleSavantUser } from "@/types/saleSavant";
+import { SteamProfile, SteamWishlistItem, SteamWishlistResponse } from "@/types/steam";
 
 export class Steam {
   private static readonly KEY = process.env.STEAM_KEY;
@@ -40,30 +21,28 @@ export class Steam {
     return json.response?.steamid;
   }
 
-  static async getUserWishlist(userID: string): Promise<{ status: "success" | "error"; data: SteamWishlistResponse }> {
+  static async getUserWishlist(userID: string): Promise<{ status: "success" | "error"; data: SteamWishlistItem[] }> {
     try {
-      const finalResponse: SteamWishlistResponse = {};
-      const apiUrl = `https://store.steampowered.com/wishlist/profiles/${userID}/wishlistdata/?p=`;
-      console.log(`Requesting: ${apiUrl}`);
-      let response: SteamWishlistResponse;
-      let page = 0;
-      do {
-        response = await (await fetch(apiUrl + page, { next: { revalidate: 600 } })).json();
-        if ("success" in response) return { status: "error", data: {} };
+      // why does this not require a key?
+      const apiUrl = `https://api.steampowered.com/IWishlistService/GetWishlist/v1?steamid=${userID}`;
+      const response: SteamWishlistResponse = await (await fetch(apiUrl)).json();
 
-        Object.assign(finalResponse, response);
-        page++;
-      } while (Object.keys(response).length > 0);
-      return { status: "success", data: finalResponse };
+      // returns { response: {} } for private wishlists
+      // check for empty object
+      if (!response.response || Object.keys(response.response).length === 0) {
+        return { status: "error", data: [] };
+      }
+
+      return { status: "success", data: response.response.items };
     } catch {
-      return { status: "error", data: {} };
+      return { status: "error", data: [] };
     }
   }
-  static async getUser(userID: string): Promise<SteamUser | undefined> {
+  static async getUser(userID: string): Promise<SaleSavantUser | undefined> {
     if (!this.KEY) throw new Error("STEAM_KEY not set");
 
     const apiUrl = `https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/?key=${this.KEY}&steamids=${userID}`;
-    const response = await (await fetch(apiUrl)).json();
+    const response = await (await fetch(apiUrl, { next: { revalidate: 6000 } })).json();
     const user: SteamProfile = response.response.players[0];
     return user
       ? {
