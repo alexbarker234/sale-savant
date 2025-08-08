@@ -1,12 +1,15 @@
 /* Globals */
 :root {
-  --dark-grey: #121213;
-  --grey: #1a2128;
+  --black: #0b0e11;
+  --dark-grey: #15151a;
+  --grey: #1f2433;
+  --grey-text: #5a5a66;
+  --light-grey: #9da3ac;
+
   --blue: #219dd6;
   --red: #c1252a;
-  --light-grey: #9da3ac;
   --gold: #ebb54b;
-  --lime: #77ad2a;
+  --lime: #a1cd44;
 }
 
 
@@ -186,7 +189,7 @@ input[type="text"] {
   outline: unset;
 
   outline: white 2px solid;
-  border-radius: 4px;
+  border-radius: 2rem;
 
   background-color: var(--dark-grey);
   padding: 0.5rem 1rem;
