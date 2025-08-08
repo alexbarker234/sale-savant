@@ -10,8 +10,15 @@
   --red: #c1252a;
   --gold: #ebb54b;
   --lime: #a1cd44;
+
+  --discount-green: #4ade80;
+  --discount-green-text: #064e3b;
 }
 
+body,
+html {
+  overflow: hidden;
+}
 
 body {
   background-image: radial-gradient(ellipse 900px 900px at top center, #202942 0%, #0b0e11 100%);
