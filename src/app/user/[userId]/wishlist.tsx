@@ -1,5 +1,6 @@
 "use client";
 
+import Button from "@/components/Button";
 import { ErrorResponse, WishlistItem, WishlistResponse } from "@/types/saleSavant";
 import { useEffect, useState } from "react";
 import Filters from "./filters";
@@ -99,13 +100,13 @@ export default function Wishlist({ userID, setGameCount }: WishlistProp) {
           <Filters wishlistItems={wishlistItems} setWishlistItems={setWishlistItems} />
           <div className={styles["order-buttons"]}>
             {sortOptions.map((sortType) => (
-              <button
+              <Button
                 key={sortType.attribute}
                 className={currentSort === sortType.attribute ? styles["current"] : ""}
                 onClick={() => isSortAttribute(sortType.attribute) && orderBy(sortType.attribute, sortType.dir)}
               >
                 {sortType.name}
-              </button>
+              </Button>
             ))}
           </div>
           <div id="wishlist-items" key={Math.random()}>

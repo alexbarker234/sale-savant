@@ -1,24 +1,22 @@
 .form {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    translate: -50% -50%;
-    align-items: center;
-    text-align: center;
-    width: 95%;
+  position: relative;
+  align-items: center;
+  text-align: center;
+  width: 95%;
+  margin: auto;
+  margin-top: 4rem;
+
+  * {
+    display: block;
     margin: auto;
+  }
 
-    * {
-        display: block;
-        margin: auto;
-    }
+  label {
+    width: fit-content;
+  }
 
-    label {
-        width: fit-content;
-    }
-
-    .error {
-        color: red;
-        margin: 1rem auto;
-    }
+  .error {
+    color: red;
+    margin: 1rem auto;
+  }
 }

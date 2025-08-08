@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
+import Button from "@/components/Button";
 import styles from "./urlForm.module.scss";
 
 const UrlForm = () => {
@@ -39,9 +40,9 @@ const UrlForm = () => {
         {message}
       </p>
 
-      <button id="button" type="submit" disabled={buttonDisabled}>
+      <Button id="button" type="submit" disabled={buttonDisabled}>
         Submit
-      </button>
+      </Button>
     </form>
   );
 };

@@ -3,6 +3,7 @@
 import Checkbox from "@/components/checkbox";
 import { WishlistItem } from "@/types/saleSavant";
 import { useEffect, useState } from "react";
+import { FaSearch } from "react-icons/fa";
 import styles from "./filters.module.scss";
 interface FilterProps {
   wishlistItems: WishlistItem[];
@@ -35,13 +36,16 @@ export default function Filters({ wishlistItems, setWishlistItems }: FilterProps
       <div className={styles["filters"]}>
         <Checkbox id="sales" label="On Sale" checked={saleFilter} onChange={setSaleFilter} />
       </div>
-      <input
-        onChange={(e) => handleSearch(e.target.value)}
-        className={styles["search"]}
-        type="text"
-        autoComplete="off"
-        placeholder="Filter by title"
-      />
+      <div className={styles["search-container"]}>
+        <input
+          onChange={(e) => handleSearch(e.target.value)}
+          className={styles["search"]}
+          type="text"
+          autoComplete="off"
+          placeholder="Filter by title"
+        />
+        <FaSearch className={styles["search-icon"]} />
+      </div>
     </div>
   );
 }

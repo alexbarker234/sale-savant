@@ -9,19 +9,7 @@ module.exports = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "avatars.steamstatic.com",
-        port: "",
-        pathname: "/**"
-      },
-      {
-        protocol: "https",
-        hostname: "cdn.cloudflare.steamstatic.com",
-        port: "",
-        pathname: "/**"
-      },
-      {
-        protocol: "https",
-        hostname: "cdn.akamai.steamstatic.com",
+        hostname: "*.steamstatic.com",
         port: "",
         pathname: "/**"
       }

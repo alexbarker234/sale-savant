@@ -1,0 +1,151 @@
+// Container for the menu
+.menuContainer {
+  position: relative;
+  display: inline-block;
+  text-align: left;
+}
+
+// Menu button styles
+.menuButton {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background-color: var(--dark-grey);
+  border: var(--blue) 2px solid;
+  border-radius: 10rem;
+  padding: 0.5rem 0.75rem;
+  cursor: pointer;
+  transition: 0.1s;
+  color: white;
+
+  &:hover {
+    background-color: var(--blue);
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  @media (max-width: 640px) {
+    padding: 0.5rem;
+  }
+}
+
+// User avatar image
+.avatar {
+  border-radius: 50%;
+  height: 2rem;
+  width: 2rem;
+  transition: 0.2s;
+  user-select: none;
+  pointer-events: none;
+
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+// User display name
+.displayName {
+  font-weight: 600;
+  color: white;
+  transition: 0.2s;
+
+  @media (max-width: 640px) {
+    display: none;
+  }
+}
+
+// Dropdown arrow icon
+.dropdownIcon {
+  width: 1rem;
+  height: 1rem;
+  color: var(--light-grey);
+  transition: 0.2s;
+
+  @media (max-width: 640px) {
+    display: none;
+  }
+}
+
+// Menu items container
+.menuItems {
+  position: absolute;
+  right: 0;
+  margin-top: 0.5rem;
+  width: 12rem;
+  background-color: var(--dark-grey);
+  border: var(--blue) 2px solid;
+  border-radius: 0.5rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
+  padding: 1px;
+  z-index: 1000;
+
+  &:focus {
+    outline: none;
+  }
+}
+
+// Base styles for menu items (both links and buttons)
+.menuItem {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  color: white;
+  border-radius: 0.25rem;
+  transition: 0.2s;
+  cursor: pointer;
+  text-decoration: none;
+  background: none;
+  border: none;
+  font: inherit;
+  background-color: var(--dark-grey);
+
+  &:hover {
+    background-color: #1E2329;
+  }
+
+  &:focus {
+    outline: none;
+  }
+}
+
+// Icon within menu items
+.menuItemIcon {
+  margin-right: 0.75rem;
+  width: 1rem;
+  height: 1rem;
+  color: var(--light-grey);
+  transition: 0.2s;
+}
+
+// Transition classes for dropdown animation
+.transitionEnter {
+  transition: all 0.1s ease-out;
+}
+
+.transitionEnterFrom {
+  transform: scale(0.95);
+  opacity: 0;
+}
+
+.transitionEnterTo {
+  transform: scale(1);
+  opacity: 1;
+}
+
+.transitionLeave {
+  transition: all 0.075s ease-in;
+}
+
+.transitionLeaveFrom {
+  transform: scale(1);
+  opacity: 1;
+}
+
+.transitionLeaveTo {
+  transform: scale(0.95);
+  opacity: 0;
+}

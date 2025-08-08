@@ -1,26 +1,6 @@
+import { GameDeal } from "@/types";
 import { CheapSharkGameListResponse } from "@/types/cheapShark";
 
-interface GameDeal {
-  internalName: string;
-  title: string;
-  metacriticLink: string;
-  dealID: string;
-  storeID: string;
-  gameID: string;
-  salePrice: string;
-  normalPrice: string;
-  isOnSale: string;
-  savings: string;
-  metacriticScore: string;
-  steamRatingText: string;
-  steamRatingPercent: string;
-  steamRatingCount: string;
-  steamAppID: string;
-  releaseDate: number;
-  lastChange: number;
-  dealRating: string;
-  thumb: string;
-}
 export class CheapShark {
   static async requestGameDeals(steamIDs: string[]): Promise<CheapSharkGameListResponse> {
     const apiUrl = (pageNum: number) =>
@@ -70,5 +50,22 @@ export class CheapShark {
     const response = await fetch(apiUrl(1), { next: { revalidate: 600 } });
     if (!response.ok) throw new Error("Failed to fetch the first page");
     return parseInt(response.headers.get("X-Total-Page-Count") || "0", 10);
+  }
+
+  static async getHomePageDeals(): Promise<GameDeal[]> {
+    const params = new URLSearchParams({
+      storeID: "11,1",
+      sortBy: "DealRating",
+      desc: "true",
+      pageNumber: "1",
+      steamworks: "true",
+      onSale: "true",
+      steamRating: "75"
+    });
+    const response = await fetch(`https://www.cheapshark.com/api/1.0/deals?${params.toString()}`, {
+      next: { revalidate: 600 }
+    });
+    if (!response.ok) throw new Error("Failed to fetch the first page");
+    return response.json();
   }
 }
