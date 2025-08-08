@@ -116,6 +116,21 @@ nav {
   }
 }
 
+@media (max-width: 640px) {
+  .nav-auth {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 4rem;
+    width: 14rem;
+  }
+
+  .login-btn {
+    padding: 0.5rem 1rem;
+    width: 100%;
+  }
+}
+
 /* buttons */
 button {
   background: none;
