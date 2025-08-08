@@ -1,8 +1,8 @@
+import Footer from "@/components/layout/Footer";
+import Header from "@/components/layout/Header";
 import { SessionProvider } from "@/components/session-provider";
 import "@/global.scss";
 import { Poppins } from "next/font/google";
-import Footer from "./footer";
-import Nav from "./nav";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -20,7 +20,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className={poppins.className}>
         <SessionProvider>
           <main>
-            <Nav />
+            <Header />
             <div className="content">{children}</div>
             <Footer />
           </main>

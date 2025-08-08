@@ -6,7 +6,7 @@ import Link from "next/link";
 import { FaSteam } from "react-icons/fa";
 import { FaCrown } from "react-icons/fa6";
 
-export default function Nav() {
+export default function Header() {
   const { user, isLoggedIn, loading } = useSession();
 
   return (
