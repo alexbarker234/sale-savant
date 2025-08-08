@@ -7,12 +7,14 @@ interface SessionContextType {
   user: SteamUser | null;
   isLoggedIn: boolean;
   loading: boolean;
+  logout: () => Promise<void>;
 }
 
 const SessionContext = createContext<SessionContextType>({
   user: null,
   isLoggedIn: false,
-  loading: true
+  loading: true,
+  logout: async () => {}
 });
 
 export function useSession() {
@@ -23,8 +25,28 @@ export function SessionProvider({ children }: { children: React.ReactNode }) {
   const [session, setSession] = useState<SessionContextType>({
     user: null,
     isLoggedIn: false,
-    loading: true
+    loading: true,
+    logout: async () => {}
   });
+
+  const logout = async () => {
+    try {
+      const response = await fetch("/api/auth/logout");
+      if (response.ok) {
+        // Clear session state immediately
+        setSession((prev) => ({
+          ...prev,
+          user: null,
+          isLoggedIn: false,
+          loading: false
+        }));
+        // Force page refresh to clear all cached data
+        window.location.href = "/";
+      }
+    } catch (error) {
+      console.error("Logout error:", error);
+    }
+  };
 
   useEffect(() => {
     async function checkSession() {
@@ -35,13 +57,15 @@ export function SessionProvider({ children }: { children: React.ReactNode }) {
           setSession({
             user: data.user || null,
             isLoggedIn: data.isLoggedIn || false,
-            loading: false
+            loading: false,
+            logout
           });
         } else {
           setSession({
             user: null,
             isLoggedIn: false,
-            loading: false
+            loading: false,
+            logout
           });
         }
       } catch (error) {
@@ -49,7 +73,8 @@ export function SessionProvider({ children }: { children: React.ReactNode }) {
         setSession({
           user: null,
           isLoggedIn: false,
-          loading: false
+          loading: false,
+          logout
         });
       }
     }

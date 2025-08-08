@@ -6,7 +6,15 @@ export async function GET(request: NextRequest) {
     const session = await getSession();
     session.destroy();
 
-    return NextResponse.redirect(new URL("/", request.url));
+    // Create response with cache-busting headers
+    const response = NextResponse.redirect(new URL("/", request.url));
+
+    // Add headers to force refresh and clear cache
+    response.headers.set("Cache-Control", "no-cache, no-store, must-revalidate");
+    response.headers.set("Pragma", "no-cache");
+    response.headers.set("Expires", "0");
+
+    return response;
   } catch (error) {
     console.error("Logout error:", error);
     return NextResponse.redirect(new URL("/auth/error?error=logout_failed", request.url));

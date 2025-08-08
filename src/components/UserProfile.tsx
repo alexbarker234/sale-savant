@@ -37,11 +37,11 @@ function ProfileMenuItem({ href, onClick, icon: Icon, label }: MenuItemProps) {
 }
 
 export default function UserProfile() {
-  const { user, isLoggedIn, loading } = useSession();
+  const { user, isLoggedIn, loading, logout } = useSession();
 
   const menuItems: MenuItemProps[] = [
     { href: `/user/${user?.steamId}`, icon: FaListOl, label: "My Wishlist" },
-    { href: "/api/auth/logout", icon: FaSignOutAlt, label: "Sign Out" }
+    { onClick: logout, icon: FaSignOutAlt, label: "Sign Out" }
   ];
 
   return (
