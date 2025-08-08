@@ -1,6 +1,7 @@
+import { SessionProvider } from "@/components/session-provider";
 import "@/global.scss";
-import Nav from "./nav";
 import Footer from "./footer";
+import Nav from "./nav";
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -9,11 +10,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="icon" href="/favicon.ico" sizes="any" />
       </head>
       <body>
-        <main>
-          <Nav />
-          <div className="content">{children}</div>
-          <Footer />
-        </main>
+        <SessionProvider>
+          <main>
+            <Nav />
+            <div className="content">{children}</div>
+            <Footer />
+          </main>
+        </SessionProvider>
       </body>
     </html>
   );

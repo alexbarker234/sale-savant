@@ -41,7 +41,6 @@ main {
 /* nav */
 nav {
   height: 4rem;
-  // background-color: var(--dark-grey);
 }
 
 .nav-logo {
@@ -77,6 +76,34 @@ nav {
   * {
     display: inline;
     margin: 0;
+  }
+}
+
+.nav-auth {
+  position: absolute;
+  right: 0;
+  top: 0;
+  margin: 0.5rem;
+}
+
+.login-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: var(--blue);
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  transition: 0.2s;
+
+  svg {
+    font-size: 1.2rem;
+  }
+
+  &:hover {
+    background-color: #1a7bb3;
+    transform: scale(1.05);
   }
 }
 
@@ -247,5 +274,53 @@ input[type="text"] {
   100% {
     transform: rotate(-30deg);
     translate: -12px 2px;
+  }
+}
+
+/* Authentication UI */
+.loading-container,
+.welcome-container,
+.login-prompt {
+  text-align: center;
+  padding: 2rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.welcome-container {
+  h1 {
+    color: var(--gold);
+    margin-bottom: 1rem;
+  }
+
+  p {
+    color: var(--light-grey);
+    margin-bottom: 2rem;
+  }
+}
+
+.login-prompt {
+  h1 {
+    color: var(--gold);
+    margin-bottom: 1rem;
+  }
+
+  p {
+    color: var(--light-grey);
+    margin-bottom: 2rem;
+  }
+}
+
+.auth-error {
+  background-color: var(--red);
+  color: white;
+  padding: 1rem;
+  margin: 1rem auto;
+  max-width: 800px;
+  border-radius: 0.5rem;
+  text-align: center;
+
+  p {
+    margin: 0;
   }
 }
