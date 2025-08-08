@@ -1,8 +1,8 @@
 .wishlist-item {
   --item-height: 10rem;
-  font-family: sans-serif;
 
-  background-color: var(--dark-grey);
+  border-radius: 1rem;
+  background-color: #1f2433;
   width: 100%;
   height: 10rem;
 
@@ -19,11 +19,9 @@
   opacity: 0;
   animation: fade-slide-in 0.5s forwards;
 
-  // box-shadow: 0px 5px 5px 5px rgba(0, 0, 0, 0.1);
-}
-
-.wishlist-item img {
-  height: 100%;
+  img {
+    height: 100%;
+  }
 }
 
 .content {

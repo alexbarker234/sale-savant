@@ -1,6 +1,7 @@
 /* Globals */
 :root {
   --dark-grey: #121213;
+  --grey: #1a2128;
   --blue: #219dd6;
   --red: #c1252a;
   --light-grey: #9da3ac;
@@ -12,7 +13,7 @@
 body {
   background-image: radial-gradient(ellipse 900px 900px at top center, #202942 0%, #0b0e11 100%);
   color: white;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-poppins), Arial, Helvetica, sans-serif;
   margin: 0;
   padding: 0;
   height: 100%;
@@ -144,20 +145,6 @@ button {
   font: inherit;
   cursor: pointer;
   outline: inherit;
-  border: var(--blue) 2px solid;
-  padding: 0.75rem 2rem;
-  border-radius: 2rem;
-  transition: 0.2s;
-
-  &:not(:disabled):hover {
-    background-color: var(--blue);
-    transform: scale(1.03);
-  }
-
-  &:disabled {
-    opacity: 0.5;
-    pointer-events: none;
-  }
 }
 
 /* Checkboxes */
