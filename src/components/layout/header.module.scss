@@ -73,16 +73,17 @@
 
 /* Mobile responsive styles */
 @media (max-width: 640px) {
-  .navAuth {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    top: 4rem;
-    width: 14rem;
+  .navLogo {
+    margin: 0;
+    scale: 0.8;
   }
 
   .loginBtn {
     padding: 0.5rem 1rem;
     width: 100%;
+  }
+
+  .mobileHidden {
+    display: none;
   }
 }
