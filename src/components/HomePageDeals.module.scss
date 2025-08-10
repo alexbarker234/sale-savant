@@ -38,6 +38,7 @@
   align-items: center;
   justify-content: center;
   flex: 1;
+  width: 100%;
 }
 
 .mobileDeals {
@@ -64,7 +65,7 @@
   border-radius: 8px;
   overflow: hidden;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  min-width: 250px;
+  min-width: 0px;
   max-width: 280px;
   flex: 1;
 
@@ -76,16 +77,21 @@
 .thumbnailContainer {
   position: relative;
   width: 100%;
-  height: 160px;
   overflow: hidden;
+  height: 120px;
+
+  .thumbnail {
+    height: 100%;
+    width: 100%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    object-fit: cover;
+    object-position: center;
+  }
 }
 
-.thumbnail {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.3s ease;
-}
+
 
 .priceInfo {
   padding: 1rem;
@@ -93,6 +99,13 @@
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+
+  .title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    height: 4rem;
+    text-overflow: ellipsis;
+  }
 }
 
 .discount {
@@ -178,7 +191,6 @@
   }
 
   .dealCard {
-    min-width: 200px;
     max-width: 220px;
   }
 
@@ -209,7 +221,6 @@
   }
 
   .dealCard {
-    min-width: 250px;
     max-width: 280px;
     flex-shrink: 0;
   }

@@ -35,45 +35,52 @@
     }
   }
 
-
-
   .image {
     height: 100%;
     width: fit-content;
 
     margin-right: 1rem;
+
+    img {
+      height: 100%;
+      width: auto;
+      object-fit: cover;
+      border-radius: 2px;
+      transition: 0.2s;
+
+      &:hover {
+        opacity: 0.8;
+      }
+    }
   }
 
   a {
     text-decoration: none;
     color: white;
   }
-
-  img {
-    height: 100%;
-    width: auto;
-    object-fit: cover;
-    border-radius: 2px;
-    transition: 0.2s;
-
-    &:hover {
-      opacity: 0.8;
-    }
-  }
-
 }
 
 
 @media only screen and (max-width: 800px) {
   .user {
-    padding: 0.4rem;
+    padding: 0.75rem;
 
-    .title {
-      font-size: 1.3rem;
+    .details {
+      font-size: 0.9rem;
     }
 
-    img {
-      height: 70%;
+    .title {
+      font-size: 1.1rem;
+    }
+
+    .image {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      img {
+        height: 70%;
+      }
     }
   }
 }

@@ -7,7 +7,8 @@ interface ImageThumbnailProps {
   alt: string;
   width: number;
   height: number;
-  className?: string;
+  imageClassName?: string;
+  containerClassName?: string;
 }
 
 const STEAM_IMAGE_SIZES = [
@@ -25,7 +26,8 @@ export default function ImageThumbnail({
   alt,
   width,
   height,
-  className
+  imageClassName,
+  containerClassName
 }: ImageThumbnailProps) {
   const [currentImageUrl, setCurrentImageUrl] = useState<string>("");
   const [currentSizeIndex, setCurrentSizeIndex] = useState<number>(0);
@@ -119,13 +121,13 @@ export default function ImageThumbnail({
   }, [originalUrl]);
 
   return (
-    <div className={`relative ${className || ""}`}>
+    <div className={`relative ${containerClassName || ""}`}>
       <img
         src={currentImageUrl}
         alt={alt}
         width={width}
         height={height}
-        className={className}
+        className={imageClassName}
         onLoad={handleLoad}
         onError={handleError}
         style={{

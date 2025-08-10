@@ -1,20 +1,26 @@
 .wishlist {
-    width: 95%;
-    max-width: 50rem;
-    margin: auto;
+  width: 95%;
+  max-width: 50rem;
+  margin: auto;
 }
 
 .order-buttons {
-    display: flex;
-    width: 100%;
-    justify-content: space-evenly;
-    margin: 1rem 0;
+  display: flex;
+  width: 100%;
+  justify-content: space-evenly;
+  margin: 1rem 0;
+  gap: 1rem;
 
-    button {
-        width: 8rem;
-        &.current {
-            background-color: var(--blue);
-            pointer-events: none;
-        }
+  button {
+    flex: 1 1 0;
+    min-width: 0;
+    max-width: 100%;
+    padding-right: 0;
+    padding-left: 0;
+
+    &.current {
+      background-color: var(--blue);
+      pointer-events: none;
     }
+  }
 }

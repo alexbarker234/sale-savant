@@ -1,0 +1,89 @@
+/* Navigation styles */
+.header {
+  height: 4rem;
+}
+
+.navLogo {
+  margin: auto;
+  height: fit-content;
+  width: fit-content;
+  display: block;
+  line-height: 4rem;
+  font-weight: 600;
+  font-size: 2rem;
+  transition: 0.2s;
+
+  .logoS svg {
+    position: absolute;
+    width: 26px;
+    transform: rotate(-30deg);
+    translate: -12px 2px;
+    color: var(--gold);
+    transition: transform 0.5s, translate 0.5s;
+  }
+
+  &:hover {
+    transform: scale(1.03);
+    color: var(--gold);
+
+    .logoS svg {
+      transform: rotate(-720deg);
+      translate: -32px 20px;
+    }
+  }
+
+  * {
+    display: inline;
+    margin: 0;
+  }
+}
+
+.navAuth {
+  position: absolute;
+  right: 0;
+  top: 0;
+  margin: 0.5rem;
+}
+
+.loginBtn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 1rem;
+  font-weight: 600;
+  transition: 0.2s;
+  border: 2px solid white;
+
+  svg {
+    font-size: 1.2rem;
+  }
+
+  &:hover {
+    background-color: white;
+    color: var(--black);
+  }
+}
+
+.loading {
+  color: var(--light-grey);
+  font-style: italic;
+}
+
+/* Mobile responsive styles */
+@media (max-width: 640px) {
+  .navLogo {
+    margin: 0;
+    scale: 0.8;
+  }
+
+  .loginBtn {
+    padding: 0.5rem 1rem;
+    width: 100%;
+  }
+
+  .mobileHidden {
+    display: none;
+  }
+}

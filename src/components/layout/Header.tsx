@@ -1,32 +1,30 @@
-"use client";
-
-import { useSession } from "@/components/session-provider";
 import UserProfile from "@/components/UserProfile";
+import { getSession } from "@/lib/session";
 import Link from "next/link";
+import { use } from "react";
 import { FaSteam } from "react-icons/fa";
 import { FaCrown } from "react-icons/fa6";
+import styles from "./header.module.scss";
 
 export default function Header() {
-  const { user, isLoggedIn, loading } = useSession();
+  const { user, isLoggedIn } = use(getSession());
 
   return (
-    <nav>
-      <Link href="/" className="nav-logo">
-        <div className="logo-s">
+    <nav className={styles.header}>
+      <Link href="/" className={styles.navLogo}>
+        <div className={styles.logoS}>
           <FaCrown />S
         </div>
         <p>ale Savant</p>
       </Link>
 
-      <div className="nav-auth">
-        {loading ? (
-          <div className="loading">Loading...</div>
-        ) : isLoggedIn && user ? (
+      <div className={styles.navAuth}>
+        {isLoggedIn && user ? (
           <UserProfile />
         ) : (
-          <Link href="/api/auth/login" className="login-btn">
+          <Link href="/api/auth/login" className={styles.loginBtn}>
             <FaSteam />
-            Login with Steam
+            Login <span className={styles.mobileHidden}>with Steam</span>
           </Link>
         )}
       </div>
