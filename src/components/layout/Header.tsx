@@ -1,12 +1,13 @@
 import UserProfile from "@/components/UserProfile";
 import { getSession } from "@/lib/session";
 import Link from "next/link";
+import { use } from "react";
 import { FaSteam } from "react-icons/fa";
 import { FaCrown } from "react-icons/fa6";
 import styles from "./header.module.scss";
 
-export default async function Header() {
-  const { user, isLoggedIn } = await getSession();
+export default function Header() {
+  const { user, isLoggedIn } = use(getSession());
 
   return (
     <nav className={styles.header}>
