@@ -1,3 +1,4 @@
+import { dealURL } from "@/lib/utils";
 import { Deal, WishlistItem } from "@/types/saleSavant";
 import styles from "./wishlistItem.module.scss";
 
@@ -30,7 +31,7 @@ const WishlistItemComponent = ({ index, item }: { index: number; item: WishlistI
 function Price({ price, type }: { price: Deal; type: string }) {
   return (
     <a
-      href={`https://www.cheapshark.com/redirect?dealID=${price.dealID}`}
+      href={dealURL(price.dealID)}
       className={`${styles["price"]} ${styles[type + "-price"]} ${price.discountPercent != 0 && styles["discounted"]}`}
     >
       {price.discountPercent != 0 ? <div className={styles["discount"]}>-{price.discountPercent}%</div> : ""}

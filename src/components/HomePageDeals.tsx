@@ -1,5 +1,7 @@
 "use client";
+import { dealURL } from "@/lib/utils";
 import { GameDeal } from "@/types";
+import Link from "next/link";
 import { useState } from "react";
 import { IoChevronBack, IoChevronForward } from "react-icons/io5";
 import styles from "./HomePageDeals.module.scss";
@@ -7,17 +9,17 @@ import ImageThumbnail from "./ImageThumbnail";
 
 function DealCard({ deal }: { deal: GameDeal }) {
   return (
-    <div className={styles.dealCard}>
-      <div className={styles.thumbnailContainer}>
-        <ImageThumbnail
-          originalUrl={deal.thumb}
-          alt={deal.title}
-          width={296}
-          height={136}
-          className={styles.thumbnail}
-        />
-      </div>
+    <Link className={styles.dealCard} href={dealURL(deal.dealID)}>
+      <ImageThumbnail
+        originalUrl={deal.thumb}
+        alt={deal.title}
+        width={296}
+        height={136}
+        imageClassName={styles.thumbnail}
+        containerClassName={styles.thumbnailContainer}
+      />
       <div className={styles.priceInfo}>
+        <div className={styles.title}>{deal.title}</div>
         {deal.savings !== "0" && <div className={styles.discount}>-{parseInt(deal.savings)}%</div>}
         <div className={styles.prices}>
           {deal.savings !== "0" && (
@@ -26,7 +28,7 @@ function DealCard({ deal }: { deal: GameDeal }) {
           <span className={styles.salePrice}>A$ {parseFloat(deal.salePrice).toFixed(2)}</span>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }
 
