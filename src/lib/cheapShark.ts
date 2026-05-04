@@ -1,5 +1,25 @@
 import { GameDeal } from "@/types";
 import { CheapSharkGameListResponse } from "@/types/cheapShark";
+import pkg from "../../package.json";
+
+function logCheapShark429RetryAfter(response: Response, context: string): void {
+  if (response.status !== 429) return;
+  console.error(`CheapShark 429 (${context}). Retry-After:`, response.headers.get("Retry-After") ?? "(missing)");
+}
+
+async function cheapsharkFetch(url: string, context: string): Promise<Response> {
+  const contact = process.env.SALESAVANT_UA_CONTACT?.trim();
+  const userAgent =
+    contact && contact.length > 0 ? `SaleSavant/${pkg.version} (${contact})` : `SaleSavant/${pkg.version}`;
+  const response = await fetch(url, {
+    headers: { "User-Agent": userAgent },
+    next: { revalidate: 600 }
+  });
+  if (!response.ok) {
+    logCheapShark429RetryAfter(response, context);
+  }
+  return response;
+}
 
 export class CheapShark {
   static async requestGameDeals(steamIDs: string[]): Promise<CheapSharkGameListResponse> {
@@ -41,13 +61,13 @@ export class CheapShark {
   }
 
   private static async fetchPage(apiUrl: (pageNum: number) => string, pageNum: number): Promise<GameDeal[]> {
-    const response = await fetch(apiUrl(pageNum), { next: { revalidate: 600 } });
+    const response = await cheapsharkFetch(apiUrl(pageNum), `page ${pageNum}`);
     if (!response.ok) throw new Error(`Failed to fetch page ${pageNum}`);
     return response.json();
   }
 
   private static async getMaxPages(apiUrl: (pageNum: number) => string): Promise<number> {
-    const response = await fetch(apiUrl(1), { next: { revalidate: 600 } });
+    const response = await cheapsharkFetch(apiUrl(1), "max pages");
     if (!response.ok) throw new Error("Failed to fetch the first page");
     return parseInt(response.headers.get("X-Total-Page-Count") || "0", 10);
   }
@@ -63,9 +83,10 @@ export class CheapShark {
         onSale: "true",
         steamRating: "75"
       });
-      const response = await fetch(`https://www.cheapshark.com/api/1.0/deals?${params.toString()}`, {
-        next: { revalidate: 600 }
-      });
+      const response = await cheapsharkFetch(
+        `https://www.cheapshark.com/api/1.0/deals?${params.toString()}`,
+        "home page deals"
+      );
       if (!response.ok) {
         const responseBody = await response.text();
         console.error("CheapShark API fetch error. Status:", response.status, "Body:", responseBody);
