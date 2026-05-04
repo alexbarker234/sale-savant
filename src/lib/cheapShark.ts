@@ -66,7 +66,12 @@ export class CheapShark {
       const response = await fetch(`https://www.cheapshark.com/api/1.0/deals?${params.toString()}`, {
         next: { revalidate: 600 }
       });
-      if (!response.ok) throw new Error("Failed to fetch the first page");
+      if (!response.ok) {
+        const responseBody = await response.text();
+        console.error("CheapShark API fetch error. Status:", response.status, "Body:", responseBody);
+
+        throw new Error("Failed to fetch the first page");
+      }
       return response.json();
     } catch (error) {
       console.error("Error fetching home page deals:", error);
