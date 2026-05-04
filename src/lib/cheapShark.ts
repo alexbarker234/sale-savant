@@ -53,19 +53,24 @@ export class CheapShark {
   }
 
   static async getHomePageDeals(): Promise<GameDeal[]> {
-    const params = new URLSearchParams({
-      storeID: "11,1",
-      sortBy: "DealRating",
-      desc: "true",
-      pageNumber: "1",
-      steamworks: "true",
-      onSale: "true",
-      steamRating: "75"
-    });
-    const response = await fetch(`https://www.cheapshark.com/api/1.0/deals?${params.toString()}`, {
-      next: { revalidate: 600 }
-    });
-    if (!response.ok) throw new Error("Failed to fetch the first page");
-    return response.json();
+    try {
+      const params = new URLSearchParams({
+        storeID: "11,1",
+        sortBy: "DealRating",
+        desc: "true",
+        pageNumber: "1",
+        steamworks: "true",
+        onSale: "true",
+        steamRating: "75"
+      });
+      const response = await fetch(`https://www.cheapshark.com/api/1.0/deals?${params.toString()}`, {
+        next: { revalidate: 600 }
+      });
+      if (!response.ok) throw new Error("Failed to fetch the first page");
+      return response.json();
+    } catch (error) {
+      console.error("Error fetching home page deals:", error);
+      return [];
+    }
   }
 }

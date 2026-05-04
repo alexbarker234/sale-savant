@@ -24,7 +24,7 @@ export default function Header() {
         ) : (
           <Link href="/api/auth/login" className={styles.loginBtn}>
             <FaSteam />
-            Login <span className={styles.mobileHidden}>with Steam</span>
+            Login<span className={styles.mobileHidden}>with Steam</span>
           </Link>
         )}
       </div>
